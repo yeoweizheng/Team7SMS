@@ -2,10 +2,10 @@ package team7.sms.model;
 
 import java.util.LinkedHashMap;
 
-public class Sidebar {
+public class Navbar {
 	private LinkedHashMap<String, String> items;
 
-	public Sidebar() {
+	public Navbar() {
 		this.items = new LinkedHashMap<String, String>();
 	}
 	
