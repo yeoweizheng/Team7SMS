@@ -11,7 +11,7 @@
 	<groupId>team7</groupId>
 	<artifactId>Team7SMS</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>Team7SMS</name>
 	<description>Team 7 Student Management System</description>
 
