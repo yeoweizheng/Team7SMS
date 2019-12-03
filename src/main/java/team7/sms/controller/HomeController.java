@@ -1,11 +1,18 @@
 package team7.sms.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import team7.sms.Team7SmsApplication;
+import team7.sms.database.AdminUserRepository;
+import team7.sms.model.AdminUser;
 import team7.sms.model.Navbar;
 import team7.sms.model.Sidebar;
 
@@ -14,6 +21,7 @@ import team7.sms.model.Sidebar;
 public class HomeController {
 	private static Sidebar sidebar;
 	private static Navbar navbar;
+	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
 
 	// Initialize static content
 	public static void init() {
@@ -73,6 +81,17 @@ public class HomeController {
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "home/adminLogin");
+		model.addAttribute("adminUser", new AdminUser());
+		return "index";
+	}
+	
+	@PostMapping("/AdminLogin")
+	public String adminLogin(Model model, @ModelAttribute AdminUser adminUser) {
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "home/adminLogin");
+		log.info(adminUser.getUsername());
+		log.info(adminUser.getPassword());
 		return "index";
 	}
 
