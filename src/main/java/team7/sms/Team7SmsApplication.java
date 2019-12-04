@@ -29,6 +29,7 @@ public class Team7SmsApplication {
 	public CommandLineRunner initializeControllers() {
 		return (args) -> {
 			HomeController.init();
+			AdminController.init();
 		};
 	}
 	

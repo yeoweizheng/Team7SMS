@@ -1,5 +1,8 @@
 package team7.sms.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.attoparser.dom.StructureTextsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +26,19 @@ public class HomeController {
 	private static Navbar navbar;
 	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
 
-	// Initialize static content
+	@Autowired
+	private AdminUserRepository adminRepo;
+
 	public static void init() {
 		sidebar = new Sidebar();
-		sidebar.addItem("News", "News");
-		sidebar.addItem("Calendar", "Calendar");
-		sidebar.addItem("Events", "Events");
-		sidebar.addItem("Blog", "Blog");
+		sidebar.addItem("News", "/Home/News/");
+		sidebar.addItem("Calendar", "/Home/Calendar/");
+		sidebar.addItem("Events", "/Home/Events/");
+		sidebar.addItem("Blog", "/Home/Blog/");
 		navbar = new Navbar();
-		navbar.addItem("Admin Login", "AdminLogin");
-		navbar.addItem("Student Login", "StudentLogin");
-		navbar.addItem("Faculty Login", "FacultyLogin");
+		navbar.addItem("Admin Login", "/Home/AdminLogin/");
+		navbar.addItem("Student Login", "/Home/StudentLogin/");
+		navbar.addItem("Faculty Login", "/Home/FacultyLogin/");
 	}
 
 	@GetMapping("/")
@@ -77,7 +82,11 @@ public class HomeController {
 	}
 	
 	@GetMapping("/AdminLogin")
-	public String adminLogin(Model model) {
+	public String adminLogin(Model model, HttpSession session) {
+		if(session.getAttribute("username") != null) {
+			AdminUser adminUser = adminRepo.findOneByUsername(session.getAttribute("username").toString());
+			if(adminUser != null) return "redirect:/Admin/";
+		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "home/adminLogin");
@@ -86,13 +95,15 @@ public class HomeController {
 	}
 	
 	@PostMapping("/AdminLogin")
-	public String adminLogin(Model model, @ModelAttribute AdminUser adminUser) {
-		model.addAttribute("sidebar", sidebar);
-		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "home/adminLogin");
-		log.info(adminUser.getUsername());
-		log.info(adminUser.getPassword());
-		return "index";
+	public String adminLogin(Model model, HttpSession session, @ModelAttribute AdminUser adminUserInput) {
+		AdminUser adminUser = adminRepo.findOneByUsername(adminUserInput.getUsername());
+		if(adminUser != null) {
+			if(adminUser.getPassword().equals(adminUserInput.getPassword())) {
+				session.setAttribute("username", adminUser.getUsername());
+				return "redirect:/Admin/PendingApplications/";
+			}
+		}
+		return "redirect:/Home/AdminLogin/";
 	}
 
 	@GetMapping("/StudentLogin")

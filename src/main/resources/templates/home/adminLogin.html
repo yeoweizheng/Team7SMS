@@ -1,6 +1,6 @@
 <th:block th:fragment="adminLogin">
 	<div><h4>Admin Login</h4></div>
-	<form th:object="${adminUser}" th:action="@{AdminLogin}" method="post">
+	<form th:object="${adminUser}" th:action="@{/Home/AdminLogin/}" method="post">
 		<div class="form-group row">
 			<label class="col-lg-2 col-form-label">Username:</label>
 			<div class="col-lg-6">
