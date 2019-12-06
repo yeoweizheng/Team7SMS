@@ -2,7 +2,6 @@ package team7.sms.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.attoparser.dom.StructureTextsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,11 @@ import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
 import team7.sms.database.DbService;
 import team7.sms.database.DbServiceInterface;
+import team7.sms.database.StudentUserRepository;
 import team7.sms.model.AdminUser;
 import team7.sms.model.Navbar;
 import team7.sms.model.Sidebar;
+import team7.sms.model.StudentUser;
 
 @Controller
 @RequestMapping("/Home")
@@ -33,6 +34,8 @@ public class HomeController {
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
 	}
+	@Autowired
+	private StudentUserRepository studentRepo;
 
 	public static void init() {
 		sidebar = new Sidebar();
@@ -105,18 +108,36 @@ public class HomeController {
 		if(adminUser != null) {
 			if(adminUser.getPassword().equals(adminUserInput.getPassword())) {
 				session.setAttribute("username", adminUser.getUsername());
-				return "redirect:/Admin/PendingApplications/";
+				return "redirect:/Admin/";
 			}
 		}
 		return "redirect:/Home/AdminLogin/";
 	}
 
+	
 	@GetMapping("/StudentLogin")
-	public String studentLogin(Model model) {
+	public String studentLogin(Model model, HttpSession session) {
+		if(session.getAttribute("username") != null) {
+			StudentUser studentUser = dbService.findStudentUserByUsername(session.getAttribute("username").toString());
+			if(studentUser != null) return "redirect:/Student/";
+		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "home/studentLogin");
+		model.addAttribute("studentUser", new AdminUser());
 		return "index";
+	}
+	
+	@PostMapping("/StudentLogin")
+	public String studentLogin(Model model, HttpSession session, @ModelAttribute StudentUser studentUserInput) {
+		StudentUser studentUser = dbService.findStudentUserByUsername(studentUserInput.getUsername());
+		if(studentUser != null) {
+			if(studentUser.getPassword().equals(studentUserInput.getPassword())) {
+				session.setAttribute("username",studentUser.getUsername());
+				return "redirect:/Student/";
+			}
+		}
+		return "redirect:/Home/StudentLogin/";
 	}
 
 	@GetMapping("/FacultyLogin")
