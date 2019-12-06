@@ -1,13 +1,10 @@
 package team7.sms;
 
-import org.hibernate.boot.model.relational.Database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import team7.sms.controller.*;
 
@@ -49,8 +46,8 @@ public class Team7SmsApplication {
 	public CommandLineRunner initializeDb() {
 		return (args) -> {
 			dbService.addAdminUser(new AdminUser("admin", "password"));
-			dbService.addStudentUser(new StudentUser("student", "password"));
+			dbService.addStudentUser(new StudentUser("student1", "password", "Student 1 Fullname", 'M', "123 Kent Ridge Dr", "91234567"));
+			dbService.addStudentUser(new StudentUser("student2", "password", "Student 2 Fullname", 'F', "456 Kent Ridge Dr", "98765432"));
 		};
 	}
-
 }

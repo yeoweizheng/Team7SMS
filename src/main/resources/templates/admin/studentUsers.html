@@ -1,3 +1,19 @@
 <th:block th:fragment="studentUsers">
 	<h4>Student Users</h4>
+	<table class="table table-striped">
+		<thead>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Gender</th>
+			<th>Mobile</th>
+		</thead>
+		<tbody>
+			<tr th:each="studentUser: ${studentUsers}">
+				<td th:text="${studentUser.id}"></td>
+				<td th:text="${studentUser.fullname}"></td>
+				<td th:text="${studentUser.gender}"></td>
+				<td th:text="${studentUser.mobileNo}"></td>
+			</tr>
+		</tbody>
+	</table>
 </th:block>

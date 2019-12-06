@@ -1,5 +1,7 @@
 package team7.sms.database;
 
+import java.util.ArrayList;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,11 @@ public class DbService implements DbServiceInterface{
 	public StudentUser findStudentUserByUsername(String username) {
 		StudentUser studentUser = studentRepo.findOneByUsername(username);
 		return studentUser;
+	}
+	@Override
+	@Transactional
+	public ArrayList<StudentUser> findStudentUsers(){
+		return studentRepo.findAll();
 	}
 	@Override
 	@Transactional

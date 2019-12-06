@@ -1,5 +1,7 @@
 package team7.sms.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -71,9 +73,11 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		ArrayList<StudentUser> studentUsers = dbService.findStudentUsers();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/studentUsers");
+		model.addAttribute("studentUsers", studentUsers);
 		return "index";
 	}
 	@GetMapping("/FacultyUsers")
