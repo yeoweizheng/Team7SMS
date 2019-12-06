@@ -13,6 +13,7 @@ import team7.sms.controller.*;
 
 import team7.sms.controller.HomeController;
 import team7.sms.database.AdminUserRepository;
+import team7.sms.database.DbService;
 import team7.sms.model.AdminUser;
 
 @SpringBootApplication
@@ -20,6 +21,12 @@ public class Team7SmsApplication {
 
 	@Autowired
 	private AdminUserRepository adminRepo;
+
+	@Autowired
+	private DbService dbService;
+	public void setDbService(DbService dbService) {
+		this.dbService = dbService;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Team7SmsApplication.class, args);

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
+import team7.sms.database.DbService;
+import team7.sms.database.DbServiceInterface;
 import team7.sms.model.AdminUser;
 import team7.sms.model.Navbar;
 import team7.sms.model.Sidebar;
@@ -26,8 +28,11 @@ public class HomeController {
 	private static Navbar navbar;
 	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
 
+	private DbService dbService;
 	@Autowired
-	private AdminUserRepository adminRepo;
+	public void setDbService(DbService dbService) {
+		this.dbService = dbService;
+	}
 
 	public static void init() {
 		sidebar = new Sidebar();
@@ -84,7 +89,7 @@ public class HomeController {
 	@GetMapping("/AdminLogin")
 	public String adminLogin(Model model, HttpSession session) {
 		if(session.getAttribute("username") != null) {
-			AdminUser adminUser = adminRepo.findOneByUsername(session.getAttribute("username").toString());
+			AdminUser adminUser = dbService.findAdminUserByUsername(session.getAttribute("username").toString());
 			if(adminUser != null) return "redirect:/Admin/";
 		}
 		model.addAttribute("sidebar", sidebar);
@@ -96,7 +101,7 @@ public class HomeController {
 	
 	@PostMapping("/AdminLogin")
 	public String adminLogin(Model model, HttpSession session, @ModelAttribute AdminUser adminUserInput) {
-		AdminUser adminUser = adminRepo.findOneByUsername(adminUserInput.getUsername());
+		AdminUser adminUser = dbService.findAdminUserByUsername(adminUserInput.getUsername());
 		if(adminUser != null) {
 			if(adminUser.getPassword().equals(adminUserInput.getPassword())) {
 				session.setAttribute("username", adminUser.getUsername());

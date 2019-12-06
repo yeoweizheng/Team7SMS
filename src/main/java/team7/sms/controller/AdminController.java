@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
+import team7.sms.database.DbService;
 import team7.sms.model.*;
 
 @Controller
@@ -20,9 +21,12 @@ public class AdminController {
 	private static Sidebar sidebar;
 	private static Navbar navbar;
 	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
-	
+
+	private DbService dbService;
 	@Autowired
-	private AdminUserRepository adminRepo;
+	public void setDbService(DbService dbService) {
+		this.dbService = dbService;
+	}
 
 	public static void init() {
 		sidebar = new Sidebar();
@@ -34,7 +38,7 @@ public class AdminController {
 		navbar = new Navbar();
 		navbar.addItem("Logout", "/Admin/Logout/");
 	}
-	
+
 	@GetMapping("/")
 	public String index() {
 		return "redirect:/Admin/PendingApplications/";
@@ -45,17 +49,61 @@ public class AdminController {
 		session.invalidate();
 		return "redirect:/Home/";
 	}
+	
+	private AdminUser getAdminUserFromSession(HttpSession session) {
+		if(session.getAttribute("username") == null) return null;
+		AdminUser adminUser = dbService.findAdminUserByUsername(session.getAttribute("username").toString());
+		return adminUser;
+	}
 
 	@GetMapping("/PendingApplications")
 	public String pendingApplications(HttpSession session, Model model) {
-		if(session.getAttribute("username") == null) return "redirect:/Home/";
-		AdminUser adminUser = adminRepo.findOneByUsername(session.getAttribute("username").toString());
-		if(adminUser == null) {
-			return "redirect:/Home/";
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
 		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/pendingApplications");
+		return "index";
+	}
+	@GetMapping("/StudentUsers")
+	public String studentUsers(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/studentUsers");
+		return "index";
+	}
+	@GetMapping("/FacultyUsers")
+	public String facultyUsers(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/facultyUsers");
+		return "index";
+	}
+	@GetMapping("/Courses")
+	public String courses(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/courses");
+		return "index";
+	}
+	@GetMapping("/Departments")
+	public String departments(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/departments");
 		return "index";
 	}
 }
