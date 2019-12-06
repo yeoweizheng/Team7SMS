@@ -2,15 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>Team 7 Student Management System</title>
+		<style>
+			.logo {
+				width:180px;
+				height:90px;
+			}
+			
+			.container {
+				/* width:100%; */
+			}
+			
+			.row {
+				/* width:100%; */
+			}
+			
+			.navbar {
+				background-color:#0b0154;
+				padding-bottom:0;
+				margin-bottom:0;
+				margin-left:0;
+			}
+			
+			.nav {
+				width:100%;
+			}
+			
+			.nav-item {
+				width:33%;
+			}
+			
+			.nav-link {
+				color:#c3c3cc;
+				font-size:24px;
+				text-align:center;
+			}
+			
+			#leftbar {
+				padding-right:0px;
+				background-image:url("/img/sidebar_1.png");
+				background-color:#0b0154;
+				padding-top:0;
+				padding-bottom:0;
+				margin-top:0;
+				margin-bottom:0;
+			}
+			
+			.leftbar_links {
+				text-align:center;
+				color:#c3c3cc;
+				font-size:20px;
+				padding-top:10%;
+				padding-bottom:10%;
+			}
+			
+		</style>
+		
+		<!-- Linking doesn't work for some reason -->
+		<!-- <link rel="stylesheet" type="text/css" th:href="@{/templates//home/custom.css}"> -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+				
 	</head>
+			
 	<body class="container">
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-lg">
 			<a class="navbar-brand" href="/Home/">
-				<img src="/img/logo_v1.jpg" alt="Team 7 SMS" width="100" height="50" class="d-inline-block align-top">
+				<img src="/img/logo_v1.jpg" alt="Team 7 SMS" class="logo d-inline-block align-top">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -24,10 +83,10 @@
 			</div>
 		</nav>
 		<div class="row">
-			<div class="col col-md-3" style="padding-right: 0px;">
+			<div class="col col-md-3" id="leftbar">
 				<ul class="list-group">
 					<th:block th:each="item:${sidebar.items}">
-						<a th:href="${item.value}" th:text="${item.key}" class="list-group-item list-group-item-light list-group-item-action"></a>
+						<a th:href="${item.value}" th:text="${item.key}" class="leftbar_links"></a>
 					</th:block>
 				</ul>
 			</div>
