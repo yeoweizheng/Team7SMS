@@ -13,13 +13,17 @@ import team7.sms.controller.*;
 
 import team7.sms.controller.HomeController;
 import team7.sms.database.AdminUserRepository;
+import team7.sms.database.StudentUserRepository;
 import team7.sms.model.AdminUser;
+import team7.sms.model.StudentUser;
 
 @SpringBootApplication
 public class Team7SmsApplication {
 
 	@Autowired
 	private AdminUserRepository adminRepo;
+	@Autowired
+	private StudentUserRepository studentRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Team7SmsApplication.class, args);
@@ -30,6 +34,7 @@ public class Team7SmsApplication {
 		return (args) -> {
 			HomeController.init();
 			AdminController.init();
+			StudentController.init();
 		};
 	}
 	
@@ -37,6 +42,7 @@ public class Team7SmsApplication {
 	public CommandLineRunner initializeDb() {
 		return (args) -> {
 			adminRepo.save(new AdminUser("admin", "password"));
+			studentRepo.save(new StudentUser("student", "password"));
 		};
 	}
 

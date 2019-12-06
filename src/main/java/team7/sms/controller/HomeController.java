@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
+import team7.sms.database.StudentUserRepository;
 import team7.sms.model.AdminUser;
 import team7.sms.model.Navbar;
 import team7.sms.model.Sidebar;
+import team7.sms.model.StudentUser;
 
 @Controller
 @RequestMapping("/Home")
@@ -28,6 +30,8 @@ public class HomeController {
 
 	@Autowired
 	private AdminUserRepository adminRepo;
+	@Autowired
+	private StudentUserRepository studentRepo;
 
 	public static void init() {
 		sidebar = new Sidebar();
@@ -106,12 +110,30 @@ public class HomeController {
 		return "redirect:/Home/AdminLogin/";
 	}
 
+	
 	@GetMapping("/StudentLogin")
-	public String studentLogin(Model model) {
+	public String studentLogin(Model model, HttpSession session) {
+		if(session.getAttribute("username") != null) {
+			StudentUser studentUser = studentRepo.findOneByUsername(session.getAttribute("username").toString());
+			if(studentUser != null) return "redirect:/Student/";
+		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "home/studentLogin");
+		model.addAttribute("studentUser", new AdminUser());
 		return "index";
+	}
+	
+	@PostMapping("/StudentLogin")
+	public String studentLogin(Model model, HttpSession session, @ModelAttribute StudentUser studentUserInput) {
+		StudentUser studentUser = studentRepo.findOneByUsername(studentUserInput.getUsername());
+		if(studentUser != null) {
+			if(studentUser.getPassword().equals(studentUserInput.getPassword())) {
+				session.setAttribute("username",studentUser.getUsername());
+				return "redirect:/Student/PendingApplications/";
+			}
+		}
+		return "redirect:/Home/StudentLogin/";
 	}
 
 	@GetMapping("/FacultyLogin")
