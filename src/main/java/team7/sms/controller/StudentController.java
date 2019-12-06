@@ -30,18 +30,17 @@ public class StudentController {
 
 	public static void init() {
 		sidebar = new Sidebar();
-		sidebar.addItem("Pending Applications", "/Student/PendingApplications/");
-		sidebar.addItem("Student Users", "/Student/StudentUsers/");
-		sidebar.addItem("Faculty Users", "/Student/FacultyUsers/");
-		sidebar.addItem("Courses", "/Student/Courses/");
-		sidebar.addItem("Departments", "/Student/Departments/");
+		sidebar.addItem("Copy of Grades", "/Student/CopyofGrades/");
+		sidebar.addItem("GPA", "/Student/GPA/");
+		sidebar.addItem("Available Courses", "/Student/AvailableCourses/");
+		sidebar.addItem("Enroll Courses", "/Student/EnrollCourses/");
 		navbar = new Navbar();
 		navbar.addItem("Logout", "/Student/Logout/");
 	}
 	
 	@GetMapping("/")
 	public String index() {
-		return "redirect:/Student/PendingApplications/";
+		return "redirect:/Student/CopyofGrades/";
 	}
 	
 	@GetMapping("/Logout")
@@ -56,12 +55,43 @@ public class StudentController {
 		return studentUser;
 	}
 
-	@GetMapping("/PendingApplications")
-	public String pendingApplications(HttpSession session, Model model) {
+	@GetMapping("/CopyofGrades")
+	public String copyofGrades(HttpSession session, Model model) {
 		if(getStudentUserFromSession(session) == null) return "redirect:/Home/StudentLogin/";
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "student/pendingApplications");
+		model.addAttribute("content", "student/copyofGrades");
+		return "index";
+	}
+	
+	@GetMapping("/GPA")
+	public String GPA(HttpSession session, Model model) {
+		if(getStudentUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "student/GPA");
+		return "index";
+	}
+	@GetMapping("/AvailableCourses")
+	public String availableCourses(HttpSession session, Model model) {
+		if(getStudentUserFromSession(session) == null) {
+			return "redirect:/Home/StudentLogin";
+		}
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "student/availableCourses");
+		return "index";
+	}
+	@GetMapping("/EnrollCourses")
+	public String enrollCourses(HttpSession session, Model model) {
+		if(getStudentUserFromSession(session) == null) {
+			return "redirect:/Home/StudentLogin";
+		}
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "student/enrollCourses");
 		return "index";
 	}
 }
