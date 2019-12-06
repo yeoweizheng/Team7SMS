@@ -46,8 +46,8 @@ public class Team7SmsApplication {
 	public CommandLineRunner initializeDb() {
 		return (args) -> {
 			dbService.addAdminUser(new AdminUser("admin", "password"));
-			dbService.addStudentUser(new StudentUser("student1", "password", "Student 1 Fullname", 'M', "123 Kent Ridge Dr", "91234567"));
-			dbService.addStudentUser(new StudentUser("student2", "password", "Student 2 Fullname", 'F', "456 Kent Ridge Dr", "98765432"));
+			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
+			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
 		};
 	}
 }

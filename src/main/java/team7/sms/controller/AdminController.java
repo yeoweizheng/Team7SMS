@@ -9,8 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
@@ -79,6 +84,37 @@ public class AdminController {
 		model.addAttribute("content", "admin/studentUsers");
 		model.addAttribute("studentUsers", studentUsers);
 		return "index";
+	}
+	@GetMapping("/EditStudentUser/{id}")
+	public String editStudentUser(HttpSession session, Model model, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		StudentUser studentUser = dbService.findStudentUserById(id);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/editStudentUser");
+		model.addAttribute("studentUser", studentUser);
+		return "index";
+	}
+	@PostMapping("/EditStudentUser/{id}")
+	public String editStudentUser(HttpSession session, @PathVariable int id, @ModelAttribute StudentUser studentUser) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		if(studentUser.getPassword().equals("")) {
+			studentUser.setPassword(dbService.findStudentUserById(studentUser.getId()).getPassword());
+		}
+		dbService.addStudentUser(studentUser);
+		return "redirect:/Admin/StudentUsers";
+	}
+	@GetMapping("/DeleteStudentUser/{id}")
+	public String deleteStudentUser(HttpSession session, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		dbService.deleteStudentUserById(id);
+		return "redirect:/Admin/StudentUsers";
 	}
 	@GetMapping("/FacultyUsers")
 	public String facultyUsers(HttpSession session, Model model) {

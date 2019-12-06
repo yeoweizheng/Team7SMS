@@ -34,6 +34,12 @@ public class DbService implements DbServiceInterface{
 	}
 	@Override
 	@Transactional
+	public StudentUser findStudentUserById(int id) {
+		StudentUser studentUser = studentRepo.findOneById(id);
+		return studentUser;
+	}
+	@Override
+	@Transactional
 	public ArrayList<StudentUser> findStudentUsers(){
 		return studentRepo.findAll();
 	}
@@ -46,5 +52,10 @@ public class DbService implements DbServiceInterface{
 	@Transactional
 	public void addStudentUser(StudentUser studentUser) {
 		studentRepo.save(studentUser);
+	}
+	@Override
+	@Transactional
+	public void deleteStudentUserById(int id) {
+		studentRepo.delete(studentRepo.findOneById(id));
 	}
 }
