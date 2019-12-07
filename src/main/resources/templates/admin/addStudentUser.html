@@ -1,0 +1,58 @@
+<th:block th:fragment="addStudentUser">
+	<h4>Add Student User</h4>
+	<form id="form" th:object="${studentUser}" action="/Admin/AddStudentUser" method="post">
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Full Name: </label>
+			<div class="col-md-9">
+				<input class="form-control" type="text" th:field="*{fullname}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Gender: </label>
+			<div class="col-md-9">
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" id="genderM" value="M" th:field="*{gender}" checked>
+					<label class="form-check-label">M</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" id="genderF" value="F" th:field="*{gender}">
+					<label class="form-check-label">F</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Mobile No: </label>
+			<div class="col-md-9">
+				<input class="form-control" type="text" th:field="*{mobileNo}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Address: </label>
+			<div class="col-md-9">
+				<input class="form-control" type="text" th:field="*{address}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Username: </label>
+			<div class="col-md-9">
+				<input class="form-control" type="text" th:field="*{username}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Password: </label>
+			<div class="col-md-9">
+				<input class="form-control" type="password" th:field="*{password}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-md-2"></div>
+			<div class="col-md-4">
+				<a class="btn btn-secondary btn-block" href="/Admin/StudentUsers">Cancel</a>
+			</div>
+			<div class="col-md-4">
+				<button class="btn btn-success btn-block" type="submit">Add</button>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+	</form>
+</th:block>

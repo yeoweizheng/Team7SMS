@@ -85,6 +85,26 @@ public class AdminController {
 		model.addAttribute("studentUsers", studentUsers);
 		return "index";
 	}
+	@GetMapping("/AddStudentUser")
+	public String addStudentUser(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		StudentUser studentUser = new StudentUser();
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("studentUser", studentUser);
+		model.addAttribute("content", "admin/addStudentUser");
+		return "index";
+	}
+	@PostMapping("/AddStudentUser")
+	public String addStudentUser(HttpSession session, @ModelAttribute StudentUser studentUser) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		dbService.addStudentUser(studentUser);
+		return "redirect:/Admin/StudentUsers";
+	}
 	@GetMapping("/EditStudentUser/{id}")
 	public String editStudentUser(HttpSession session, Model model, @PathVariable int id) {
 		if(getAdminUserFromSession(session) == null) {

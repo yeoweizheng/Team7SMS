@@ -45,7 +45,7 @@ public class Team7SmsApplication {
 	@Bean
 	public CommandLineRunner initializeDb() {
 		return (args) -> {
-			dbService.addAdminUser(new AdminUser("admin", "password"));
+			dbService.addAdminUser(new AdminUser("admin", "admin"));
 			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
 			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
 		};
