@@ -18,7 +18,6 @@ public class StudentUser {
 	public StudentUser() {}
 	public StudentUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
-		super();
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
