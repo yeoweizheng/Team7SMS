@@ -36,10 +36,6 @@ public class HomeController {
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
 	}
-	@Autowired
-	private StudentUserRepository studentRepo;
-	@Autowired
-	private FacultyUserRepository facultyRepo;
 
 	public static void init() {
 		sidebar = new Sidebar();

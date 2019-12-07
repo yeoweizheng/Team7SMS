@@ -37,8 +37,7 @@ public class FacultyController {
 
 	public static void init() {
 		sidebar = new Sidebar();
-		
-		sidebar.addItem("Pending Applications", "/Faculty/PendingApplications/");
+		sidebar.addItem("Master List", "/Faculty/MasterList/");
 		/*
 		 * sidebar.addItem("Student Users", "/Student/StudentUsers/");
 		 * sidebar.addItem("Faculty Users", "/Student/FacultyUsers/");
@@ -52,7 +51,7 @@ public class FacultyController {
 	
 	@GetMapping("/")
 	public String index() { 
-		return "redirect:/Faculty/PendingApplications/"; 
+		return "redirect:/Faculty/MasterList/"; 
 	}
 	 
 	
@@ -68,14 +67,13 @@ public class FacultyController {
 		return facultyUser;
 	}
 
-	
-	@GetMapping("/PendingApplications")
+	@GetMapping("/MasterList")
 	public String pendingApplications(HttpSession session, Model model) {
 		if(getFacultyUserFromSession(session) == null)
 			return "redirect:/Home/FacultyLogin/";
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "faculty/pendingApplications");
+		model.addAttribute("content", "faculty/masterList");
 		return "index"; 
 	}
 	 

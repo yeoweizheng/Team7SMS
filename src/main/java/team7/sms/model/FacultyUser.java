@@ -16,7 +16,6 @@ public class FacultyUser {
 	public FacultyUser() {}
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
-		super();
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
