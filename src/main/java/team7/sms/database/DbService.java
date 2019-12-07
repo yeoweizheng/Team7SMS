@@ -13,6 +13,7 @@ public class DbService implements DbServiceInterface{
 	private AdminUserRepository adminRepo;
 	private StudentUserRepository studentRepo;
 	private FacultyUserRepository facultyRepo;
+	private CourseRepository courseRepo;
 	@Autowired
 	public void setAdminRepo(AdminUserRepository adminRepo) {
 		this.adminRepo = adminRepo;
@@ -24,6 +25,10 @@ public class DbService implements DbServiceInterface{
 	@Autowired
 	public void setFacultyRepo(FacultyUserRepository facultyRepo) {
 		this.facultyRepo = facultyRepo;
+	}
+	@Autowired
+	public void setCourseRepo(CourseRepository courseRepo) {
+		this.courseRepo = courseRepo;
 	}
 	
 	@Override
@@ -94,6 +99,35 @@ public class DbService implements DbServiceInterface{
 	@Transactional
 	public void deleteFacultyUserById(int id) {
 		facultyRepo.delete(facultyRepo.findOneById(id));
+	}
+	
+	@Override
+	@Transactional
+	public Course findCourseByName(String name) {
+		Course course = courseRepo.findOneByName(name);
+		return course;
+	}
+	@Override
+	@Transactional
+	public Course findCourseById(int id) {
+		Course course = courseRepo.findOneById(id);
+		return course;
+	}
+	@Override
+	@Transactional
+	public void deleteCourseById(int id) {
+	courseRepo.delete(courseRepo.findOneById(id));
+	}
+	@Override
+	@Transactional
+	public ArrayList<Course> findCourse() {
+		return courseRepo.findAll();
+	}
+	@Override
+	@Transactional
+	public void addCourse(Course course) {
+		courseRepo.save(course);
+		
 	}
 	
 }
