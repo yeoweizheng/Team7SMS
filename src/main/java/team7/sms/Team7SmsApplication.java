@@ -58,10 +58,8 @@ public class Team7SmsApplication {
 			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
 			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
 			dbService.addFacultyUser(new FacultyUser("weizheng", "weizheng123", "Wei Zheng", 'M', "789 Kent Ridge Dr", "98127634"));
-			dbService.addCourse(new Course());
-			dbService.addCourse(new Course());
-			dbService.addCourse(new Course());
-			dbService.addCourse(new Course());
+			dbService.addCourse(new Course("Java", "01-11-2019", "08-11-2019", "ISS"));
+			dbService.addCourse(new Course("C#", "06-11-2019", "13-11-2019", "ISS"));
 		};
 	}
 }

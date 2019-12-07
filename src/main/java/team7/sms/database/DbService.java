@@ -28,10 +28,9 @@ public class DbService implements DbServiceInterface{
 	}
 	@Autowired
 	public void setCourseRepo(CourseRepository courseRepo) {
-		this.courseRepo = courseRepo ;
+		this.courseRepo = courseRepo;
 	}
 	
-	//admin users
 	@Override
 	@Transactional
 	public AdminUser findAdminUserByUsername(String username) {
@@ -44,8 +43,6 @@ public class DbService implements DbServiceInterface{
 		adminRepo.save(adminUser);
 	}
 	
-	
-	//student users
 	@Override
 	@Transactional
 	public StudentUser findStudentUserByUsername(String username) {
@@ -75,8 +72,6 @@ public class DbService implements DbServiceInterface{
 		studentRepo.delete(studentRepo.findOneById(id));
 	}
 	
-	
-	//faculty users
 	@Override
 	@Transactional
 	public FacultyUser findFacultyUserByUsername(String username) {
@@ -106,7 +101,6 @@ public class DbService implements DbServiceInterface{
 		facultyRepo.delete(facultyRepo.findOneById(id));
 	}
 	
-	//course
 	@Override
 	@Transactional
 	public Course findCourseByName(String name) {

@@ -9,12 +9,12 @@
 			<th>Faculty</th>
 		</thead>
 		<tbody>
-			<tr th:each="course: ${course}">
+			<tr th:each="course: ${courses}">
 				<td th:text="${course.id}"></td>
 				<td th:text="${course.name}"></td>
 				<td th:text="${course.startDate}"></td>
 				<td th:text="${course.endDate}"></td>
-				<td th:text="${studentUser.faculty}"></td>
+				<td th:text="${course.faculty}"></td>
 			</tr>
 		</tbody>
 	</table>

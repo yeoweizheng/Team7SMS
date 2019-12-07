@@ -81,10 +81,11 @@ public class StudentController {
 		if(getStudentUserFromSession(session) == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		ArrayList<Course> course = dbService.findCourse();
+		ArrayList<Course> courses = dbService.findCourse();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/availableCourses");
+		model.addAttribute("courses", courses);
 		return "index";
 	}
 	@GetMapping("/EnrollCourses")

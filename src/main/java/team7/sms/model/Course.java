@@ -1,7 +1,5 @@
 package team7.sms.model;
 
-import java.time.LocalDate;
-
 import javax.persistence.*;
 
 @Entity
@@ -10,11 +8,11 @@ public class Course {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private String startDate;
+	private String endDate;
 	private String faculty;
 	public Course() {}
-	public Course(String name, LocalDate startDate, LocalDate endDate, String faculty) {
+	public Course(String name, String startDate, String endDate, String faculty) {
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -38,16 +36,16 @@ public class Course {
 	public void setFaculty(String faculty) {
 		this.faculty = faculty;
 	}
-	public LocalDate getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public LocalDate getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	@Override
