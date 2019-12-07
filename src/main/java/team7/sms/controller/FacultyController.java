@@ -38,12 +38,10 @@ public class FacultyController {
 	public static void init() {
 		sidebar = new Sidebar();
 		sidebar.addItem("Master List", "/Faculty/MasterList/");
-		/*
-		 * sidebar.addItem("Student Users", "/Student/StudentUsers/");
-		 * sidebar.addItem("Faculty Users", "/Student/FacultyUsers/");
-		 * sidebar.addItem("Courses", "/Student/Courses/");
-		 * sidebar.addItem("Departments", "/Student/Departments/");
-		 */
+		sidebar.addItem("List of Courses", "/Faculty/CourseList/");
+		sidebar.addItem("List of Students", "/Faculty/StudentList/");
+		sidebar.addItem("Score Cards", "/Faculty/ScoreCards/");
+
 		navbar = new Navbar();
 		navbar.addItem("Logout", "/Faculty/Logout/");
 	}
@@ -68,12 +66,42 @@ public class FacultyController {
 	}
 
 	@GetMapping("/MasterList")
-	public String pendingApplications(HttpSession session, Model model) {
+	public String masterList(HttpSession session, Model model) {
 		if(getFacultyUserFromSession(session) == null)
 			return "redirect:/Home/FacultyLogin/";
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/masterList");
+		return "index"; 
+	}
+	
+	@GetMapping("/CourseList")
+	public String courseList(HttpSession session, Model model) {
+		if(getFacultyUserFromSession(session) == null)
+			return "redirect:/Home/FacultyLogin/";
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/courseList");
+		return "index"; 
+	}
+	
+	@GetMapping("/StudentList")
+	public String studentList(HttpSession session, Model model) {
+		if(getFacultyUserFromSession(session) == null)
+			return "redirect:/Home/FacultyLogin/";
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/studentList");
+		return "index"; 
+	}
+	
+	@GetMapping("/ScoreCards")
+	public String scoreCards(HttpSession session, Model model) {
+		if(getFacultyUserFromSession(session) == null)
+			return "redirect:/Home/FacultyLogin/";
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/scoreCards");
 		return "index"; 
 	}
 	 
