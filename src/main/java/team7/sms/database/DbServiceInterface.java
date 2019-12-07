@@ -19,4 +19,10 @@ public interface DbServiceInterface {
 	public void deleteFacultyUserById(int id);
 	public ArrayList<FacultyUser> findFacultyUsers();
 	public void addFacultyUser(FacultyUser facultyUser);
+	
+	public Course findCourseByName(String name);
+	public Course findCourseById(int id);
+	public void deleteCourseById(int id);
+	public ArrayList<Course> findCourse();
+	public void addCourse(Course course);
 }

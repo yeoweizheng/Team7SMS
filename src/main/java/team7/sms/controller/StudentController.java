@@ -1,5 +1,7 @@
 package team7.sms.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -79,6 +81,7 @@ public class StudentController {
 		if(getStudentUserFromSession(session) == null) {
 			return "redirect:/Home/StudentLogin";
 		}
+		ArrayList<Course> course = dbService.findCourse();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/availableCourses");

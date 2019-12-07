@@ -1,3 +1,21 @@
 <th:block th:fragment="availableCourses">
 	<h4>Available Courses</h4>
+		<table class="table table-hover">
+		<thead>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Starting date</th>
+			<th>Ending Date</th>
+			<th>Faculty</th>
+		</thead>
+		<tbody>
+			<tr th:each="course: ${course}">
+				<td th:text="${course.id}"></td>
+				<td th:text="${course.name}"></td>
+				<td th:text="${course.startDate}"></td>
+				<td th:text="${course.endDate}"></td>
+				<td th:text="${studentUser.faculty}"></td>
+			</tr>
+		</tbody>
+	</table>
 </th:block>

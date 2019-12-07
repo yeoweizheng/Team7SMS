@@ -10,9 +10,11 @@ import team7.sms.controller.*;
 
 import team7.sms.controller.HomeController;
 import team7.sms.database.AdminUserRepository;
+import team7.sms.database.CourseRepository;
 import team7.sms.database.DbService;
 import team7.sms.database.StudentUserRepository;
 import team7.sms.model.AdminUser;
+import team7.sms.model.Course;
 import team7.sms.model.StudentUser;
 import team7.sms.model.FacultyUser;
 import team7.sms.database.FacultyUserRepository;
@@ -26,6 +28,8 @@ public class Team7SmsApplication {
 	private StudentUserRepository studentRepo;
 	@Autowired
 	private FacultyUserRepository facultyRepo;
+	@Autowired
+	private CourseRepository courseRepo;
 
 	private DbService dbService;
 	@Autowired
@@ -54,6 +58,10 @@ public class Team7SmsApplication {
 			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
 			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
 			dbService.addFacultyUser(new FacultyUser("weizheng", "weizheng123", "Wei Zheng", 'M', "789 Kent Ridge Dr", "98127634"));
+			dbService.addCourse(new Course());
+			dbService.addCourse(new Course());
+			dbService.addCourse(new Course());
+			dbService.addCourse(new Course());
 		};
 	}
 }
