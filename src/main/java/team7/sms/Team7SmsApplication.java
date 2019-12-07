@@ -14,6 +14,8 @@ import team7.sms.database.DbService;
 import team7.sms.database.StudentUserRepository;
 import team7.sms.model.AdminUser;
 import team7.sms.model.StudentUser;
+import team7.sms.model.FacultyUser;
+import team7.sms.database.FacultyUserRepository;
 
 @SpringBootApplication
 public class Team7SmsApplication {
@@ -22,6 +24,8 @@ public class Team7SmsApplication {
 	private AdminUserRepository adminRepo;
 	@Autowired
 	private StudentUserRepository studentRepo;
+	@Autowired
+	private FacultyUserRepository facultyRepo;
 
 	private DbService dbService;
 	@Autowired
@@ -39,6 +43,7 @@ public class Team7SmsApplication {
 			HomeController.init();
 			AdminController.init();
 			StudentController.init();
+			FacultyController.init();
 		};
 	}
 	
@@ -48,6 +53,7 @@ public class Team7SmsApplication {
 			dbService.addAdminUser(new AdminUser("admin", "admin"));
 			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
 			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
+			dbService.addFacultyUser(new FacultyUser("weizheng", "weizheng123", "Wei Zheng", 'M', "789 Kent Ridge Dr", "98127634"));
 		};
 	}
 }

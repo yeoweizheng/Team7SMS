@@ -12,6 +12,7 @@ import team7.sms.model.*;
 public class DbService implements DbServiceInterface{
 	private AdminUserRepository adminRepo;
 	private StudentUserRepository studentRepo;
+	private FacultyUserRepository facultyRepo;
 	@Autowired
 	public void setAdminRepo(AdminUserRepository adminRepo) {
 		this.adminRepo = adminRepo;
@@ -20,12 +21,26 @@ public class DbService implements DbServiceInterface{
 	public void setStudentRepo(StudentUserRepository studentRepo) {
 		this.studentRepo = studentRepo;
 	}
+	@Autowired
+	public void setFacultyRepo(FacultyUserRepository facultyRepo) {
+		this.facultyRepo = facultyRepo;
+	}
+	
+	//admin users
 	@Override
 	@Transactional
 	public AdminUser findAdminUserByUsername(String username) {
 		AdminUser adminUser = adminRepo.findOneByUsername(username);
 		return adminUser;
 	}
+	@Override
+	@Transactional
+	public void addAdminUser(AdminUser adminUser) {
+		adminRepo.save(adminUser);
+	}
+	
+	
+	//student users
 	@Override
 	@Transactional
 	public StudentUser findStudentUserByUsername(String username) {
@@ -43,11 +58,7 @@ public class DbService implements DbServiceInterface{
 	public ArrayList<StudentUser> findStudentUsers(){
 		return studentRepo.findAll();
 	}
-	@Override
-	@Transactional
-	public void addAdminUser(AdminUser adminUser) {
-		adminRepo.save(adminUser);
-	}
+	
 	@Override
 	@Transactional
 	public void addStudentUser(StudentUser studentUser) {
@@ -58,4 +69,36 @@ public class DbService implements DbServiceInterface{
 	public void deleteStudentUserById(int id) {
 		studentRepo.delete(studentRepo.findOneById(id));
 	}
+	
+	
+	//faculty users
+	@Override
+	@Transactional
+	public FacultyUser findFacultyUserByUsername(String username) {
+		FacultyUser facultyUser = facultyRepo.findOneByUsername(username);
+		return facultyUser;
+	}
+	@Override
+	@Transactional
+	public FacultyUser findFacultyUserById(int id) {
+		FacultyUser facultyUser = facultyRepo.findOneById(id);
+		return facultyUser;
+	}
+	@Override
+	@Transactional
+	public ArrayList<FacultyUser> findFacultyUsers(){
+		return facultyRepo.findAll();
+	}
+	
+	@Override
+	@Transactional
+	public void addFacultyUser(FacultyUser facultyUser) {
+		facultyRepo.save(facultyUser);
+	}
+	@Override
+	@Transactional
+	public void deleteFacultyUserById(int id) {
+		facultyRepo.delete(facultyRepo.findOneById(id));
+	}
+	
 }
