@@ -16,8 +16,10 @@ import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
 import team7.sms.database.DbService;
 import team7.sms.database.DbServiceInterface;
+import team7.sms.database.FacultyUserRepository;
 import team7.sms.database.StudentUserRepository;
 import team7.sms.model.AdminUser;
+import team7.sms.model.FacultyUser;
 import team7.sms.model.Navbar;
 import team7.sms.model.Sidebar;
 import team7.sms.model.StudentUser;
@@ -36,6 +38,8 @@ public class HomeController {
 	}
 	@Autowired
 	private StudentUserRepository studentRepo;
+	@Autowired
+	private FacultyUserRepository facultyRepo;
 
 	public static void init() {
 		sidebar = new Sidebar();
@@ -141,10 +145,28 @@ public class HomeController {
 	}
 
 	@GetMapping("/FacultyLogin")
-	public String facultyLogin(Model model) {
+	public String facultyLogin(Model model, HttpSession session) {
+		if(session.getAttribute("username") != null) {
+			FacultyUser facultyUser = dbService.findFacultyUserByUsername(session.getAttribute("username").toString());
+			if(facultyUser != null) return "redirect:/Faculty/";
+		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "home/facultyLogin");
+		model.addAttribute("facultyUser", new FacultyUser());
 		return "index";
 	}
+	
+	@PostMapping("/FacultyLogin")
+	public String facultyLogin(Model model, HttpSession session, @ModelAttribute FacultyUser facultyUserInput) {
+		FacultyUser facultyUser = dbService.findFacultyUserByUsername(facultyUserInput.getUsername());
+		if(facultyUser != null) {
+			if(facultyUser.getPassword().equals(facultyUserInput.getPassword())) {
+				session.setAttribute("username",facultyUser.getUsername());
+				return "redirect:/Faculty/";
+			}
+		}
+		return "redirect:/Home/FacultyLogin/";
+	}
+	
 }

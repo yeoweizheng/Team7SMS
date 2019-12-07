@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import team7.sms.Team7SmsApplication;
-import team7.sms.model.StudentUser;
+import team7.sms.model.*;
 
 @RestController
 @RequestMapping("/api")
