@@ -141,10 +141,63 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/facultyUsers");
+		model.addAttribute("facultyUsers", facultyUsers);
 		return "index";
+	}
+	@GetMapping("/AddFacultyUser")
+	public String addFacultyUser(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		FacultyUser facultyUser = new FacultyUser();
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("facultyUser", facultyUser);
+		model.addAttribute("content", "admin/addFacultyUser");
+		return "index";
+	}
+	@PostMapping("/AddFacultyUser")
+	public String addFacultyUser(HttpSession session, @ModelAttribute FacultyUser facultyUser) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		dbService.addFacultyUser(facultyUser);
+		return "redirect:/Admin/FacultyUsers";
+	}
+	@GetMapping("/EditFacultyUser/{id}")
+	public String editFacultyUser(HttpSession session, Model model, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		FacultyUser facultyUser = dbService.findFacultyUserById(id);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/editFacultyUser");
+		model.addAttribute("FacultyUser", facultyUser);
+		return "index";
+	}
+	@PostMapping("/EditFacultyUser/{id}")
+	public String editFacultyUser(HttpSession session, @PathVariable int id, @ModelAttribute FacultyUser facultyUser) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		if(facultyUser.getPassword().equals("")) {
+			facultyUser.setPassword(dbService.findFacultyUserById(facultyUser.getId()).getPassword());
+		}
+		dbService.addFacultyUser(facultyUser);
+		return "redirect:/Admin/FacultyUsers";
+	}
+	@GetMapping("/DeleteFacultyUser/{id}")
+	public String deleteFacultyUser(HttpSession session, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		dbService.deleteFacultyUserById(id);
+		return "redirect:/Admin/FacultyUsers";
 	}
 	@GetMapping("/Courses")
 	public String courses(HttpSession session, Model model) {
