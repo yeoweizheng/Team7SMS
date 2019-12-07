@@ -10,9 +10,6 @@
 			<th>Name</th>
 			<th>Gender</th>
 			<th>Mobile</th>
-			<th>Address</th>
-			<th>Username</th>
-			<th>Password</th>
 		</thead>
 		<tbody>
 			<tr th:each="facultyUser: ${facultyUsers}" th:attr="onclick=|goto('/Admin/EditFacultyUser/${facultyUser.id}')|" style="cursor: pointer;">
@@ -20,9 +17,6 @@
 				<td th:text="${facultyUser.fullname}"></td>
 				<td th:text="${facultyUser.gender}"></td>
 				<td th:text="${facultyUser.mobileNo}"></td>
-				<td th:text="${facultyUser.address}"></td>
-				<td th:text="${facultyUser.username}"></td>
-				<td th:text="${facultyUser.password}"></td>
 			</tr>
 		</tbody>
 	</table>

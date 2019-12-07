@@ -73,9 +73,7 @@ public class AdminController {
 		model.addAttribute("content", "admin/pendingApplications");
 		return "index";
 	}
-	
-	
-	//students
+
 	@GetMapping("/StudentUsers")
 	public String studentUsers(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {
@@ -140,15 +138,16 @@ public class AdminController {
 		return "redirect:/Admin/StudentUsers";
 	}
 	
-	//faculty
 	@GetMapping("/FacultyUsers")
 	public String facultyUsers(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/facultyUsers");
+		model.addAttribute("facultyUsers", facultyUsers);
 		return "index";
 	}
 	
@@ -203,8 +202,6 @@ public class AdminController {
 		dbService.deleteFacultyUserById(id);
 		return "redirect:/Admin/FacultyUsers";
 	}
-	
-	//courses
 	@GetMapping("/Courses")
 	public String courses(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {
@@ -215,8 +212,6 @@ public class AdminController {
 		model.addAttribute("content", "admin/courses");
 		return "index";
 	}
-	
-	//departments
 	@GetMapping("/Departments")
 	public String departments(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {

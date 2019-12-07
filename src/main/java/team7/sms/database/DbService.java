@@ -26,7 +26,6 @@ public class DbService implements DbServiceInterface{
 		this.facultyRepo = facultyRepo;
 	}
 	
-	//admin users
 	@Override
 	@Transactional
 	public AdminUser findAdminUserByUsername(String username) {
@@ -39,8 +38,6 @@ public class DbService implements DbServiceInterface{
 		adminRepo.save(adminUser);
 	}
 	
-	
-	//student users
 	@Override
 	@Transactional
 	public StudentUser findStudentUserByUsername(String username) {
@@ -70,8 +67,6 @@ public class DbService implements DbServiceInterface{
 		studentRepo.delete(studentRepo.findOneById(id));
 	}
 	
-	
-	//faculty users
 	@Override
 	@Transactional
 	public FacultyUser findFacultyUserByUsername(String username) {
