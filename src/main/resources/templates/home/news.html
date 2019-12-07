@@ -1,3 +1,185 @@
 <th:block th:fragment="news">
-	<h4>News</h4>
+
+	<head>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	</head>
+	
+<body>
+	<div class="container">
+	<div class="row">
+	<div class="col-lg-7">
+	
+	<div id="myCarousel" class="carousel slide" data-ride="carousel" align="center">
+
+	<!--Indicators -->
+	<ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="2" class="active"></li>
+	</ol>
+	
+	<!-- Wrapper for slides -->
+		<div class="carousel-inner">	
+			<div class="item active">
+				<img src="/img/study3.jpg" alt="Registration Opens" style="width:100%; height:100%; object-fit:contain;">
+				
+				<div class="carousel-caption">
+				<h3>Registration Opens</h3>
+				<p>Updates on Registration period</p>
+				</div>
+			</div>
+			
+			<div class="item">
+				<img src="/img/study2.jpg" alt="Faculty Connections" style="width:100%; height:100%; object-fit:contain;">
+			
+				<div class="carousel-caption">
+				<h3>Faculty Connections</h3>
+				<p>Multi-Disciplinary Collaborations</p>
+				</div>
+			</div>
+			
+			<div class="item">
+				<img src="/img/study4.jpg" alt="Research Findings" style="width:100%; height:100%; object-fit:contain;">
+			
+				<div class="carousel-caption">
+				<h3>Research Findings</h3>
+				<p>New discoveries and Projects</p>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- Left and Right controls -->
+		<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+		<span class="sr-only">Previous</span>
+		</a>
+	
+		<a class="right carousel-control" href="#myCarousel" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right"></span>
+		<span class="sr-only">Next</span>
+		</a>
+	
+	</div>
+	</div>
+	</div>
+</div>
+
+	<!--swipe function-->
+	<script>
+	var touchSensitivity = 5;
+	$(".carousel").on("touchstart", function (event) {
+		var xClick = event.originalEvent.touches[0].pageX;
+			$(this).one("touchmove", function (event) {
+        var xMove = event.originalEvent.touches[0].pageX;
+			if (Math.floor(xClick - xMove) > touchSensitivity) {
+				$(this).carousel('next');
+			} else if (Math.floor(xClick - xMove) < -(touchSensitivity)) {
+				$(this).carousel('prev');
+			}
+		});
+		$(".carousel").on("touchend", function () {
+			$(this).off("touchmove");
+		});
+	});
+
+	</script>
+	
+	<br></br>
+	<br></br>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-7">
+			<p><span style="color:red; font-size:18px;"><b> Announcements</b></span></p>
+			<p> New semester course registration starts from 23rd January 2020 9:00am.</p>
+			</div>
+		</div>
+	</div>
+	
+	<br></br>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-7">
+			<p><span style="font-size:25px;">NEWS & UPDATES</span></p>
+			</div>
+		</div>
+	</div>
+		
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">			
+				<div class="flextable">
+					<div class="flextable-item flextable-primary">
+						<input type="text" class="form-control" placeholder="Search News">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-1">			
+					<div class="flextable-item">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+	
+	
+	<br></br>
+							
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-7">
+		
+				<div class="media">
+					<div class="media-left media-middle">
+						<img src="/img/study5.png" class="media-object" style="width:80px">
+						<!-- photo courtesy of https://www1.duke-nus.edu.sg/giving/cause-parent/give-research -->
+					</div>
+					<div class="media-body">
+						<h4 class="media-heading"; style="font-size:16px"><b>School of Sciences and Biology Produces new Vaccine</b></h4>
+						<p>Students from School of Biology and School of Sciences come together to work on a new vaccine against flu.
+						This break-through discovery is the first of its kind in the world. Many would believe to benefit from it.</p>			
+					</div>
+				</div>
+	<hr>
+	
+				<div class="media"> 
+					<div class="media-left media-middle">
+						<img src="/img/study6.png" class="media-object" style="width:80px">
+						<!--photo courtesy of https://jurongwestsec.moe.edu.sg/about-us/school-facilities -->
+					</div>
+					<div class="media-body">
+						<h4 class="media-heading"; style="font-size:16px"><b>Lounge for Undergraduates </b></h4>
+						<p>With increase stress during the exam period, students desperately needs a place to catch-up on sleep.
+						The student union has taken steps to emptied the equipment room near the food court to serve as a temporary 
+						lounge for students.</p>
+					</div>
+					</div>
+	<hr>
+				
+				<div class="media">
+					<div class="media-left media-middle">
+						<img src="/img/study7.jpg" class="media-object" style="width:80px">
+						<!-- photo couresty of https://www.eng.nus.edu.sg/chbe/ -->
+					</div>
+					<div class="media-body">
+						<h4 class="media-heading"; style="font-size:16px"><b>Pen and Paper</b></h4>
+						<p>Studies have shown that the tradition pen and paper works best during studies. In a survey led by partner
+						university, Kenington College, 70% of 500 students surveyed named pen and paper as their most preferred stationary of all time.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
 </th:block>
