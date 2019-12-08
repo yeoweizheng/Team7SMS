@@ -14,6 +14,7 @@ public class DbService implements DbServiceInterface{
 	private StudentUserRepository studentRepo;
 	private FacultyUserRepository facultyRepo;
 	private CourseRepository courseRepo;
+	private CourseRegisterRepository courseRegisterRepo;
 	@Autowired
 	public void setAdminRepo(AdminUserRepository adminRepo) {
 		this.adminRepo = adminRepo;
@@ -29,6 +30,10 @@ public class DbService implements DbServiceInterface{
 	@Autowired
 	public void setCourseRepo(CourseRepository courseRepo) {
 		this.courseRepo = courseRepo;
+	}
+	@Autowired
+	public void setCourseRegisterRepo(CourseRegisterRepository courseRegisterRepo) {
+		this.courseRegisterRepo = courseRegisterRepo;
 	}
 	
 	@Override
@@ -129,5 +134,41 @@ public class DbService implements DbServiceInterface{
 		courseRepo.save(course);
 		
 	}
+	
+	@Override
+	@Transactional
+	public CourseRegister findCourseRegisterById(int Id) {
+		CourseRegister courseRegister = courseRegisterRepo.findCourseRegisterById(Id);
+		return courseRegister;
+	}
+	@Override
+	@Transactional
+	public CourseRegister findCourseRegisterByStudentId(int studentUserId) {
+		CourseRegister courseRegister = courseRegisterRepo.findCourseRegisterByStudentId(studentUserId);
+		return courseRegister;
+	}
+	@Override
+	@Transactional
+	public CourseRegister findCourseRegisterByInstructorId(int facultyUserId) {
+		CourseRegister courseRegister = courseRegisterRepo.findCourseRegisterByInstructorId(facultyUserId);
+		return courseRegister;
+	}
+	@Override
+	@Transactional
+	public void deleteCourseRegisterById(int id) {
+	courseRegisterRepo.delete(courseRegisterRepo.findCourseRegisterById(id));
+	}
+	@Override
+	@Transactional
+	public ArrayList<CourseRegister> findCourseRegister() {
+		return courseRegisterRepo.findAll();
+	}
+	@Override
+	@Transactional
+	public void addCourseRegister(CourseRegister courseRegister) {
+		courseRegisterRepo.save(courseRegister);
+		
+	}
+	
 	
 }

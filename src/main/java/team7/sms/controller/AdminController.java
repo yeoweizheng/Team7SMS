@@ -222,4 +222,7 @@ public class AdminController {
 		model.addAttribute("content", "admin/departments");
 		return "index";
 	}
+	
+	//To CRUD course schedules, students & instructors: connect to CourseRegister Controller
+	
 }

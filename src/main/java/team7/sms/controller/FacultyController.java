@@ -104,5 +104,8 @@ public class FacultyController {
 		model.addAttribute("content", "faculty/scoreCards");
 		return "index"; 
 	}
+	
+	//To RU (not all 4 crud) schedule, students, grades etc.: Use CourseRegister Controller
+	
 	 
 }

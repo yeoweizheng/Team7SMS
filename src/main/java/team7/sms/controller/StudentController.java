@@ -98,4 +98,7 @@ public class StudentController {
 		model.addAttribute("content", "student/enrollCourses");
 		return "index";
 	}
+	
+	//To connect to schedule & to see grades, use CourseRegister Controller
+	
 }

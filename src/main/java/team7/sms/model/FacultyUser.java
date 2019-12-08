@@ -1,5 +1,7 @@
 package team7.sms.model;
 
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,9 @@ public class FacultyUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
+	@OneToMany(mappedBy = "instructor")
+	Set<CourseRegister> courseregister;
+	
 	public FacultyUser() {}
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {

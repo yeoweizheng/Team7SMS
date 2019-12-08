@@ -19,6 +19,9 @@ import team7.sms.model.StudentUser;
 import team7.sms.model.FacultyUser;
 import team7.sms.database.FacultyUserRepository;
 
+import team7.sms.model.*;
+import team7.sms.database.*;
+
 @SpringBootApplication
 public class Team7SmsApplication {
 
@@ -30,6 +33,8 @@ public class Team7SmsApplication {
 	private FacultyUserRepository facultyRepo;
 	@Autowired
 	private CourseRepository courseRepo;
+	@Autowired
+	private CourseRegisterRepository courseRegisterRepo;
 
 	private DbService dbService;
 	@Autowired
