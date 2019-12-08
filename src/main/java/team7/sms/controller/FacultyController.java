@@ -105,7 +105,4 @@ public class FacultyController {
 		return "index"; 
 	}
 	
-	//To RU (not all 4 crud) schedule, students, grades etc.: Use CourseRegister Controller
-	
-	 
 }

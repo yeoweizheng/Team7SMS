@@ -223,6 +223,4 @@ public class AdminController {
 		return "index";
 	}
 	
-	//To CRUD course schedules, students & instructors: connect to CourseRegister Controller
-	
 }

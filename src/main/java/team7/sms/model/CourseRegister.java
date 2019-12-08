@@ -1,7 +1,5 @@
 package team7.sms.model;
 
-import java.util.List;
-
 import javax.persistence.*;
 
 @Entity
@@ -72,15 +70,6 @@ public class CourseRegister {
 	public void setInstructorRating(int instructorRating) {
 		this.instructorRating = instructorRating;
 	}
-	
-	
-	@Override
-	public String toString() {
-		return "CourseRegister [id=" + id + ", course=" + course + ", instructor=" + instructor + ", student=" + student
-				+ ", studentGrade=" + studentGrade + ", studentComments=" + studentComments + ", instructorRating=" + instructorRating + "]";
-	}
-	
-	
 	
 	
 }

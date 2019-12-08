@@ -99,6 +99,5 @@ public class StudentController {
 		return "index";
 	}
 	
-	//To connect to schedule & to see grades, use CourseRegister Controller
 	
 }
