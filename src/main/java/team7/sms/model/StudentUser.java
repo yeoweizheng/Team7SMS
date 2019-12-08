@@ -1,6 +1,7 @@
 package team7.sms.model;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -15,6 +16,9 @@ public class StudentUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
+	@OneToMany(mappedBy = "student")
+	Set<CourseRegister> courseregister;
+	
 	public StudentUser() {}
 	public StudentUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
@@ -66,6 +70,12 @@ public class StudentUser {
 	}
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
+	}
+	public Set<CourseRegister> getCourseregister() {
+		return courseregister;
+	}
+	public void setCourseregister(Set<CourseRegister> courseregister) {
+		this.courseregister = courseregister;
 	}
 	@Override
 	public int hashCode() {

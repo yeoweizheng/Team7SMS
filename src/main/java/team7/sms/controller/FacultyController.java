@@ -104,5 +104,5 @@ public class FacultyController {
 		model.addAttribute("content", "faculty/scoreCards");
 		return "index"; 
 	}
-	 
+	
 }

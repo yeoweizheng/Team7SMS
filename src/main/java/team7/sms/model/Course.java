@@ -1,5 +1,7 @@
 package team7.sms.model;
 
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,9 @@ public class Course {
 	private String startDate;
 	private String endDate;
 	private String faculty;
+	@OneToMany(mappedBy = "course")
+	Set<CourseRegister> courseregister;
+	
 	public Course() {}
 	public Course(String name, String startDate, String endDate, String faculty) {
 		this.name = name;
@@ -47,6 +52,12 @@ public class Course {
 	}
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+	public Set<CourseRegister> getCourseregister() {
+		return courseregister;
+	}
+	public void setCourseregister(Set<CourseRegister> courseregister) {
+		this.courseregister = courseregister;
 	}
 	@Override
 	public int hashCode() {

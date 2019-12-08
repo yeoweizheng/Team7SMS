@@ -98,4 +98,6 @@ public class StudentController {
 		model.addAttribute("content", "student/enrollCourses");
 		return "index";
 	}
+	
+	
 }

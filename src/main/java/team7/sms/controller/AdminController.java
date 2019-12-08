@@ -222,4 +222,5 @@ public class AdminController {
 		model.addAttribute("content", "admin/departments");
 		return "index";
 	}
+	
 }

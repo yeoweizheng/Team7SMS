@@ -25,4 +25,14 @@ public interface DbServiceInterface {
 	public void deleteCourseById(int id);
 	public ArrayList<Course> findCourse();
 	public void addCourse(Course course);
+	
+	public CourseRegister findCourseRegisterById(int Id);
+	public CourseRegister findCourseRegisterByStudentId(int studentUserId);
+	public CourseRegister findCourseRegisterByInstructorId(int facultyUserId);
+	public void deleteCourseRegisterById(int id);
+	public ArrayList<CourseRegister> findCourseRegister();
+	public void addCourseRegister(CourseRegister courseRegister);
+	
+	
+	
 }
