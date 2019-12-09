@@ -1,0 +1,35 @@
+<th:block th:fragment="editSubject">
+	<h4>Edit Subject</h4>
+	<form id="form" th:object="${subject}" th:action="|/Admin/EditSubject/${subject.id}|" method="post">
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Name: </label>
+			<div class="col-md-9">
+				<input class="form-control" type="text" th:value="${name}" th:field="*{name}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Description: </label>
+			<div class="col-md-9">
+				<input class="form-control" type="text" th:value="${description}" th:field="*{description}">
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<div class="col-md-4">
+				<a class="btn btn-secondary btn-block" href="/Admin/Subjects">Cancel</a>
+			</div>
+			<div class="col-md-4">
+				<button class="btn btn-success btn-block" type="submit">Update</button>
+			</div>
+			<div class="col-md-4">
+				<a class="btn btn-danger btn-block" th:href="|/Admin/DeleteSubject/${id}|">Delete</a>
+			</div>
+		</div>
+	</form>
+
+	<script>
+		function del(id){
+			goto("/Admin/DeleteStudentUser/" + id);
+		}
+	</script>
+</th:block>

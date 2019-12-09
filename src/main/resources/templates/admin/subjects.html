@@ -1,3 +1,21 @@
 <th:block th:fragment="subjects">
-	<h4>Subjects</h4>
+	<div>
+		<h4 style="display: inline-block;">Subjects&nbsp;
+			<a class="btn btn-sm btn-outline-secondary" href="/Admin/AddSubject">Add</a>
+		</h4>
+	</div>
+	<table class="table table-hover">
+		<thead>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Description</th>
+		</thead>
+		<tbody>
+			<tr th:each="subject: ${subjects}" th:attr="onclick=|goto('/Admin/EditSubject/${subject.id}')|" style="cursor: pointer;">
+				<td th:text="${subject.id}"></td>
+				<td th:text="${subject.name}"></td>
+				<td th:text="${subject.description}"></td>
+			</tr>
+		</tbody>
+	</table>
 </th:block>

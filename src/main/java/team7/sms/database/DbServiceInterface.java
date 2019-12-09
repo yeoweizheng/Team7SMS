@@ -28,5 +28,6 @@ public interface DbServiceInterface {
 	public Subject findSubjectById(int id);
 	public ArrayList<Subject> findSubjects();
 	public void addEnrollment(Enrollment enrollment);
+	public void deleteSubjectById(int id);
 	
 }

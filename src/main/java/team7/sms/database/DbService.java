@@ -152,5 +152,10 @@ public class DbService implements DbServiceInterface{
 	public void addEnrollment(Enrollment enrollment) {
 		enrollmentRepo.save(enrollment);
 	}
+	@Override
+	@Transactional
+	public void deleteSubjectById(int id) {
+		subjectRepo.delete(subjectRepo.findOneById(id));
+	}
 	
 }

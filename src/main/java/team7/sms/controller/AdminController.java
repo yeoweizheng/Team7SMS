@@ -207,9 +207,11 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		ArrayList<Subject> subjects = dbService.findSubjects();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/subjects");
+		model.addAttribute("subjects", subjects);
 		return "index";
 	}
 	@GetMapping("/Courses")
@@ -237,5 +239,54 @@ public class AdminController {
 		model.addAttribute("facultyUsers", facultyUsers);
 		model.addAttribute("subjects", subjects);
 		return "index";
+	}
+	@GetMapping("/AddSubject")
+	public String addSubject(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		Subject subject = new Subject();
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/addSubject");
+		model.addAttribute("subject", subject);
+		return "index";
+	}
+	@PostMapping("/AddSubject")
+	public String addSubject(HttpSession session, @ModelAttribute Subject subject) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		dbService.addSubject(subject);
+		return "redirect:/Admin/Subjects";
+	}
+	@GetMapping("/EditSubject/{id}")
+	public String editSubject(HttpSession session, Model model, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		Subject subject = dbService.findSubjectById(id);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/editSubject");
+		model.addAttribute("subject", subject);
+		return "index";
+	}
+	@PostMapping("/EditSubject/{id}")
+	public String editSubject(HttpSession session, @PathVariable int id, @ModelAttribute Subject subject) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		
+		dbService.addSubject(subject);
+		return "redirect:/Admin/Subjects";
+	}
+	@GetMapping("/DeleteSubject/{id}")
+	public String deleteSubject(HttpSession session, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		dbService.deleteSubjectById(id);
+		return "redirect:/Admin/Subjects";
 	}
 }
