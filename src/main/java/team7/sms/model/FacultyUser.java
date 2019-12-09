@@ -15,8 +15,8 @@ public class FacultyUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
-	@OneToMany(mappedBy = "instructor")
-	Set<CourseRegister> courseregister;
+	@OneToOne(mappedBy = "facultyUser", fetch = FetchType.EAGER)
+	private Course course;
 	
 	public FacultyUser() {}
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
@@ -69,6 +69,12 @@ public class FacultyUser {
 	}
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
+	}
+	public Course getCourse() {
+		return course;
+	}
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 	@Override
 	public int hashCode() {

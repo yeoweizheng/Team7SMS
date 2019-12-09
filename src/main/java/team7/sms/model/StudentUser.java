@@ -1,6 +1,8 @@
 package team7.sms.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -16,10 +18,12 @@ public class StudentUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
-	@OneToMany(mappedBy = "student")
-	Set<CourseRegister> courseregister;
+	@ManyToMany(mappedBy = "studentUsers", fetch = FetchType.EAGER)
+	private List<Course> courses;
 	
-	public StudentUser() {}
+	public StudentUser() {
+		this.courses = new ArrayList<Course>();
+	}
 	public StudentUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
 		this.username = username;
@@ -28,6 +32,7 @@ public class StudentUser {
 		this.gender = gender;
 		this.address = address;
 		this.mobileNo = mobileNo;
+		this.courses = new ArrayList<Course>();
 	}
 	public int getId() {
 		return id;
@@ -71,11 +76,8 @@ public class StudentUser {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	public Set<CourseRegister> getCourseregister() {
-		return courseregister;
-	}
-	public void setCourseregister(Set<CourseRegister> courseregister) {
-		this.courseregister = courseregister;
+	public List<Course> getCourses() {
+		return courses;
 	}
 	@Override
 	public int hashCode() {

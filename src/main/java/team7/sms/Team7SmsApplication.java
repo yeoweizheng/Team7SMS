@@ -1,5 +1,7 @@
 package team7.sms;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,10 +15,6 @@ import team7.sms.database.AdminUserRepository;
 import team7.sms.database.CourseRepository;
 import team7.sms.database.DbService;
 import team7.sms.database.StudentUserRepository;
-import team7.sms.model.AdminUser;
-import team7.sms.model.Course;
-import team7.sms.model.StudentUser;
-import team7.sms.model.FacultyUser;
 import team7.sms.database.FacultyUserRepository;
 
 import team7.sms.model.*;
@@ -25,18 +23,8 @@ import team7.sms.database.*;
 @SpringBootApplication
 public class Team7SmsApplication {
 
-	@Autowired
-	private AdminUserRepository adminRepo;
-	@Autowired
-	private StudentUserRepository studentRepo;
-	@Autowired
-	private FacultyUserRepository facultyRepo;
-	@Autowired
-	private CourseRepository courseRepo;
-	@Autowired
-	private CourseRegisterRepository courseRegisterRepo;
-
 	private DbService dbService;
+	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
 	@Autowired
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
@@ -63,8 +51,12 @@ public class Team7SmsApplication {
 			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
 			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
 			dbService.addFacultyUser(new FacultyUser("weizheng", "weizheng123", "Wei Zheng", 'M', "789 Kent Ridge Dr", "98127634"));
-			dbService.addCourse(new Course("Java", "01-11-2019", "08-11-2019", "ISS"));
-			dbService.addCourse(new Course("C#", "06-11-2019", "13-11-2019", "ISS"));
+			dbService.addSubject(new Subject("Java", "Java programming fundamentals"));
+			dbService.addCourse(new Course("02-03-2019", "03-03-2019",
+					dbService.findSubjectById(1), dbService.findFacultyUserById(1)));
+			Course course = dbService.findCourseById(1);
+			course.getStudentUsers().add(dbService.findStudentUserById(1));
+			dbService.addCourse(course);
 		};
 	}
 }

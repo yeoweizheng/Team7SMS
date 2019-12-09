@@ -202,14 +202,14 @@ public class AdminController {
 		dbService.deleteFacultyUserById(id);
 		return "redirect:/Admin/FacultyUsers";
 	}
-	@GetMapping("/Courses")
-	public String courses(HttpSession session, Model model) {
+	@GetMapping("/Modules")
+	public String modules(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "admin/courses");
+		model.addAttribute("content", "admin/modules");
 		return "index";
 	}
 	@GetMapping("/Departments")

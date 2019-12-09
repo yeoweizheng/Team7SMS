@@ -20,19 +20,12 @@ public interface DbServiceInterface {
 	public ArrayList<FacultyUser> findFacultyUsers();
 	public void addFacultyUser(FacultyUser facultyUser);
 	
-	public Course findCourseByName(String name);
 	public Course findCourseById(int id);
 	public void deleteCourseById(int id);
 	public ArrayList<Course> findCourse();
 	public void addCourse(Course course);
-	
-	public CourseRegister findCourseRegisterById(int Id);
-	public CourseRegister findCourseRegisterByStudentId(int studentUserId);
-	public CourseRegister findCourseRegisterByInstructorId(int facultyUserId);
-	public void deleteCourseRegisterById(int id);
-	public ArrayList<CourseRegister> findCourseRegister();
-	public void addCourseRegister(CourseRegister courseRegister);
-	
+	public void addSubject(Subject subject);
+	public Subject findSubjectById(int id);
 	
 	
 }

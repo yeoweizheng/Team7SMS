@@ -14,7 +14,7 @@ public class DbService implements DbServiceInterface{
 	private StudentUserRepository studentRepo;
 	private FacultyUserRepository facultyRepo;
 	private CourseRepository courseRepo;
-	private CourseRegisterRepository courseRegisterRepo;
+	private SubjectRepository subjectRepo;
 	@Autowired
 	public void setAdminRepo(AdminUserRepository adminRepo) {
 		this.adminRepo = adminRepo;
@@ -32,8 +32,8 @@ public class DbService implements DbServiceInterface{
 		this.courseRepo = courseRepo;
 	}
 	@Autowired
-	public void setCourseRegisterRepo(CourseRegisterRepository courseRegisterRepo) {
-		this.courseRegisterRepo = courseRegisterRepo;
+	public void setSubjectRepo(SubjectRepository subjectRepo) {
+		this.subjectRepo = subjectRepo;
 	}
 	
 	@Override
@@ -108,12 +108,6 @@ public class DbService implements DbServiceInterface{
 	
 	@Override
 	@Transactional
-	public Course findCourseByName(String name) {
-		Course course = courseRepo.findOneByName(name);
-		return course;
-	}
-	@Override
-	@Transactional
 	public Course findCourseById(int id) {
 		Course course = courseRepo.findOneById(id);
 		return course;
@@ -134,41 +128,15 @@ public class DbService implements DbServiceInterface{
 		courseRepo.save(course);
 		
 	}
-	
 	@Override
 	@Transactional
-	public CourseRegister findCourseRegisterById(int Id) {
-		CourseRegister courseRegister = courseRegisterRepo.findCourseRegisterById(Id);
-		return courseRegister;
+	public void addSubject(Subject subject){
+		subjectRepo.save(subject);
 	}
 	@Override
 	@Transactional
-	public CourseRegister findCourseRegisterByStudentId(int studentUserId) {
-		CourseRegister courseRegister = courseRegisterRepo.findCourseRegisterByStudentId(studentUserId);
-		return courseRegister;
+	public Subject findSubjectById(int id) {
+		return subjectRepo.findOneById(id);
 	}
-	@Override
-	@Transactional
-	public CourseRegister findCourseRegisterByInstructorId(int facultyUserId) {
-		CourseRegister courseRegister = courseRegisterRepo.findCourseRegisterByInstructorId(facultyUserId);
-		return courseRegister;
-	}
-	@Override
-	@Transactional
-	public void deleteCourseRegisterById(int id) {
-	courseRegisterRepo.delete(courseRegisterRepo.findCourseRegisterById(id));
-	}
-	@Override
-	@Transactional
-	public ArrayList<CourseRegister> findCourseRegister() {
-		return courseRegisterRepo.findAll();
-	}
-	@Override
-	@Transactional
-	public void addCourseRegister(CourseRegister courseRegister) {
-		courseRegisterRepo.save(courseRegister);
-		
-	}
-	
 	
 }

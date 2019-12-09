@@ -1,5 +1,7 @@
 package team7.sms.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -9,37 +11,29 @@ public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String name;
 	private String startDate;
 	private String endDate;
-	private String faculty;
-	@OneToMany(mappedBy = "course")
-	Set<CourseRegister> courseregister;
-	
-	public Course() {}
-	public Course(String name, String startDate, String endDate, String faculty) {
-		this.name = name;
+	@ManyToOne (fetch = FetchType.EAGER)
+	private Subject subject;
+	@OneToOne (fetch = FetchType.EAGER)
+	private FacultyUser facultyUser;
+	@ManyToMany (fetch = FetchType.EAGER)
+	private List<StudentUser> studentUsers;
+	public Course() {
+		this.studentUsers = new ArrayList<StudentUser>();
+	}
+	public Course(String startDate, String endDate, Subject subject, FacultyUser facultyUser) {
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.faculty = faculty;
+		this.subject = subject;
+		this.facultyUser = facultyUser;
+		this.studentUsers = new ArrayList<StudentUser>();
 	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getFaculty() {
-		return faculty;
-	}
-	public void setFaculty(String faculty) {
-		this.faculty = faculty;
 	}
 	public String getStartDate() {
 		return startDate;
@@ -53,31 +47,19 @@ public class Course {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public Set<CourseRegister> getCourseregister() {
-		return courseregister;
+	public Subject getSubject() {
+		return subject;
 	}
-	public void setCourseregister(Set<CourseRegister> courseregister) {
-		this.courseregister = courseregister;
+	public void setSubject(Subject subject) {
+		this.subject = subject;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
+	public FacultyUser getFacultyUser() {
+		return facultyUser;
 	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Course other = (Course) obj;
-		if (id != other.id)
-			return false;
-		return true;
+	public void setFacultyUser(FacultyUser facultyUser) {
+		this.facultyUser = facultyUser;
 	}
-	
+	public List<StudentUser> getStudentUsers() {
+		return studentUsers;
+	}
 }
