@@ -1,6 +1,6 @@
 <th:block th:fragment="addCourse">
 	<h4>Add Course</h4>
-	<form id="form" th:object="${course}" action="/Admin/AddCourse" method="post">
+	<form id="form" action="/Admin/AddCourse" method="post">
 		<div class="form-group row">
 			<label class="col-md-3 col-form-label">Subject: </label>
 			<div class="col-md-9">
@@ -18,6 +18,20 @@
 			</div>
 		</div>
 		<div class="form-group row">
+			<label class="col-md-3 col-form-label">End Date: </label>
+			<div class="col-md-9">
+				<input readonly class="form-control datetimepicker-input" data-target="#startDate" data-toggle="datetimepicker"
+					type="text" id="startDate" th:field="*{startDate}" style="background: white;">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">End Date: </label>
+			<div class="col-md-9">
+				<input readonly class="form-control datetimepicker-input" data-target="#endDate" data-toggle="datetimepicker"
+					type="text" id="endDate" th:field="*{endDate}" style="background: white;">
+			</div>
+		</div>
+		<div class="form-group row">
 			<div class="col-md-2"></div>
 			<div class="col-md-4">
 				<a class="btn btn-secondary btn-block" href="/Admin/Courses">Cancel</a>
@@ -28,4 +42,16 @@
 			<div class="col-md-2"></div>
 		</div>
 	</form>
+	<script>
+		$(function(){
+			$("#startDate").datetimepicker({
+				format: "DD-MMM-YY",
+				ignoreReadonly: true
+			});
+			$("#endDate").datetimepicker({
+				format: "DD-MMM-YY",
+				ignoreReadonly: true
+			});
+		});
+	</script>
 </th:block>

@@ -240,6 +240,14 @@ public class AdminController {
 		model.addAttribute("subjects", subjects);
 		return "index";
 	}
+	@PostMapping("/AddCourse")
+	public String addCourse(HttpSession session, @ModelAttribute Course course, @ModelAttribute FacultyUser facultyUser, @ModelAttribute Subject subject) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		dbService.addCourse(course);
+		return "redirect:/Admin/Courses";
+	}
 	@GetMapping("/AddSubject")
 	public String addSubject(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {
