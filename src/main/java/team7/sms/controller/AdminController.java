@@ -222,5 +222,20 @@ public class AdminController {
 		model.addAttribute("content", "admin/courses");
 		return "index";
 	}
-	
+	@GetMapping("/AddCourse")
+	public String addCourse(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		Course course = new Course();
+		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
+		ArrayList<Subject> subjects = dbService.findSubjects();
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/addCourse");
+		model.addAttribute("course", course);
+		model.addAttribute("facultyUsers", facultyUsers);
+		model.addAttribute("subjects", subjects);
+		return "index";
+	}
 }
