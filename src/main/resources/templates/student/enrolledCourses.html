@@ -10,19 +10,19 @@
 			<th>Management</th>
 		</thead>
 		<tbody>
-			<tr th:each="course: ${courses}" th:attr="onclick=|goto('/Admin/EnrolledCourse/${Course.id}')|" style="cursor: pointer;">
+			<tr th:each="course: ${courses}" th:attr="onclick=|goto('/Student/EnrolledCourses/${Course.id}')|" style="cursor: pointer;">
 				<td th:text="${course.id}"></td>
 				<td th:text="${course.subject.name}"></td>
 				<td th:text="${course.startDate}"></td>
 				<td th:text="${course.endDate}"></td>
 				<td th:text="${course.facultyUser.fullname}"></td>
-				<td><a class="btn btn-danger btn-block" th:href="|/Admin/DeleteFacultyUser/${id}|">Delete</a></td> 
+				<td><a class="btn btn-danger btn-block" th:href="|/Admin/DeleteEnrollment/${id}|">Delete</a></td> 
 			</tr>
 		</tbody>
 	</table>
 	<script>
 		function del(id){
-			goto("/Admin/DeleteFacultyUser/" + id);
+			goto("/Admin/DeleteEnrollment/" + id);
 		}
 	</script>
 </th:block>
