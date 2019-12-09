@@ -32,17 +32,16 @@ public class StudentController {
 
 	public static void init() {
 		sidebar = new Sidebar();
-		sidebar.addItem("Copy of Grades", "/Student/CopyofGrades/");
-		sidebar.addItem("GPA", "/Student/GPA/");
 		sidebar.addItem("Available Courses", "/Student/AvailableCourses/");
-		sidebar.addItem("Enroll Courses", "/Student/EnrollCourses/");
+		sidebar.addItem("Enrolled Courses", "/Student/EnrolledCourses/");
+		sidebar.addItem("Exam Grades", "/Student/ExamGrades/");
 		navbar = new Navbar();
 		navbar.addItem("Logout", "/Student/Logout/");
 	}
 	
 	@GetMapping("/")
 	public String index() {
-		return "redirect:/Student/CopyofGrades/";
+		return "redirect:/Student/AvailableCourses/";
 	}
 	
 	@GetMapping("/Logout")
@@ -57,25 +56,15 @@ public class StudentController {
 		return studentUser;
 	}
 
-	@GetMapping("/CopyofGrades")
-	public String copyofGrades(HttpSession session, Model model) {
+	@GetMapping("/ExamGrades")
+	public String examGrades(HttpSession session, Model model) {
 		if(getStudentUserFromSession(session) == null) return "redirect:/Home/StudentLogin/";
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "student/copyofGrades");
+		model.addAttribute("content", "student/examGrades");
 		return "index";
 	}
 	
-	@GetMapping("/GPA")
-	public String GPA(HttpSession session, Model model) {
-		if(getStudentUserFromSession(session) == null) {
-			return "redirect:/Home/AdminLogin";
-		}
-		model.addAttribute("sidebar", sidebar);
-		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "student/GPA");
-		return "index";
-	}
 	@GetMapping("/AvailableCourses")
 	public String availableCourses(HttpSession session, Model model) {
 		if(getStudentUserFromSession(session) == null) {
@@ -88,14 +77,14 @@ public class StudentController {
 		model.addAttribute("courses", courses);
 		return "index";
 	}
-	@GetMapping("/EnrollCourses")
+	@GetMapping("/EnrolledCourses")
 	public String enrollCourses(HttpSession session, Model model) {
 		if(getStudentUserFromSession(session) == null) {
 			return "redirect:/Home/StudentLogin";
 		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "student/enrollCourses");
+		model.addAttribute("content", "student/enrolledCourses");
 		return "index";
 	}
 	
