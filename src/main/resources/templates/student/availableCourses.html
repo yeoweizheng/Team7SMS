@@ -6,15 +6,15 @@
 			<th>Name</th>
 			<th>Starting date</th>
 			<th>Ending Date</th>
-			<th>Faculty</th>
+			<th>Lecturer</th>
 		</thead>
 		<tbody>
 			<tr th:each="course: ${courses}">
 				<td th:text="${course.id}"></td>
-				<td th:text="${course.name}"></td>
+				<td th:text="${course.subject.name}"></td>
 				<td th:text="${course.startDate}"></td>
 				<td th:text="${course.endDate}"></td>
-				<td th:text="${course.faculty}"></td>
+				<td th:text="${course.facultyUser.fullname}"></td>
 			</tr>
 		</tbody>
 	</table>

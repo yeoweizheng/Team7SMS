@@ -40,8 +40,8 @@ public class AdminController {
 		sidebar.addItem("Pending Applications", "/Admin/PendingApplications/");
 		sidebar.addItem("Student Users", "/Admin/StudentUsers/");
 		sidebar.addItem("Faculty Users", "/Admin/FacultyUsers/");
+		sidebar.addItem("Subjects", "/Admin/Subjects/");
 		sidebar.addItem("Courses", "/Admin/Courses/");
-		sidebar.addItem("Departments", "/Admin/Departments/");
 		navbar = new Navbar();
 		navbar.addItem("Logout", "/Admin/Logout/");
 	}
@@ -202,24 +202,24 @@ public class AdminController {
 		dbService.deleteFacultyUserById(id);
 		return "redirect:/Admin/FacultyUsers";
 	}
-	@GetMapping("/Modules")
-	public String modules(HttpSession session, Model model) {
+	@GetMapping("/Subjects")
+	public String subjects(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "admin/modules");
+		model.addAttribute("content", "admin/subjects");
 		return "index";
 	}
-	@GetMapping("/Departments")
-	public String departments(HttpSession session, Model model) {
+	@GetMapping("/Courses")
+	public String courses(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "admin/departments");
+		model.addAttribute("content", "admin/courses");
 		return "index";
 	}
 	

@@ -54,9 +54,9 @@ public class Team7SmsApplication {
 			dbService.addSubject(new Subject("Java", "Java programming fundamentals"));
 			dbService.addCourse(new Course("02-03-2019", "03-03-2019",
 					dbService.findSubjectById(1), dbService.findFacultyUserById(1)));
-			Course course = dbService.findCourseById(1);
-			course.getStudentUsers().add(dbService.findStudentUserById(1));
-			dbService.addCourse(course);
+			Enrollment enrollment = new Enrollment(dbService.findStudentUserById(1), 
+					dbService.findCourseById(1), "pending");
+			dbService.addEnrollment(enrollment);
 		};
 	}
 }

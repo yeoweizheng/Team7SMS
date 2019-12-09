@@ -15,6 +15,7 @@ public class DbService implements DbServiceInterface{
 	private FacultyUserRepository facultyRepo;
 	private CourseRepository courseRepo;
 	private SubjectRepository subjectRepo;
+	private EnrollmentRepository enrollmentRepo;
 	@Autowired
 	public void setAdminRepo(AdminUserRepository adminRepo) {
 		this.adminRepo = adminRepo;
@@ -35,7 +36,10 @@ public class DbService implements DbServiceInterface{
 	public void setSubjectRepo(SubjectRepository subjectRepo) {
 		this.subjectRepo = subjectRepo;
 	}
-	
+	@Autowired
+	public void setEnrollmentRepo(EnrollmentRepository enrollmentRepo) {
+		this.enrollmentRepo = enrollmentRepo;
+	}
 	@Override
 	@Transactional
 	public AdminUser findAdminUserByUsername(String username) {
@@ -137,6 +141,11 @@ public class DbService implements DbServiceInterface{
 	@Transactional
 	public Subject findSubjectById(int id) {
 		return subjectRepo.findOneById(id);
+	}
+	@Override
+	@Transactional
+	public void addEnrollment(Enrollment enrollment) {
+		enrollmentRepo.save(enrollment);
 	}
 	
 }

@@ -18,11 +18,11 @@ public class StudentUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
-	@ManyToMany(mappedBy = "studentUsers", fetch = FetchType.EAGER)
-	private List<Course> courses;
+	@OneToMany(mappedBy = "studentUser", fetch = FetchType.EAGER)
+	private List<Enrollment> enrollments;
 	
 	public StudentUser() {
-		this.courses = new ArrayList<Course>();
+		this.enrollments = new ArrayList<Enrollment>();
 	}
 	public StudentUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
@@ -32,7 +32,7 @@ public class StudentUser {
 		this.gender = gender;
 		this.address = address;
 		this.mobileNo = mobileNo;
-		this.courses = new ArrayList<Course>();
+		this.enrollments = new ArrayList<Enrollment>();
 	}
 	public int getId() {
 		return id;
@@ -75,9 +75,6 @@ public class StudentUser {
 	}
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
-	}
-	public List<Course> getCourses() {
-		return courses;
 	}
 	@Override
 	public int hashCode() {

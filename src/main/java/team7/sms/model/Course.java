@@ -17,17 +17,17 @@ public class Course {
 	private Subject subject;
 	@OneToOne (fetch = FetchType.EAGER)
 	private FacultyUser facultyUser;
-	@ManyToMany (fetch = FetchType.EAGER)
-	private List<StudentUser> studentUsers;
+	@OneToMany (mappedBy = "course", fetch = FetchType.EAGER)
+	private List<Enrollment> enrollments;
 	public Course() {
-		this.studentUsers = new ArrayList<StudentUser>();
+		this.enrollments = new ArrayList<Enrollment>();
 	}
 	public Course(String startDate, String endDate, Subject subject, FacultyUser facultyUser) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.subject = subject;
 		this.facultyUser = facultyUser;
-		this.studentUsers = new ArrayList<StudentUser>();
+		this.enrollments = new ArrayList<Enrollment>();
 	}
 	public int getId() {
 		return id;
@@ -58,8 +58,5 @@ public class Course {
 	}
 	public void setFacultyUser(FacultyUser facultyUser) {
 		this.facultyUser = facultyUser;
-	}
-	public List<StudentUser> getStudentUsers() {
-		return studentUsers;
 	}
 }
