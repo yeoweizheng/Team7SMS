@@ -144,8 +144,18 @@ public class DbService implements DbServiceInterface{
 	}
 	@Override
 	@Transactional
+	public ArrayList<Subject> findSubjects(){
+		return subjectRepo.findAll();
+	}
+	@Override
+	@Transactional
 	public void addEnrollment(Enrollment enrollment) {
 		enrollmentRepo.save(enrollment);
+	}
+	@Override
+	@Transactional
+	public void deleteSubjectById(int id) {
+		subjectRepo.delete(subjectRepo.findOneById(id));
 	}
 	
 }
