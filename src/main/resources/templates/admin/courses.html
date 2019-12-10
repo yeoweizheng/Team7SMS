@@ -4,4 +4,22 @@
 			<a class="btn btn-sm btn-outline-secondary" href="/Admin/AddCourse">Add</a>
 		</h4>
 	</div>
+	<table class="table table-hover">
+		<thead>
+			<th>Id</th>
+			<th>Subject</th>
+			<th>Lecturer</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+		</thead>
+		<tbody>
+			<tr th:each="course: ${courses}" th:attr="onclick=|goto('/Admin/EditCourse/${course.id}')|" style="cursor: pointer;">
+				<td th:text="${course.id}"></td>
+				<td th:text="${course.subject.name}"></td>
+				<td th:text="${course.facultyUser.fullname}"></td>
+				<td th:text="${course.startDate}"></td>
+				<td th:text="${course.endDate}"></td>
+			</tr>
+		</tbody>
+	</table>
 </th:block>

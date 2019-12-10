@@ -119,7 +119,7 @@ public class DbService implements DbServiceInterface{
 	@Override
 	@Transactional
 	public void deleteCourseById(int id) {
-	courseRepo.delete(courseRepo.findOneById(id));
+		courseRepo.delete(courseRepo.findOneById(id));
 	}
 	@Override
 	@Transactional
@@ -157,5 +157,4 @@ public class DbService implements DbServiceInterface{
 	public void deleteSubjectById(int id) {
 		subjectRepo.delete(subjectRepo.findOneById(id));
 	}
-	
 }

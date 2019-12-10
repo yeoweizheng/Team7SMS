@@ -219,9 +219,11 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		ArrayList<Course> courses = dbService.findCourse();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/courses");
+		model.addAttribute("courses", courses);
 		return "index";
 	}
 	@GetMapping("/AddCourse")
@@ -232,20 +234,64 @@ public class AdminController {
 		Course course = new Course();
 		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
 		ArrayList<Subject> subjects = dbService.findSubjects();
+		CourseForm courseForm = new CourseForm();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/addCourse");
 		model.addAttribute("course", course);
 		model.addAttribute("facultyUsers", facultyUsers);
 		model.addAttribute("subjects", subjects);
+		model.addAttribute("courseForm", courseForm);
 		return "index";
 	}
 	@PostMapping("/AddCourse")
-	public String addCourse(HttpSession session, @ModelAttribute Course course, @ModelAttribute FacultyUser facultyUser, @ModelAttribute Subject subject) {
+	public String addCourse(HttpSession session, @ModelAttribute CourseForm courseForm) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		Course course = new Course(courseForm.getStartDate(), courseForm.getEndDate(), 
+			dbService.findSubjectById(courseForm.getSubjectId()),
+			dbService.findFacultyUserById(courseForm.getFacultyUserId()));
 		dbService.addCourse(course);
+		return "redirect:/Admin/Courses";
+	}
+	@GetMapping("/EditCourse/{id}")
+	public String editCourse(HttpSession session, Model model, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
+		ArrayList<Subject> subjects = dbService.findSubjects();
+		Course course = dbService.findCourseById(id);
+		CourseForm courseForm = new CourseForm();
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/editCourse");
+		model.addAttribute("course", course);
+		model.addAttribute("facultyUsers", facultyUsers);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("courseForm", courseForm);
+		return "index";
+	}
+	@PostMapping("/EditCourse/{id}")
+	public String addCourse(HttpSession session, @ModelAttribute CourseForm courseForm, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		Course course = dbService.findCourseById(id);
+		course.setSubject(dbService.findSubjectById(courseForm.getSubjectId()));
+		course.setFacultyUser(dbService.findFacultyUserById(courseForm.getFacultyUserId()));
+		course.setStartDate(courseForm.getStartDate());
+		course.setEndDate(courseForm.getEndDate());
+		dbService.addCourse(course);
+		return "redirect:/Admin/Courses";
+	}
+	@GetMapping("/DeleteCourse/{id}")
+	public String deleteCourse(HttpSession session, @PathVariable int id) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		dbService.deleteCourseById(id);
 		return "redirect:/Admin/Courses";
 	}
 	@GetMapping("/AddSubject")

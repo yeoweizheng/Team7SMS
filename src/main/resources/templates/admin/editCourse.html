@@ -1,19 +1,21 @@
-<th:block th:fragment="addCourse">
-	<h4>Add Course</h4>
-	<form id="form" action="/Admin/AddCourse" method="post">
+<th:block th:fragment="editCourse">
+	<h4>Edit Course</h4>
+	<form id="form" th:action="|/Admin/EditCourse/${course.id}|" method="post">
 		<div class="form-group row">
 			<label class="col-md-3 col-form-label">Subject: </label>
 			<div class="col-md-9">
-				<select class="form-control" th:field="*{courseForm.subjectId}">
-					<option th:each="subject: ${subjects}" th:value="${subject.id}"><span th:text="${subject.name}"></span></option>
+				<select class="form-control" id="subject" th:field="*{courseForm.subjectId}" th:value="${course.subject.name}">
+					<option th:id="${subject.id}" th:each="subject: ${subjects}" th:value="${subject.id}">
+					<span th:text="${subject.name}"></span></option>
 				</select>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label class="col-md-3 col-form-label">Lecturer: </label>
 			<div class="col-md-9">
-				<select class="form-control" th:field="*{courseForm.facultyUserId}">
-					<option th:each="facultyUser: ${facultyUsers}" th:value="${facultyUser.id}"><span th:text="*{facultyUser.fullname}"></span></option>
+				<select class="form-control" id="lecturer" th:field="*{courseForm.facultyUserId}">
+					<option th:id="${facultyUser.id}" th:each="facultyUser: ${facultyUsers}" th:value="${facultyUser.id}">
+					<span th:text="*{facultyUser.fullname}"></span></option>
 				</select>
 			</div>
 		</div>
@@ -32,26 +34,34 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<div class="col-md-2"></div>
 			<div class="col-md-4">
 				<a class="btn btn-secondary btn-block" href="/Admin/Courses">Cancel</a>
 			</div>
 			<div class="col-md-4">
-				<button class="btn btn-success btn-block" type="submit">Add</button>
+				<button class="btn btn-success btn-block" type="submit">Update</button>
 			</div>
-			<div class="col-md-2"></div>
+			<div class="col-md-4">
+				<a class="btn btn-danger btn-block" th:href="|/Admin/DeleteCourse/${id}|">Delete</a>
+			</div>
 		</div>
 	</form>
-	<script>
+	<script th:inline="javascript">
+		function del(id){
+			goto("/Admin/DeleteCourse/" + id);
+		}
 		$(function(){
 			$("#startDate").datetimepicker({
 				format: "DD-MMM-YY",
-				ignoreReadonly: true
+				ignoreReadonly: true,
+				defaultDate: moment([[${course.startDate}]], "DD-MMM-YY")
 			});
 			$("#endDate").datetimepicker({
 				format: "DD-MMM-YY",
-				ignoreReadonly: true
+				ignoreReadonly: true,
+				defaultDate: moment([[${course.endDate}]], "DD-MMM-YY")
 			});
+			$("#subject option[id='[[${course.subject.id}]]']").attr("selected", "selected");
+			$("#lecturer option[id='[[${course.facultyUser.id}]]']").attr("selected", "selected");
 		});
 	</script>
 </th:block>
