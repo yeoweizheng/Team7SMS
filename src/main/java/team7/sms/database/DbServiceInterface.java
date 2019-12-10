@@ -24,11 +24,17 @@ public interface DbServiceInterface {
 	public void deleteCourseById(int id);
 	public ArrayList<Course> findCourses();
 	public void addCourse(Course course);
+	
 	public void addSubject(Subject subject);
 	public Subject findSubjectById(int id);
 	public ArrayList<Subject> findSubjects();
-	public void addEnrollment(Enrollment enrollment);
 	public void deleteSubjectById(int id);
 	public ArrayList<Enrollment> findEnrollments();
+	
+	public Enrollment findEnrollmentById(int id);
+	public void deleteEnrollmentById(int id);
+	public ArrayList<Enrollment> findEnrollment();
+	public void addEnrollment(Enrollment enrollment);
+	
 	
 }

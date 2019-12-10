@@ -50,15 +50,24 @@ public class Team7SmsApplication {
 			dbService.addAdminUser(new AdminUser("admin", "admin"));
 			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
 			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
+			
 			dbService.addFacultyUser(new FacultyUser("weizheng", "weizheng123", "Wei Zheng", 'M', "789 Kent Ridge Dr", "98127634"));
 			dbService.addFacultyUser(new FacultyUser("ziling", "ziling123", "Zi Ling", 'M', "567 Kent Ridge Dr", "98127123"));
 			dbService.addSubject(new Subject("Java", "Java programming fundamentals"));
 			dbService.addSubject(new Subject("C#", "C# object oriented programming"));
 			dbService.addCourse(new Course("02-Mar-19", "03-Mar-19",
 					dbService.findSubjectById(1), dbService.findFacultyUserById(1)));
+			dbService.addCourse(new Course("15-Apr-20", "06-Jun-2019",
+					dbService.findSubjectById(2), dbService.findFacultyUserById(2)));
 			Enrollment enrollment = new Enrollment(dbService.findStudentUserById(1), 
-					dbService.findCourseById(1), "pending");
+					dbService.findCourseById(1), "Pending", "Pending");
 			dbService.addEnrollment(enrollment);
+			Enrollment enrollment1 = new Enrollment(dbService.findStudentUserById(1), 
+					dbService.findCourseById(2), "Complete", "B+");
+			dbService.addEnrollment(enrollment1);
+			Enrollment enrollment3 = new Enrollment(dbService.findStudentUserById(2), 
+					dbService.findCourseById(1), "Complete", "A");
+			dbService.addEnrollment(enrollment3);
 		};
 	}
 }
