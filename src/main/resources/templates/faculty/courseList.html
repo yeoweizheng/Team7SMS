@@ -1,4 +1,42 @@
 <th:block th:fragment="courseList">
 	<h4>Course List</h4>
 	<!-- Print list of courses being taught by this faculty member && Manage Own Schedule -->
+	
+	<div>
+		<div class="dropdown show">
+		  <a class="btn btn-sm btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    <b>Sort By</b>
+		  </a>
+		
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+		    <a class="dropdown-item" href="#">enrollmentId</a>
+		    <a class="dropdown-item" href="#">courseId</a>
+		    <a class="dropdown-item" href="#">startDate</a>
+		  </div>
+		</div>
+	</div>
+	
+	<table class="table table-hover">
+		<thead>
+			<th>courseId</th>
+			<th>startDate</th>
+			<th>endDate</th>
+			<th>Subject</th>
+			<th>EnrollmentId</th>
+		</thead>
+		<tbody>
+			<tr th:each="enrollment: ${enrollments}">
+				<td th:text="${enrollment.courses.id}"></td>
+				<td th:text="${enrollment.courses.startDate}"></td>
+				<td th:text="${enrollment.courses.endDate}"></td>
+				<td th:text="${enrollment.courses.subject.name}"></td>
+				<td th:text="${enrollment.id}  th:attr="onclick=|goto('/Faculty/Enrollment/${enrollment.id}')|" style="cursor: pointer;""></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+	
+	
+	
 </th:block>

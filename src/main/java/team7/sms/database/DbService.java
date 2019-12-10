@@ -1,10 +1,13 @@
 package team7.sms.database;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import team7.sms.model.*;
 
@@ -40,6 +43,7 @@ public class DbService implements DbServiceInterface{
 	public void setEnrollmentRepo(EnrollmentRepository enrollmentRepo) {
 		this.enrollmentRepo = enrollmentRepo;
 	}
+	
 	@Override
 	@Transactional
 	public AdminUser findAdminUserByUsername(String username) {
@@ -51,7 +55,6 @@ public class DbService implements DbServiceInterface{
 	public void addAdminUser(AdminUser adminUser) {
 		adminRepo.save(adminUser);
 	}
-	
 	@Override
 	@Transactional
 	public StudentUser findStudentUserByUsername(String username) {
@@ -69,7 +72,6 @@ public class DbService implements DbServiceInterface{
 	public ArrayList<StudentUser> findStudentUsers(){
 		return studentRepo.findAll();
 	}
-	
 	@Override
 	@Transactional
 	public void addStudentUser(StudentUser studentUser) {
@@ -98,7 +100,6 @@ public class DbService implements DbServiceInterface{
 	public ArrayList<FacultyUser> findFacultyUsers(){
 		return facultyRepo.findAll();
 	}
-	
 	@Override
 	@Transactional
 	public void addFacultyUser(FacultyUser facultyUser) {
@@ -123,15 +124,22 @@ public class DbService implements DbServiceInterface{
 	}
 	@Override
 	@Transactional
-	public ArrayList<Course> findCourse() {
+	public ArrayList<Course> findCourses() {
 		return courseRepo.findAll();
 	}
 	@Override
 	@Transactional
 	public void addCourse(Course course) {
 		courseRepo.save(course);
-		
 	}
+	@Override
+	@Transactional
+	public ArrayList<Course> findCoursesbyLecturerId(int id) {
+		FacultyUser lecturer = facultyRepo.findOneById(id);
+		return courseRepo.findAllByFacultyUser(lecturer);
+	}
+	
+	
 	@Override
 	@Transactional
 	public void addSubject(Subject subject){
@@ -144,8 +152,33 @@ public class DbService implements DbServiceInterface{
 	}
 	@Override
 	@Transactional
+	public ArrayList<Subject> findSubjects() {
+		return subjectRepo.findAll();
+	}
+	
+	@Override
+	@Transactional
 	public void addEnrollment(Enrollment enrollment) {
 		enrollmentRepo.save(enrollment);
 	}
+	
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollments() { 
+	return (ArrayList<Enrollment>) enrollmentRepo.findAll(); 
+	}
+	 
+	/*
+	 * @Override
+	 * 
+	 * @Transactional //@
+	 * Query("SELECT e FROM enrollment e WHERE e.course_id IN (SELECT c.id FROM course WHERE c.faculty_id = id)"
+	 * ) public ArrayList<Enrollment> findEnrollmentsByLecturerId(int id) { //Change
+	 * to the other QUery method?? ArrayList<Course> courses =
+	 * findCoursesbyLecturerId(id); ArrayList<Enrollment> lectEnrollments = new
+	 * ArrayList<Enrollment>(courses.size()); for (int i = 0; i < courses.size();
+	 * i++) { lectEnrollments.add(i, enrollmentRepo.findByCourse(courses.get(i))); }
+	 * return lectEnrollments; }
+	 */
 	
 }

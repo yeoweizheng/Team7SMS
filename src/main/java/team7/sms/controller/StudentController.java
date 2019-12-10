@@ -70,7 +70,7 @@ public class StudentController {
 		if(getStudentUserFromSession(session) == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		ArrayList<Course> courses = dbService.findCourse();
+		ArrayList<Course> courses = dbService.findCourses();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/availableCourses");
