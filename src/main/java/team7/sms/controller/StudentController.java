@@ -82,9 +82,11 @@ public class StudentController {
 		if(getStudentUserFromSession(session) == null) {
 			return "redirect:/Home/StudentLogin";
 		}
+		ArrayList<Enrollment> enrollments = dbService.findEnrollments();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/enrolledCourses");
+		model.addAttribute("enrollments", enrollments);
 		return "index";
 	}
 	

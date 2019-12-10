@@ -219,7 +219,7 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		ArrayList<Course> courses = dbService.findCourse();
+		ArrayList<Course> courses = dbService.findCourses();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/courses");

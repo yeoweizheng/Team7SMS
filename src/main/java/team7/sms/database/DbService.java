@@ -157,4 +157,7 @@ public class DbService implements DbServiceInterface{
 	public void deleteSubjectById(int id) {
 		subjectRepo.delete(subjectRepo.findOneById(id));
 	}
+	public ArrayList<Enrollment> findEnrollments(){
+		return enrollmentRepo.findAll();
+	}
 }
