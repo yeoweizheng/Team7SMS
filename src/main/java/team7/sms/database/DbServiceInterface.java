@@ -22,7 +22,7 @@ public interface DbServiceInterface {
 	
 	public Course findCourseById(int id);
 	public void deleteCourseById(int id);
-	public ArrayList<Course> findCourse();
+	public ArrayList<Course> findCourses();
 	public void addCourse(Course course);
 	public void addSubject(Subject subject);
 	public Subject findSubjectById(int id);
