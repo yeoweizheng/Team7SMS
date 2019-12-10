@@ -27,5 +27,6 @@ public interface DbServiceInterface {
 	public void addSubject(Subject subject);
 	public Subject findSubjectById(int id);
 	public void addEnrollment(Enrollment enrollment);
+	public ArrayList<Enrollment> findEnrollments();
 	
 }
