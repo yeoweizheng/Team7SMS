@@ -51,15 +51,15 @@ public class StudentController {
 	}
 
 	private StudentUser getStudentUserFromSession(HttpSession session) {
-		if(session.getAttribute("username") == null) return null;
-		StudentUser studentUser = dbService.findStudentUserByUsername(session.getAttribute("username").toString());
+		if(session.getAttribute("studentUser") == null) return null;
+		StudentUser studentUser = dbService.findStudentUserById(Integer.parseInt(session.getAttribute("studentUser").toString()));
 		return studentUser;
 	}
 
 	@GetMapping("/ExamGrades")
 	public String examGrades(HttpSession session, Model model) {
 		if(getStudentUserFromSession(session) == null) return "redirect:/Home/StudentLogin/";
-		ArrayList<Enrollment> enrollments = dbService.findEnrollment();
+		ArrayList<Enrollment> enrollments = dbService.findEnrollments();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/examGrades");

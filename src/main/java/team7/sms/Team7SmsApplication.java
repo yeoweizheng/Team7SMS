@@ -57,7 +57,7 @@ public class Team7SmsApplication {
 			dbService.addSubject(new Subject("C#", "C# object oriented programming"));
 			dbService.addCourse(new Course("02-Mar-19", "03-Mar-19",
 					dbService.findSubjectById(1), dbService.findFacultyUserById(1)));
-			dbService.addCourse(new Course("15-Apr-20", "06-Jun-2019",
+			dbService.addCourse(new Course("15-Apr-19", "06-Jun-19",
 					dbService.findSubjectById(2), dbService.findFacultyUserById(2)));
 			Enrollment enrollment = new Enrollment(dbService.findStudentUserById(1), 
 					dbService.findCourseById(1), "Pending", "Pending");

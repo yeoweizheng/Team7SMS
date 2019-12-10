@@ -107,13 +107,12 @@ public class HomeController {
 		AdminUser adminUser = dbService.findAdminUserByUsername(adminUserInput.getUsername());
 		if(adminUser != null) {
 			if(adminUser.getPassword().equals(adminUserInput.getPassword())) {
-				session.setAttribute("username", adminUser.getUsername());
+				session.setAttribute("adminUser", adminUser.getId());
 				return "redirect:/Admin/";
 			}
 		}
 		return "redirect:/Home/AdminLogin/";
 	}
-
 	
 	@GetMapping("/StudentLogin")
 	public String studentLogin(Model model, HttpSession session) {
@@ -124,7 +123,7 @@ public class HomeController {
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "home/studentLogin");
-		model.addAttribute("studentUser", new AdminUser());
+		model.addAttribute("studentUser", new StudentUser());
 		return "index";
 	}
 	
@@ -133,7 +132,7 @@ public class HomeController {
 		StudentUser studentUser = dbService.findStudentUserByUsername(studentUserInput.getUsername());
 		if(studentUser != null) {
 			if(studentUser.getPassword().equals(studentUserInput.getPassword())) {
-				session.setAttribute("username",studentUser.getUsername());
+				session.setAttribute("studentUser",studentUser.getId());
 				return "redirect:/Student/";
 			}
 		}
@@ -158,7 +157,7 @@ public class HomeController {
 		FacultyUser facultyUser = dbService.findFacultyUserByUsername(facultyUserInput.getUsername());
 		if(facultyUser != null) {
 			if(facultyUser.getPassword().equals(facultyUserInput.getPassword())) {
-				session.setAttribute("username",facultyUser.getUsername());
+				session.setAttribute("facultyUser",facultyUser.getId());
 				return "redirect:/Faculty/";
 			}
 		}

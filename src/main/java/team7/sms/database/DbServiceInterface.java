@@ -6,6 +6,7 @@ import team7.sms.model.*;
 
 public interface DbServiceInterface {
 	public AdminUser findAdminUserByUsername(String username);
+	public AdminUser findAdminUserById(int id);
 	public void addAdminUser(AdminUser adminUser);
 	
 	public StudentUser findStudentUserByUsername(String username);
@@ -33,7 +34,6 @@ public interface DbServiceInterface {
 	
 	public Enrollment findEnrollmentById(int id);
 	public void deleteEnrollmentById(int id);
-	public ArrayList<Enrollment> findEnrollment();
 	public void addEnrollment(Enrollment enrollment);
 	
 	

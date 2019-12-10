@@ -58,8 +58,8 @@ public class AdminController {
 	}
 	
 	private AdminUser getAdminUserFromSession(HttpSession session) {
-		if(session.getAttribute("username") == null) return null;
-		AdminUser adminUser = dbService.findAdminUserByUsername(session.getAttribute("username").toString());
+		if(session.getAttribute("adminUser") == null) return null;
+		AdminUser adminUser = dbService.findAdminUserById(Integer.parseInt(session.getAttribute("adminUser").toString()));
 		return adminUser;
 	}
 

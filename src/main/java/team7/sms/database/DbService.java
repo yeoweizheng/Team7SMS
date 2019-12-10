@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.type.NTextType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team7.sms.model.*;
@@ -46,6 +47,13 @@ public class DbService implements DbServiceInterface {
 	@Autowired
 	public void setEnrollmentRepo(EnrollmentRepository enrollmentRepo) {
 		this.enrollmentRepo = enrollmentRepo;
+	}
+
+	@Override
+	@Transactional
+	public AdminUser findAdminUserById(int id) {
+		AdminUser adminUser = adminRepo.findOneById(id);
+		return adminUser;
 	}
 
 	@Override
@@ -186,12 +194,6 @@ public class DbService implements DbServiceInterface {
 	@Transactional
 	public void deleteEnrollmentById(int id) {
 		enrollmentRepo.delete(enrollmentRepo.findOneById(id));
-	}
-
-	@Override
-	@Transactional
-	public ArrayList<Enrollment> findEnrollment() {
-		return (ArrayList<Enrollment>) enrollmentRepo.findAll();
 	}
 
 	@Override

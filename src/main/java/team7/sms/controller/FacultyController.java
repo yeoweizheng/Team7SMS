@@ -60,8 +60,8 @@ public class FacultyController {
 	}
 
 	private FacultyUser getFacultyUserFromSession(HttpSession session) {
-		if(session.getAttribute("username") == null) return null;
-		FacultyUser facultyUser = dbService.findFacultyUserByUsername(session.getAttribute("username").toString());
+		if(session.getAttribute("facultyUser") == null) return null;
+		FacultyUser facultyUser = dbService.findFacultyUserById(Integer.parseInt(session.getAttribute("facultyUser").toString()));
 		return facultyUser;
 	}
 
