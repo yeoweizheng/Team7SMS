@@ -1,6 +1,7 @@
 package team7.sms.database;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -147,15 +148,44 @@ public class DbService implements DbServiceInterface{
 	public ArrayList<Subject> findSubjects(){
 		return subjectRepo.findAll();
 	}
-	@Override
-	@Transactional
-	public void addEnrollment(Enrollment enrollment) {
-		enrollmentRepo.save(enrollment);
-	}
+	
 	@Override
 	@Transactional
 	public void deleteSubjectById(int id) {
 		subjectRepo.delete(subjectRepo.findOneById(id));
 	}
+	
+	
+	@Override
+	@Transactional
+	public Enrollment findEnrollmentById(int id) {
+		Enrollment enrollment = enrollmentRepo.findOneById(id);
+		return enrollment;
+	}
+	
+	@Override
+	@Transactional
+	public void deleteEnrollmentById(int id) {
+	enrollmentRepo.delete(enrollmentRepo.findOneById(id));
+	}
+	
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollment() {
+		return (ArrayList<Enrollment>) enrollmentRepo.findAll();
+	}
+	
+	
+	@Override
+	@Transactional
+	public void addEnrollment(Enrollment enrollment) {
+		enrollmentRepo.save(enrollment);
+		
+		
+		
+	}
+	
+	
+	
 	
 }

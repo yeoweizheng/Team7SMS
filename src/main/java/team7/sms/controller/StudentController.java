@@ -59,9 +59,11 @@ public class StudentController {
 	@GetMapping("/ExamGrades")
 	public String examGrades(HttpSession session, Model model) {
 		if(getStudentUserFromSession(session) == null) return "redirect:/Home/StudentLogin/";
+		ArrayList<Enrollment> enrollments = dbService.findEnrollment();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/examGrades");
+		model.addAttribute("enrollments", enrollments);
 		return "index";
 	}
 	

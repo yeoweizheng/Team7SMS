@@ -12,12 +12,16 @@ public class Enrollment {
 	private Course course;
 	private String status;
 	private String grade;
+	
 	public Enrollment() {}
-	public Enrollment(StudentUser studentUser, Course course, String status) {
+	
+	public Enrollment(StudentUser studentUser, Course course, String status, String grade) {
 		this.studentUser = studentUser;
 		this.course = course;
 		this.status = status;
+		this.grade = grade;
 	}
+	
 	public int getId() {
 		return id;
 	}
