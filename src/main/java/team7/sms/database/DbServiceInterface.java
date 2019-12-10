@@ -30,7 +30,6 @@ public interface DbServiceInterface {
 	public ArrayList<Subject> findSubjects();
 	public void deleteSubjectById(int id);
 	
-	
 	public Enrollment findEnrollmentById(int id);
 	public void deleteEnrollmentById(int id);
 	public ArrayList<Enrollment> findEnrollment();
