@@ -123,7 +123,7 @@ public class DbService implements DbServiceInterface{
 	}
 	@Override
 	@Transactional
-	public ArrayList<Course> findCourse() {
+	public ArrayList<Course> findCourses() {
 		return courseRepo.findAll();
 	}
 	@Override
