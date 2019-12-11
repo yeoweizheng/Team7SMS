@@ -58,8 +58,6 @@ public class Team7SmsApplication {
 					dbService.findSubjectById(2), dbService.findFacultyUserById(2)));
 			dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(1), 
 					dbService.findCourseById(1), "Pending", "Pending"));
-			dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(1), 
-					dbService.findCourseById(2), "Complete", "B+"));
 			dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(2), 
 					dbService.findCourseById(1), "Complete", "A"));
 		};

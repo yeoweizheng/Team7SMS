@@ -1,0 +1,46 @@
+<th:block th:fragment="courseDetails">
+	<h4>Course Details</h4>
+	<div class="row">
+		<h5 class="col-md-3">Subject: </h5>
+		<h5 class="col-md-9" th:text="${course.subject.name}"></h5>
+	</div>
+	<div class="row">
+		<h5 class="col-md-3">Description: </h5>
+		<h5 class="col-md-9" th:text="${course.subject.description}"></h5>
+	</div>
+	<div class="row">
+		<h5 class="col-md-3">Start Date: </h5>
+		<h5 class="col-md-9" th:text="${course.startDate}"></h5>
+	</div>
+	<div class="row">
+		<h5 class="col-md-3">End Date: </h5>
+		<h5 class="col-md-9" th:text="${course.endDate}"></h5>
+	</div>
+	<div class="row">
+		<h5 class="col-md-3">Lecturer: </h5>
+		<h5 class="col-md-9" th:text="${course.facultyUser.fullname}"></h5>
+	</div>
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<button th:if="${enrollment}" class="btn btn-secondary btn-block" disabled>Already enrolled</button>
+			<button th:unless="${enrollment}" class="btn btn-success btn-block" onclick="enroll()">Enroll</button>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+	<script th:inline="javascript">
+		function enroll(){
+			$.ajax({
+				url: "/api/enrollCourse",
+				method: "POST",
+				data: {
+					studentUserId: [[${studentUser.id}]],
+					courseId: [[${course.id}]]
+				},
+				success: function(){
+					goto('/Student/CourseDetails/[[${course.id}]]');
+				}
+			});
+		}
+	</script>
+</th:block>

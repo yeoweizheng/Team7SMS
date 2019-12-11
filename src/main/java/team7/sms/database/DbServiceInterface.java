@@ -38,6 +38,7 @@ public interface DbServiceInterface {
 	public void deleteEnrollmentById(int id);
 	public void addEnrollment(Enrollment enrollment);
 	public ArrayList<Enrollment> findEnrollmentsByCourse(Course course);
-	
+	public ArrayList<Enrollment> findEnrollmentsByStudentUser(StudentUser studentUser);
+	public Enrollment findEnrollmentByStudentUserAndCourse(StudentUser studentUser, Course course);
 	
 }

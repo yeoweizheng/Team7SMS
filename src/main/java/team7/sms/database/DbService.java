@@ -221,4 +221,15 @@ public class DbService implements DbServiceInterface {
 		return enrollmentRepo.findByCourse(course);
 	}
 	
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollmentsByStudentUser(StudentUser studentUser) {
+		return enrollmentRepo.findByStudentUser(studentUser);
+	}
+
+	@Override
+	@Transactional
+	public Enrollment findEnrollmentByStudentUserAndCourse(StudentUser studentUser, Course course) {
+		return enrollmentRepo.findOneByStudentUserAndCourse(studentUser, course);
+	}
 }
