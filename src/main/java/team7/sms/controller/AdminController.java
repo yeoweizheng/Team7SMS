@@ -68,9 +68,11 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStatus("Pending");
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/pendingApplications");
+		model.addAttribute("enrollments", enrollments);
 		return "index";
 	}
 

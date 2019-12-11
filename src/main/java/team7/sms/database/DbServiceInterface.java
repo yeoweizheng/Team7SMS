@@ -1,7 +1,6 @@
 package team7.sms.database;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import team7.sms.model.*;
 
@@ -40,5 +39,6 @@ public interface DbServiceInterface {
 	public ArrayList<Enrollment> findEnrollmentsByCourse(Course course);
 	public ArrayList<Enrollment> findEnrollmentsByStudentUser(StudentUser studentUser);
 	public Enrollment findEnrollmentByStudentUserAndCourse(StudentUser studentUser, Course course);
+	public ArrayList<Enrollment> findEnrollmentsByStatus(String status);
 	
 }

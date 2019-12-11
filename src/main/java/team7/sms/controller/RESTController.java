@@ -28,11 +28,42 @@ public class RESTController {
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
 	}
+	private StudentUser getStudentUserFromSession(HttpSession session) {
+		if(session.getAttribute("studentUser") == null) return null;
+		StudentUser studentUser = dbService.findStudentUserById(Integer.parseInt(session.getAttribute("studentUser").toString()));
+		return studentUser;
+	}
+	private AdminUser getAdminUserFromSession(HttpSession session) {
+		if(session.getAttribute("adminUser") == null) return null;
+		AdminUser adminUser = dbService.findAdminUserById(Integer.parseInt(session.getAttribute("adminUser").toString()));
+		return adminUser;
+	}
+	private FacultyUser getFacultyUserFromSession(HttpSession session) {
+		if(session.getAttribute("facultyUser") == null) return null;
+		FacultyUser facultyUser = dbService.findFacultyUserById(Integer.parseInt(session.getAttribute("facultyUser").toString()));
+		return facultyUser;
+	}
 	@PostMapping("/enrollCourse")
-	public ResponseEntity enrollCourse(@RequestParam int studentUserId, @RequestParam int courseId) {
-		log.info("" + studentUserId);
+	public ResponseEntity enrollCourse(HttpSession session, @RequestParam int studentUserId, @RequestParam int courseId) {
+		if(getStudentUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
 		dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(studentUserId),
 				dbService.findCourseById(courseId), "Pending", "Pending"));
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	@PostMapping("/approveEnrollment")
+	public ResponseEntity approveEnrollment(HttpSession session, @RequestParam int enrollmentId) {
+		if(getAdminUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
+		Enrollment enrollment = dbService.findEnrollmentById(enrollmentId);
+		enrollment.setStatus("Approved");
+		dbService.addEnrollment(enrollment);
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	@PostMapping("/rejectEnrollment")
+	public ResponseEntity rejectEnrollment(HttpSession session, @RequestParam int enrollmentId) {
+		if(getAdminUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
+		Enrollment enrollment = dbService.findEnrollmentById(enrollmentId);
+		enrollment.setStatus("Rejected");
+		dbService.addEnrollment(enrollment);
 		return new ResponseEntity(HttpStatus.OK);
 	}
 }

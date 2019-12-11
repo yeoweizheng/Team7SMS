@@ -232,4 +232,10 @@ public class DbService implements DbServiceInterface {
 	public Enrollment findEnrollmentByStudentUserAndCourse(StudentUser studentUser, Course course) {
 		return enrollmentRepo.findOneByStudentUserAndCourse(studentUser, course);
 	}
+	
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollmentsByStatus(String status){
+		return enrollmentRepo.findByStatus(status);
+	}
 }
