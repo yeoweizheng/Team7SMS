@@ -7,7 +7,6 @@
 			<th>Lecturer</th>
 			<th>Start date</th>
 			<th>End Date</th>
-			<th>Status</th>
 		</thead>
 		<tbody>
 			<tr th:each="course: ${courses}" th:attr="onclick=|goto('/Student/CourseDetails/${course.id}')|" style="cursor: pointer;">
@@ -16,8 +15,6 @@
 				<td th:text="${course.facultyUser.fullname}"></td>
 				<td th:text="${course.startDate}"></td>
 				<td th:text="${course.endDate}"></td>
-				<td th:if="${enrollmentStatus.get(course.id)}" th:text="${enrollmentStatus.get(course.id)}"></td>
-				<td th:unless="${enrollmentStatus.get(course.id)}">Not Enrolled</td>
 			</tr>
 		</tbody>
 	</table>

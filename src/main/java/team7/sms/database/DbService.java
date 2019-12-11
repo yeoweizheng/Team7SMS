@@ -165,6 +165,11 @@ public class DbService implements DbServiceInterface {
 	public ArrayList<Course> findCoursesByFacultyUser(FacultyUser facultyUser) {
 		return courseRepo.findByFacultyUser(facultyUser);
 	}
+	@Override
+	@Transactional
+	public ArrayList<Course> findCoursesByStatus(String status) {
+		return courseRepo.findByStatus(status);
+	}
 	
 	@Override
 	@Transactional

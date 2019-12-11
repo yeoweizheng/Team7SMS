@@ -78,17 +78,21 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		ArrayList<Course> courses = dbService.findCourses();
+		ArrayList<Course> courses = dbService.findCoursesByStatus("Created");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
-		HashMap<Integer, String> enrollmentStatus = new HashMap<Integer, String>();
-		for(Enrollment enrollment : enrollments) {
-			enrollmentStatus.put(enrollment.getCourse().getId(), enrollment.getStatus());
+		ArrayList<Course> filteredCourses = new ArrayList<Course>();
+		// Remove courses already enrolled by student
+		for(Course course : courses) {
+			boolean enrolled = false;
+			for(Enrollment enrollment : enrollments) {
+				if(enrollment.getCourse().equals(course)) enrolled = true;
+			}
+			if(!enrolled) filteredCourses.add(course);
 		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/availableCourses");
-		model.addAttribute("courses", courses);
-		model.addAttribute("enrollmentStatus", enrollmentStatus);
+		model.addAttribute("courses", filteredCourses);
 		return "index";
 	}
 

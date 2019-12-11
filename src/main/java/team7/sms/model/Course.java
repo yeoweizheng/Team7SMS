@@ -18,6 +18,7 @@ public class Course {
 	private FacultyUser facultyUser;
 	@OneToMany (mappedBy = "course", fetch = FetchType.EAGER)
 	private List<Enrollment> enrollments;
+	private String status;
 	public Course() {
 		this.enrollments = new ArrayList<Enrollment>();
 	}
@@ -27,6 +28,7 @@ public class Course {
 		this.subject = subject;
 		this.facultyUser = facultyUser;
 		this.enrollments = new ArrayList<Enrollment>();
+		this.status = "Created";
 	}
 	public int getId() {
 		return id;
@@ -57,5 +59,11 @@ public class Course {
 	}
 	public void setFacultyUser(FacultyUser facultyUser) {
 		this.facultyUser = facultyUser;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

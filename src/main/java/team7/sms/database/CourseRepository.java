@@ -8,4 +8,5 @@ public interface CourseRepository extends JpaRepository<Course, Integer>{
 	public Course findOneById (int id);
 	public ArrayList<Course> findAll();
 	public ArrayList<Course> findByFacultyUser(FacultyUser facultyUser);
+	public ArrayList<Course> findByStatus(String status);
 }

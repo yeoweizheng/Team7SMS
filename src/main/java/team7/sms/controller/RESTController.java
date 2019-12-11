@@ -1,5 +1,7 @@
 package team7.sms.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -64,6 +66,33 @@ public class RESTController {
 		Enrollment enrollment = dbService.findEnrollmentById(enrollmentId);
 		enrollment.setStatus("Rejected");
 		dbService.addEnrollment(enrollment);
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	@PostMapping("/startCourse")
+	public ResponseEntity startCourse(HttpSession session, @RequestParam int courseId) {
+		if(getAdminUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
+		Course course = dbService.findCourseById(courseId);
+		course.setStatus("Started");
+		dbService.addCourse(course);
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(course);
+		for(Enrollment enrollment : enrollments) {
+			if(enrollment.getStatus().equals("Pending")) enrollment.setStatus("Rejected");
+			if(enrollment.getStatus().equals("Approved")) enrollment.setStatus("Started");
+			dbService.addEnrollment(enrollment);
+		}
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	@PostMapping("/finishCourse")
+	public ResponseEntity finishCourse(HttpSession session, @RequestParam int courseId) {
+		if(getAdminUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
+		Course course = dbService.findCourseById(courseId);
+		course.setStatus("Finished");
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(course);
+		dbService.addCourse(course);
+		for(Enrollment enrollment : enrollments) {
+			if(enrollment.getStatus().equals("Started")) enrollment.setStatus("Finished");
+			dbService.addEnrollment(enrollment);
+		}
 		return new ResponseEntity(HttpStatus.OK);
 	}
 }

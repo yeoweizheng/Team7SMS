@@ -6,20 +6,67 @@
 	</div>
 	<table class="table table-hover">
 		<thead>
+			<th></th>
 			<th>Id</th>
 			<th>Subject</th>
 			<th>Lecturer</th>
 			<th>Start Date</th>
 			<th>End Date</th>
+			<th>Status</th>
+			<th>Action</th>
 		</thead>
-		<tbody>
-			<tr th:each="course: ${courses}" th:attr="onclick=|goto('/Admin/EditCourse/${course.id}')|" style="cursor: pointer;">
+		<tbody> <!--th:attr="onclick=|goto('/Admin/EditCourse/${course.id}')|" -->
+			<tr th:each="course: ${courses}">
+				<td>
+					<a th:href="|/Admin/EditCourse/${course.id}|" style="color: black">
+						<i class="fas fa-edit"></i>
+					</a>
+				</td>
 				<td th:text="${course.id}"></td>
 				<td th:text="${course.subject.name}"></td>
 				<td th:text="${course.facultyUser.fullname}"></td>
 				<td th:text="${course.startDate}"></td>
 				<td th:text="${course.endDate}"></td>
+				<td th:text="${course.status}"></td>
+				<td th:if="${course.status == 'Created'}">
+					<button class="btn btn-outline-success btn-sm btn-block" th:onclick="|start(${course.id})|">Start</button>
+				</td>
+				<td th:if="${course.status == 'Started'}">
+					<button class="btn btn-outline-danger btn-sm btn-block" th:onclick="|finish(${course.id})|">Finish</button>
+				</td>
+				<td th:if="${course.status == 'Finished'}">
+					<button class="btn btn-outline-secondary btn-sm btn-block" disabled>Finished</button>
+				</td>
+				<td th:if="${course.status == 'Graded'}">
+					<button class="btn btn-outline-secondary btn-sm btn-block" disabled>Graded</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>
+	<script>
+		function start(id){
+			$.ajax({
+				url: "/api/startCourse",
+				method: "POST",
+				data: {
+					courseId: id
+				},
+				success: function(){
+					goto('/Admin/Courses');
+				}
+			});
+		}
+		function finish(id){
+			$.ajax({
+				url: "/api/finishCourse",
+				method: "POST",
+				data: {
+					courseId: id
+				},
+				success: function(){
+					goto('/Admin/Courses');
+				}
+			});
+		}
+	</script>
 </th:block>
