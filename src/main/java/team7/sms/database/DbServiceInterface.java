@@ -1,6 +1,7 @@
 package team7.sms.database;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import team7.sms.model.*;
 
@@ -25,6 +26,7 @@ public interface DbServiceInterface {
 	public void deleteCourseById(int id);
 	public ArrayList<Course> findCourses();
 	public void addCourse(Course course);
+	public ArrayList<Course> findCoursesByFacultyUser(FacultyUser facultyUser);
 	
 	public void addSubject(Subject subject);
 	public Subject findSubjectById(int id);
@@ -35,6 +37,7 @@ public interface DbServiceInterface {
 	public Enrollment findEnrollmentById(int id);
 	public void deleteEnrollmentById(int id);
 	public void addEnrollment(Enrollment enrollment);
+	public ArrayList<Enrollment> findEnrollmentsByCourse(Course course);
 	
 	
 }

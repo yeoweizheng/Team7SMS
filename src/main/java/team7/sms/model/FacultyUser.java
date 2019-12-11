@@ -1,7 +1,5 @@
 package team7.sms.model;
 
-import java.util.Set;
-
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +15,6 @@ public class FacultyUser {
 	private String mobileNo;
 	@OneToOne(mappedBy = "facultyUser", fetch = FetchType.EAGER)
 	private Course course;
-	
 	public FacultyUser() {}
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {

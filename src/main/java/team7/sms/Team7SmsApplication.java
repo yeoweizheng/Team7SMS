@@ -1,5 +1,7 @@
 package team7.sms;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 import team7.sms.controller.*;
 
-import team7.sms.controller.HomeController;
-import team7.sms.database.AdminUserRepository;
-import team7.sms.database.CourseRepository;
-import team7.sms.database.DbService;
-import team7.sms.database.StudentUserRepository;
-import team7.sms.database.FacultyUserRepository;
+
 
 import team7.sms.model.*;
 import team7.sms.database.*;
@@ -59,15 +56,19 @@ public class Team7SmsApplication {
 					dbService.findSubjectById(1), dbService.findFacultyUserById(1)));
 			dbService.addCourse(new Course("15-Apr-19", "06-Jun-19",
 					dbService.findSubjectById(2), dbService.findFacultyUserById(2)));
-			Enrollment enrollment = new Enrollment(dbService.findStudentUserById(1), 
-					dbService.findCourseById(1), "Pending", "Pending");
-			dbService.addEnrollment(enrollment);
-			Enrollment enrollment1 = new Enrollment(dbService.findStudentUserById(1), 
-					dbService.findCourseById(2), "Complete", "B+");
-			dbService.addEnrollment(enrollment1);
-			Enrollment enrollment3 = new Enrollment(dbService.findStudentUserById(2), 
-					dbService.findCourseById(1), "Complete", "A");
-			dbService.addEnrollment(enrollment3);
+			dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(1), 
+					dbService.findCourseById(1), "Pending", "Pending"));
+			dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(1), 
+					dbService.findCourseById(2), "Complete", "B+"));
+			dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(2), 
+					dbService.findCourseById(1), "Complete", "A"));
 		};
 	}
+	
 }
+
+			
+			
+			
+			
+		

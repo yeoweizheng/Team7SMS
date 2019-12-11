@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team7.sms.Team7SmsApplication;
-import team7.sms.database.FacultyUserRepository;
-import team7.sms.database.DbService;
+import team7.sms.database.*;
 import team7.sms.model.*;
 
 @Controller
@@ -37,9 +36,8 @@ public class FacultyController {
 
 	public static void init() {
 		sidebar = new Sidebar();
-		sidebar.addItem("Master List", "/Faculty/MasterList/");
+		sidebar.addItem("Schedule", "/Faculty/Schedule/");
 		sidebar.addItem("List of Courses", "/Faculty/CourseList/");
-		sidebar.addItem("List of Students", "/Faculty/StudentList/");
 		sidebar.addItem("Score Cards", "/Faculty/ScoreCards/");
 
 		navbar = new Navbar();
@@ -49,7 +47,7 @@ public class FacultyController {
 	
 	@GetMapping("/")
 	public String index() { 
-		return "redirect:/Faculty/MasterList/"; 
+		return "redirect:/Faculty/Schedule/"; 
 	}
 	 
 	
@@ -65,43 +63,51 @@ public class FacultyController {
 		return facultyUser;
 	}
 
-	@GetMapping("/MasterList")
+	@GetMapping("/Schedule")
 	public String masterList(HttpSession session, Model model) {
-		if(getFacultyUserFromSession(session) == null)
-			return "redirect:/Home/FacultyLogin/";
+		if(getFacultyUserFromSession(session) == null) return "redirect:/Home/FacultyLogin/";
+		ArrayList<Enrollment> enrollments = dbService.findEnrollments();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "faculty/masterList");
+		model.addAttribute("content", "faculty/schedule");
+		model.addAttribute("enrollment", enrollments);
 		return "index"; 
 	}
 	
 	@GetMapping("/CourseList")
 	public String courseList(HttpSession session, Model model) {
-		if(getFacultyUserFromSession(session) == null)
-			return "redirect:/Home/FacultyLogin/";
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) return "redirect:/Home/FacultyLogin/";
+		ArrayList<Course> courses = dbService.findCoursesByFacultyUser(facultyUser);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/courseList");
+		model.addAttribute("courses", courses);
 		return "index"; 
 	}
-	
-	@GetMapping("/StudentList")
-	public String studentList(HttpSession session, Model model) {
-		if(getFacultyUserFromSession(session) == null)
-			return "redirect:/Home/FacultyLogin/";
+	@GetMapping("/EnrollmentList/{id}")
+	public String enrollmentList(HttpSession session, Model model, @PathVariable int id) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) return "redirect:/Home/FacultyLogin/";
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(dbService.findCourseById(id));
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "faculty/studentList");
-		return "index"; 
+		model.addAttribute("content", "faculty/enrollmentList");
+		model.addAttribute("enrollments", enrollments);
+		return "index";
 	}
 	
 	@GetMapping("/ScoreCards")
 	public String scoreCards(HttpSession session, Model model) {
-		if(getFacultyUserFromSession(session) == null)
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null)
 			return "redirect:/Home/FacultyLogin/";
+		int id = facultyUser.getId();
+		//ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByLecturerId(id);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/scoreCards");
+		//model.addAttribute("enrollment", enrollments);
 		return "index"; 
 	}
 	

@@ -96,5 +96,4 @@ public class StudentUser {
 			return false;
 		return true;
 	}
-
 }

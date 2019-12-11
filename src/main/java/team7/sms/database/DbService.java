@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 
 import org.hibernate.type.NTextType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import team7.sms.model.*;
 
@@ -88,7 +90,7 @@ public class DbService implements DbServiceInterface {
 	public ArrayList<StudentUser> findStudentUsers() {
 		return studentRepo.findAll();
 	}
-
+	
 	@Override
 	@Transactional
 	public void addStudentUser(StudentUser studentUser) {
@@ -156,12 +158,17 @@ public class DbService implements DbServiceInterface {
 	@Transactional
 	public void addCourse(Course course) {
 		courseRepo.save(course);
-
 	}
 
 	@Override
 	@Transactional
-	public void addSubject(Subject subject) {
+	public ArrayList<Course> findCoursesByFacultyUser(FacultyUser facultyUser) {
+		return courseRepo.findByFacultyUser(facultyUser);
+	}
+	
+	@Override
+	@Transactional
+	public void addSubject(Subject subject){
 		subjectRepo.save(subject);
 	}
 
@@ -169,12 +176,6 @@ public class DbService implements DbServiceInterface {
 	@Transactional
 	public Subject findSubjectById(int id) {
 		return subjectRepo.findOneById(id);
-	}
-
-	@Override
-	@Transactional
-	public ArrayList<Subject> findSubjects() {
-		return subjectRepo.findAll();
 	}
 
 	@Override
@@ -198,10 +199,26 @@ public class DbService implements DbServiceInterface {
 
 	@Override
 	@Transactional
+	public ArrayList<Subject> findSubjects() {
+		return subjectRepo.findAll();
+	}
+	
+	@Override
+	@Transactional
 	public void addEnrollment(Enrollment enrollment) {
 		enrollmentRepo.save(enrollment);
 	}
-	public ArrayList<Enrollment> findEnrollments(){
-		return enrollmentRepo.findAll();
+	
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollments() { 
+		return enrollmentRepo.findAll(); 
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollmentsByCourse(Course course) {
+		return enrollmentRepo.findByCourse(course);
+	}
+	
 }
