@@ -70,7 +70,7 @@ public class FacultyController {
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/schedule");
-		model.addAttribute("enrollment", enrollments);
+		model.addAttribute("enrollments", enrollments);
 		return "index"; 
 	}
 	
@@ -103,11 +103,11 @@ public class FacultyController {
 		if(facultyUser == null)
 			return "redirect:/Home/FacultyLogin/";
 		int id = facultyUser.getId();
-		//ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByLecturerId(id);
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(dbService.findCourseById(id));
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/scoreCards");
-		//model.addAttribute("enrollment", enrollments);
+		model.addAttribute("enrollments", enrollments);
 		return "index"; 
 	}
 	
