@@ -25,7 +25,7 @@ public interface DbServiceInterface {
 	public void deleteCourseById(int id);
 	public ArrayList<Course> findCourses();
 	public void addCourse(Course course);
-	public ArrayList<Course> findCoursesbyLecturerId(int id);
+	public ArrayList<Course> findCoursesByFacultyUser(FacultyUser facultyUser);
 	
 	public void addSubject(Subject subject);
 	public Subject findSubjectById(int id);
@@ -33,7 +33,6 @@ public interface DbServiceInterface {
 	
 	public void addEnrollment(Enrollment enrollment);
 	public ArrayList<Enrollment> findEnrollments();
-	public ArrayList<Enrollment> findEnrollmentByCourse(Course course);
-	public ArrayList<Enrollment> findEnrollmentsByCourseId(int id);
+	public ArrayList<Enrollment> findEnrollmentsByCourse(Course course);
 	
 }

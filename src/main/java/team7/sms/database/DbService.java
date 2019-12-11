@@ -134,11 +134,9 @@ public class DbService implements DbServiceInterface{
 	}
 	@Override
 	@Transactional
-	public ArrayList<Course> findCoursesbyLecturerId(int id) {
-		FacultyUser lecturer = facultyRepo.findOneById(id);
-		return courseRepo.findByFacultyUser(lecturer);
+	public ArrayList<Course> findCoursesByFacultyUser(FacultyUser facultyUser) {
+		return courseRepo.findByFacultyUser(facultyUser);
 	}
-	
 	
 	@Override
 	@Transactional
@@ -165,46 +163,13 @@ public class DbService implements DbServiceInterface{
 	@Override
 	@Transactional
 	public ArrayList<Enrollment> findEnrollments() { 
-	return (ArrayList<Enrollment>) enrollmentRepo.findAll(); 
+		return enrollmentRepo.findAll(); 
 	}
-	//@Override
-	//public ArrayList<Enrollment> findByLecturerId(int id) {
-		// TODO Auto-generated method stub
-	//	return null;
-	//}
-	 
-	/*
-	 * @Override
-	 * 
-	 * @Transactional //@
-	 * Query("SELECT e FROM enrollment e WHERE e.course_id IN (SELECT c.id FROM course WHERE c.faculty_id = id)"
-	 * ) public ArrayList<Enrollment> findEnrollmentsByLecturerId(int id) { //Change
-	 * to the other QUery method?? ArrayList<Course> courses =
-	 * findCoursesbyLecturerId(id); ArrayList<Enrollment> lectEnrollments = new
-	 * ArrayList<Enrollment>(courses.size()); for (int i = 0; i < courses.size();
-	 * i++) { lectEnrollments.add(i, enrollmentRepo.findByCourse(courses.get(i))); }
-	 * return lectEnrollments; }
-	 */
 
 	@Override
 	@Transactional
-	public ArrayList<Enrollment> findEnrollmentByCourse(Course course) {
-		ArrayList<Enrollment> enrollments = enrollmentRepo.findEnrollmentByCourse(course);
-		return enrollments;
-	}
-
-	
-	@Override
-	@Transactional
-	public ArrayList<Enrollment> findEnrollmentsByCourseId(int id) {
-		ArrayList<Course> courses = findCoursesbyLecturerId(id);
-		ArrayList<Integer> courseIds = new ArrayList<Integer>(courses.size());
-		for (Course course : courses) {
-			courseIds.add(course.getId());
-		}
-		ArrayList<Enrollment> enrollments = enrollmentRepo.findEnrollmentsByCourseIdIn(courseIds);
-
-		return enrollments;
+	public ArrayList<Enrollment> findEnrollmentsByCourse(Course course) {
+		return enrollmentRepo.findByCourse(course);
 	}
 	
 }

@@ -1,7 +1,5 @@
 package team7.sms.model;
 
-import java.util.Set;
-
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +15,6 @@ public class FacultyUser {
 	private String mobileNo;
 	@OneToOne(mappedBy = "facultyUser", fetch = FetchType.EAGER)
 	private Course course;
-	
 	public FacultyUser() {}
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
@@ -31,9 +28,6 @@ public class FacultyUser {
 	public int getId() {
 		return id;
 	}
-
-	
-
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -99,10 +93,4 @@ public class FacultyUser {
 			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "FacultyUser [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
-				+ ", gender=" + gender + ", address=" + address + ", mobileNo=" + mobileNo + ", course=" + course + "]";
-	}
-	
 }

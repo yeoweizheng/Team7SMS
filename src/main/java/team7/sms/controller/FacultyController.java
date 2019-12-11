@@ -77,21 +77,14 @@ public class FacultyController {
 	
 	@GetMapping("/CourseList")
 	public String courseList(HttpSession session, Model model) {
-		if(getFacultyUserFromSession(session) == null)
-			return "redirect:/Home/FacultyLogin/";
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
-		int id = facultyUser.getId();
-		ArrayList<Course> courses = dbService.findCoursesbyLecturerId(id);
-		ArrayList<Subject> subjects = dbService.findSubjects();
-		ArrayList<Enrollment> enrollments = dbService.findEnrollments();
-		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
+		if(facultyUser == null)
+			return "redirect:/Home/FacultyLogin/";
+		ArrayList<Course> courses = dbService.findCoursesByFacultyUser(facultyUser);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/courseList");
-		model.addAttribute("course", courses);
-		model.addAttribute("enrollment", enrollments);
-		model.addAttribute("subject", subjects);
-		model.addAttribute("facultyUsers", facultyUsers);
+		model.addAttribute("courses", courses);
 		return "index"; 
 	}
 	

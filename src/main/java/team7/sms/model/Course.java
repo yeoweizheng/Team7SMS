@@ -59,10 +59,4 @@ public class Course {
 	public void setFacultyUser(FacultyUser facultyUser) {
 		this.facultyUser = facultyUser;
 	}
-	@Override
-	public String toString() {
-		return "Course [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", subject=" + subject.getName()
-				+ ", facultyUser=" + facultyUser.getFullname() + ", enrollments_count=" + enrollments.size() + ", enrollments_latest=" + enrollments.get(enrollments.size()-1).getStudentUser().getFullname() + "]";
-	}
-	
 }
