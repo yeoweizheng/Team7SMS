@@ -68,4 +68,10 @@ public class Enrollment {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Enrollment [id=" + id + ", studentUser=" + studentUser.getFullname() + ", course_name=" + course.getSubject().getName() + "course_id" + course.getId() + ", status=" + status
+				+ ", grade=" + grade + "]";
+	}
+	
 }

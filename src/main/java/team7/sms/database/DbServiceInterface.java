@@ -33,6 +33,7 @@ public interface DbServiceInterface {
 	
 	public void addEnrollment(Enrollment enrollment);
 	public ArrayList<Enrollment> findEnrollments();
-	//public ArrayList<Enrollment> findEnrollmentsByLecturerId(int id);
+	public ArrayList<Enrollment> findEnrollmentByCourse(Course course);
+	public ArrayList<Enrollment> findEnrollmentsByCourseId(int id);
 	
 }

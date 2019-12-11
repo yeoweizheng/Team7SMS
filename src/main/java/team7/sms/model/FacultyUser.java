@@ -99,4 +99,10 @@ public class FacultyUser {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "FacultyUser [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
+				+ ", gender=" + gender + ", address=" + address + ", mobileNo=" + mobileNo + ", course=" + course + "]";
+	}
+	
 }

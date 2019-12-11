@@ -136,7 +136,7 @@ public class DbService implements DbServiceInterface{
 	@Transactional
 	public ArrayList<Course> findCoursesbyLecturerId(int id) {
 		FacultyUser lecturer = facultyRepo.findOneById(id);
-		return courseRepo.findAllByFacultyUser(lecturer);
+		return courseRepo.findByFacultyUser(lecturer);
 	}
 	
 	
@@ -167,6 +167,11 @@ public class DbService implements DbServiceInterface{
 	public ArrayList<Enrollment> findEnrollments() { 
 	return (ArrayList<Enrollment>) enrollmentRepo.findAll(); 
 	}
+	//@Override
+	//public ArrayList<Enrollment> findByLecturerId(int id) {
+		// TODO Auto-generated method stub
+	//	return null;
+	//}
 	 
 	/*
 	 * @Override
@@ -180,5 +185,26 @@ public class DbService implements DbServiceInterface{
 	 * i++) { lectEnrollments.add(i, enrollmentRepo.findByCourse(courses.get(i))); }
 	 * return lectEnrollments; }
 	 */
+
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollmentByCourse(Course course) {
+		ArrayList<Enrollment> enrollments = enrollmentRepo.findEnrollmentByCourse(course);
+		return enrollments;
+	}
+
+	
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollmentsByCourseId(int id) {
+		ArrayList<Course> courses = findCoursesbyLecturerId(id);
+		ArrayList<Integer> courseIds = new ArrayList<Integer>(courses.size());
+		for (Course course : courses) {
+			courseIds.add(course.getId());
+		}
+		ArrayList<Enrollment> enrollments = enrollmentRepo.findEnrollmentsByCourseIdIn(courseIds);
+
+		return enrollments;
+	}
 	
 }

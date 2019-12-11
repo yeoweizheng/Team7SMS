@@ -84,12 +84,14 @@ public class FacultyController {
 		ArrayList<Course> courses = dbService.findCoursesbyLecturerId(id);
 		ArrayList<Subject> subjects = dbService.findSubjects();
 		ArrayList<Enrollment> enrollments = dbService.findEnrollments();
+		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/courseList");
 		model.addAttribute("course", courses);
 		model.addAttribute("enrollment", enrollments);
 		model.addAttribute("subject", subjects);
+		model.addAttribute("facultyUsers", facultyUsers);
 		return "index"; 
 	}
 	

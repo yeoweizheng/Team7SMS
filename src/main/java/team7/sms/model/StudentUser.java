@@ -96,5 +96,12 @@ public class StudentUser {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "StudentUser [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
+				+ ", gender=" + gender + ", address=" + address + ", mobileNo=" + mobileNo + ", enrollments="
+				+ enrollments + "]";
+	}
+	
 
 }
