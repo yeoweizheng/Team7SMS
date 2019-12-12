@@ -1,6 +1,8 @@
 package team7.sms.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
 
@@ -89,10 +91,13 @@ public class FacultyController {
 	public String enrollmentList(HttpSession session, Model model, @PathVariable int id) {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) return "redirect:/Home/FacultyLogin/";
-		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(dbService.findCourseById(id));
+		Course course = dbService.findCourseById(id);
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Pending", "Approved", "Started", "Finished", "Graded"));
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourseAndStatusIn(course, statuses);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/enrollmentList");
+		model.addAttribute("course", course);
 		model.addAttribute("enrollments", enrollments);
 		return "index";
 	}
@@ -102,13 +107,27 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null)
 			return "redirect:/Home/FacultyLogin/";
-		int id = facultyUser.getId();
-		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(dbService.findCourseById(id));
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Finished", "Graded"));
+		ArrayList<Course> courses = dbService.findCoursesByFacultyUserAndStatusIn(facultyUser, statuses);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/scoreCards");
-		model.addAttribute("enrollments", enrollments);
+		model.addAttribute("courses", courses);
 		return "index"; 
 	}
 	
+	@GetMapping("/ScoreForm/{id}")
+	public String scoreForm(HttpSession session, Model model, @PathVariable int id) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) return "redirect:/Home/FacultyLogin/";
+		Course course = dbService.findCourseById(id);
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Finished", "Graded"));
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourseAndStatusIn(course, statuses);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/scoreForm");
+		model.addAttribute("course", course);
+		model.addAttribute("enrollments", enrollments);
+		return "index";
+	}
 }

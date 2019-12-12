@@ -1,25 +1,26 @@
-<th:block th:fragment="enrollmentList/{id}">
-	<h4>Enrollment List</h4>
+<th:block th:fragment="enrollmentList">
+	<h4 th:text="|Enrollment List (${course.subject.name}: ${course.startDate} to ${course.endDate})|"></h4>
 	<table class="table table-hover">
 		<thead>
 			<th>Id</th>
-			<th>Subject</th>
-			<th>Start Date</th>
-			<th>End Date</th>
 			<th>Student</th>
 			<th>Status</th>
 			<th>Grade</th>
 		</thead>
 		<tbody>
-			<tr th:each="enrollment: ${enrollments}" th:onclick="|goto('/Faculty/EnrollmentList/${enrollment.id}');|" style="cursor: pointer;">
+			<tr th:each="enrollment: ${enrollments}">
 				<td th:text="*{enrollment.id}">courseId</td>
-				<td th:text="*{enrollment.course.subject.name}">subjectName</td>
-				<td th:text="*{enrollment.course.startDate}">startDate</td>
-				<td th:text="*{enrollment.course.endDate}">endDate</td>
 				<td th:text="*{enrollment.studentUser.fullname}">Student</td>
 				<td th:text="*{enrollment.status}">Status</td>
 				<td th:text="*{enrollment.grade}">Grade</td>
 			</tr>
 		</tbody>
 	</table>
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<a class="btn btn-secondary btn-block" href="/Faculty/CourseList">Back</a>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
 </th:block>

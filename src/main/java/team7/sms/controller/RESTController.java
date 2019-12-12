@@ -1,9 +1,14 @@
 package team7.sms.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.DbService;
@@ -49,7 +57,7 @@ public class RESTController {
 	public ResponseEntity enrollCourse(HttpSession session, @RequestParam int studentUserId, @RequestParam int courseId) {
 		if(getStudentUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
 		dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(studentUserId),
-				dbService.findCourseById(courseId), "Pending", "Pending"));
+				dbService.findCourseById(courseId)));
 		return new ResponseEntity(HttpStatus.OK);
 	}
 	@PostMapping("/approveEnrollment")
@@ -94,5 +102,39 @@ public class RESTController {
 			dbService.addEnrollment(enrollment);
 		}
 		return new ResponseEntity(HttpStatus.OK);
+	}
+	@PostMapping("/submitScores")
+	public ResponseEntity submitScores(HttpSession session, @RequestParam String scoreFormsJSON, @RequestParam int courseId) {
+		if(getFacultyUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			ScoreForm[] scoreForms = mapper.readValue(scoreFormsJSON, ScoreForm[].class);
+			for(ScoreForm scoreForm : scoreForms) {
+				Enrollment enrollment = dbService.findEnrollmentById(scoreForm.getId());
+				enrollment.setScore(scoreForm.getScore());
+				enrollment.setGrade(computeGrade(scoreForm.getScore()));
+				enrollment.setStatus("Graded");
+				dbService.addEnrollment(enrollment);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Course course = dbService.findCourseById(courseId);
+		course.setStatus("Graded");
+		dbService.addCourse(course);
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	private String computeGrade(int score) {
+		if(score >= 90) return "A+";
+		if(score >= 85) return "A";
+		if(score >= 80) return "A-";
+		if(score >= 70) return "B+";
+		if(score >= 60) return "B";
+		if(score >= 50) return "B-";
+		if(score >= 40) return "C+";
+		if(score >= 30) return "C";
+		if(score >= 20) return "D+";
+		if(score >= 10) return "D";
+		return "F";
 	}
 }

@@ -1,7 +1,9 @@
 package team7.sms.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -64,7 +66,8 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Graded"));
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUserAndStatusIn(studentUser, statuses);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/examGrades");

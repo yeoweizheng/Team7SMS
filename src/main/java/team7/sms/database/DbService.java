@@ -1,6 +1,7 @@
 package team7.sms.database;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -170,6 +171,11 @@ public class DbService implements DbServiceInterface {
 	public ArrayList<Course> findCoursesByStatus(String status) {
 		return courseRepo.findByStatus(status);
 	}
+	@Override
+	@Transactional
+	public ArrayList<Course> findCoursesByFacultyUserAndStatusIn(FacultyUser facultyUser, Collection<String> statuses) {
+		return courseRepo.findByFacultyUserAndStatusIn(facultyUser, statuses);
+	}
 	
 	@Override
 	@Transactional
@@ -242,5 +248,17 @@ public class DbService implements DbServiceInterface {
 	@Transactional
 	public ArrayList<Enrollment> findEnrollmentsByStatus(String status){
 		return enrollmentRepo.findByStatus(status);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollmentsByCourseAndStatusIn(Course course, Collection<String> statuses){
+		return enrollmentRepo.findByCourseAndStatusIn(course, statuses);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Enrollment> findEnrollmentsByStudentUserAndStatusIn(StudentUser studentUser, Collection<String> statuses){
+		return enrollmentRepo.findByStudentUserAndStatusIn(studentUser, statuses);
 	}
 }

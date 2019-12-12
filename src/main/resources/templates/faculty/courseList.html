@@ -6,6 +6,7 @@
 			<th>Start Date</th>
 			<th>End Date</th>
 			<th>Subject</th>
+			<th>Status</th>
 		</thead>
 		<tbody>
 			<tr th:each="course: ${courses}" th:onclick="|goto('/Faculty/EnrollmentList/${course.id}');|" style="cursor: pointer;">
@@ -13,6 +14,7 @@
 				<td th:text="*{course.startDate}">startDate</td>
 				<td th:text="*{course.endDate}">endDate</td>
 				<td th:text="*{course.subject.name}">Subject</td>
+				<td th:text="*{course.status}">Status</td>
 			</tr>
 		</tbody>
 	</table>

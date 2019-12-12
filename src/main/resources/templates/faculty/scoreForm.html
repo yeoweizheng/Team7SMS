@@ -1,0 +1,60 @@
+<th:block th:fragment="scoreForm">
+	<h4 th:text="|Score Form (${course.subject.name}: ${course.startDate} to ${course.endDate})|"></h4>
+	<table class="table table-hover">
+		<thead>
+			<th>Id</th>
+			<th>Student</th>
+			<th>Status</th>
+			<th>Score</th>
+			<th th:if="${course.status == 'Graded'}">Grade</th>
+		</thead>
+		<tbody>
+			<tr th:each="enrollment: ${enrollments}">
+				<td th:text="${enrollment.id}">courseId</td>
+				<td th:text="${enrollment.studentUser.fullname}">Student</td>
+				<td th:text="${enrollment.status}">Status</td>
+				<td th:if="${course.status == 'Finished'}">
+					<input class="form-control score" th:id="${enrollment.id}" type="number" min="0" max="100" step="1" style="width: 6em">
+				</td>
+				<td th:if="${course.status == 'Graded'}" th:text="${enrollment.score}"></td>
+				<td th:if="${course.status == 'Graded'}" th:text="${enrollment.grade}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row" th:if="${course.status == 'Finished'}">
+		<div class="col-md-3"></div>
+		<div class="col-md-3">
+			<a class="btn btn-secondary btn-block" href="/Faculty/ScoreCards">Back</a>
+		</div>
+		<div class="col-md-3">
+			<button class="btn btn-success btn-block" th:onclick="|submit(${course.id})|">Submit</button>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+	<div class="row" th:if="${course.status == 'Graded'}">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<a class="btn btn-secondary btn-block" href="/Faculty/ScoreCards">Back</a>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+	<script>
+		var scoreForms = [];
+		function submit(courseId){
+			$(".score").each(function(){
+				scoreForms.push({"id": this.id, "score": $(this).val()})
+			});
+			$.ajax({
+				url: "/api/submitScores",
+				method: "POST",
+				data: { 
+					scoreFormsJSON: JSON.stringify(scoreForms),
+					courseId: courseId
+				 },
+				success: function(){
+					goto("/Faculty/ScoreCards");
+				}
+			});
+		}
+	</script>
+</th:block>
