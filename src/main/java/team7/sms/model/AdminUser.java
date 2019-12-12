@@ -1,5 +1,7 @@
 package team7.sms.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,6 +11,8 @@ public class AdminUser {
 	private int id;
 	private String username;
 	private String password;
+	@OneToMany(mappedBy="adminUser", fetch = FetchType.LAZY)
+	private List<AdminLeave> adminLeave;
 	public AdminUser() {}
 	public AdminUser(String username, String password) {
 		this.username = username;
@@ -31,6 +35,12 @@ public class AdminUser {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public List<AdminLeave> getAdminLeave() {
+		return adminLeave;
+	}
+	public void setAdminLeave(List<AdminLeave> adminLeave) {
+		this.adminLeave = adminLeave;
 	}
 
 }

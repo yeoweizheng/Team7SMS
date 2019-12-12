@@ -21,6 +21,8 @@ public class DbService implements DbServiceInterface {
 	private CourseRepository courseRepo;
 	private SubjectRepository subjectRepo;
 	private EnrollmentRepository enrollmentRepo;
+	private AdminLeaveRepository adminLeaveRepo;
+	private FacultyLeaveRepository facultyLeaveRepo;
 
 	@Autowired
 	public void setAdminRepo(AdminUserRepository adminRepo) {
@@ -261,4 +263,76 @@ public class DbService implements DbServiceInterface {
 	public ArrayList<Enrollment> findEnrollmentsByStudentUserAndStatusIn(StudentUser studentUser, Collection<String> statuses){
 		return enrollmentRepo.findByStudentUserAndStatusIn(studentUser, statuses);
 	}
+	
+	@Override
+	@Transactional
+	public AdminLeave findAdminLeaveById(int id) {
+		AdminLeave adminLeave = adminLeaveRepo.findOneById(id);
+		return adminLeave;
+	}
+	@Override
+	@Transactional
+	public ArrayList<AdminLeave> findAdminLeaves() {
+		ArrayList<AdminLeave> adminLeaves = adminLeaveRepo.findAll();
+		return adminLeaves;
+	}
+	@Override
+	@Transactional
+	public ArrayList<AdminLeave> findByAdminUser(AdminUser adminUser) {
+		ArrayList<AdminLeave> adminLeaves = adminLeaveRepo.findByAdminUser(adminUser);
+		return adminLeaves;
+	}
+	@Override
+	@Transactional
+	public ArrayList<AdminLeave> findAdminLeaveByStatus(String status) {
+		ArrayList<AdminLeave> adminLeaves = adminLeaveRepo.findByStatus(status);
+		return adminLeaves;
+	}
+	@Override
+	@Transactional
+	public void addAdminLeave(AdminLeave adminLeave) {
+		adminLeaveRepo.save(adminLeave);
+	}
+	@Override
+	@Transactional
+	public void deleteAdminLeave(AdminLeave adminLeave) {
+		adminLeaveRepo.delete(adminLeave);
+	}
+	
+	@Override
+	@Transactional
+	public FacultyLeave findFacultyLeaveById(int id) {
+		FacultyLeave facultyLeave = facultyLeaveRepo.findOneById(id);
+		return facultyLeave;
+	}
+	@Override
+	@Transactional
+	public ArrayList<FacultyLeave> findfacultyLeaves() {
+		ArrayList<FacultyLeave> facultyLeaves = facultyLeaveRepo.findAll();
+		return facultyLeaves;
+	}
+	@Override
+	@Transactional
+	public ArrayList<FacultyLeave> findByFacultyUser(FacultyUser facultyUser) {
+		ArrayList<FacultyLeave> facultyLeaves = facultyLeaveRepo.findByFacultyUser(facultyUser);
+		return facultyLeaves;
+	}
+	@Override
+	@Transactional
+	public ArrayList<FacultyLeave> findFacultyLeaveByStatus(String status) {
+		ArrayList<FacultyLeave> facultyLeaves = facultyLeaveRepo.findByStatus(status);
+		return facultyLeaves;
+	}
+	@Override
+	@Transactional
+	public void addFacultyLeave(FacultyLeave facultyLeave) {
+		facultyLeaveRepo.save(facultyLeave);
+	}
+	@Override
+	@Transactional
+	public void deleteFacultyLeave(FacultyLeave facultyLeave) {
+		facultyLeaveRepo.delete(facultyLeave);
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package team7.sms.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,9 @@ public class FacultyUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
+
+	@OneToMany(mappedBy = "facultyUser", fetch = FetchType.LAZY)
+	private List<FacultyLeave> facultyLeave;
 	@OneToOne(mappedBy = "facultyUser", fetch = FetchType.LAZY)
 	private Course course;
 	public FacultyUser() {}
@@ -72,6 +77,12 @@ public class FacultyUser {
 	}
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+	public List<FacultyLeave> getFacultyLeave() {
+		return facultyLeave;
+	}
+	public void setFacultyLeave(List<FacultyLeave> facultyLeave) {
+		this.facultyLeave = facultyLeave;
 	}
 	@Override
 	public int hashCode() {
