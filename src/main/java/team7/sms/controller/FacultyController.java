@@ -39,6 +39,7 @@ public class FacultyController {
 		sidebar.addItem("Schedule", "/Faculty/Schedule/");
 		sidebar.addItem("List of Courses", "/Faculty/CourseList/");
 		sidebar.addItem("Score Cards", "/Faculty/ScoreCards/");
+		sidebar.addItem("Leave", "/Faculty/Leave/");
 
 		navbar = new Navbar();
 		navbar.addItem("Logout", "/Faculty/Logout/");
@@ -108,6 +109,20 @@ public class FacultyController {
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/scoreCards");
 		model.addAttribute("enrollments", enrollments);
+		return "index"; 
+	}
+	
+	@GetMapping("/Leave")
+	public String leave(HttpSession session, Model model) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null)
+			return "redirect:/Home/FacultyLogin/";
+		int id = facultyUser.getId();
+		ArrayList<FacultyLeave> facultyLeaves = dbService.findByFacultyUser(facultyUser);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/leave");
+		model.addAttribute("facultyLeaves", facultyLeaves);
 		return "index"; 
 	}
 	

@@ -345,4 +345,19 @@ public class AdminController {
 		dbService.deleteSubjectById(id);
 		return "redirect:/Admin/Subjects";
 	}
+	
+	@GetMapping("/Leave")
+	public String leave(HttpSession session, Model model) {
+		AdminUser adminUser = getAdminUserFromSession(session);
+		if(adminUser == null)
+			return "redirect:/Home/FacultyLogin/";
+		int id = adminUser.getId();
+		ArrayList<AdminLeave> adminLeaves = dbService.findByAdminUser(adminUser);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/leave");
+		model.addAttribute("adminLeaves", adminLeaves);
+		return "index"; 
+	}
+	
 }
