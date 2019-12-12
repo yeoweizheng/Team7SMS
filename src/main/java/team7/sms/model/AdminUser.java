@@ -11,12 +11,14 @@ public class AdminUser {
 	private int id;
 	private String username;
 	private String password;
+	private String fullname;
 	@OneToMany(mappedBy="adminUser", fetch = FetchType.LAZY)
 	private List<AdminLeave> adminLeave;
 	public AdminUser() {}
-	public AdminUser(String username, String password) {
+	public AdminUser(String username, String password, String fullname) {
 		this.username = username;
 		this.password = password;
+		this.fullname = fullname;
 	}
 	public int getId() {
 		return id;
@@ -35,6 +37,12 @@ public class AdminUser {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getFullname() {
+		return fullname;
+	}
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 	public List<AdminLeave> getAdminLeave() {
 		return adminLeave;

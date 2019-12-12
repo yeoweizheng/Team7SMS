@@ -57,7 +57,12 @@ public class StudentController {
 	private StudentUser getStudentUserFromSession(HttpSession session) {
 		if(session.getAttribute("studentUser") == null) return null;
 		StudentUser studentUser = dbService.findStudentUserById(Integer.parseInt(session.getAttribute("studentUser").toString()));
+		addGreeting(studentUser);
 		return studentUser;
+	}
+
+	private void addGreeting(StudentUser studentUser) {
+		if(studentUser != null) navbar.addItem("Hello, " + studentUser.getFullname(), "#");
 	}
 
 	@GetMapping("/ExamGrades")
@@ -66,7 +71,6 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		navbar.addItem("Hello, " + studentUser.getUsername(), "/Student/");
 		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Graded"));
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUserAndStatusIn(studentUser, statuses);
@@ -83,7 +87,6 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		navbar.addItem("Hello, " + studentUser.getUsername(), "/Student/");
 		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<Course> courses = dbService.findCoursesByStatus("Created");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
@@ -109,7 +112,6 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		navbar.addItem("Hello, " + studentUser.getUsername(), "/Student/");
 		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
 		model.addAttribute("sidebar", sidebar);
@@ -124,7 +126,6 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		navbar.addItem("Hello, " + studentUser.getUsername(), "/Student/");
 		navbar.addItem("Logout", "/Student/Logout/");
 		Course course = dbService.findCourseById(id);
 		Enrollment enrollment = dbService.findEnrollmentByStudentUserAndCourse(studentUser, course);

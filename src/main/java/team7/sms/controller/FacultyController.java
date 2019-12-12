@@ -42,17 +42,13 @@ public class FacultyController {
 		sidebar.addItem("List of Courses", "/Faculty/CourseList/");
 		sidebar.addItem("Score Cards", "/Faculty/ScoreCards/");
 		sidebar.addItem("Leave", "/Faculty/Leave/");
-
 		navbar = new Navbar();
-		
 	}
-	
 	
 	@GetMapping("/")
 	public String index() { 
 		return "redirect:/Faculty/Schedule/"; 
 	}
-	 
 	
 	@GetMapping("/Logout")
 	public String logout(HttpSession session) {
@@ -63,7 +59,12 @@ public class FacultyController {
 	private FacultyUser getFacultyUserFromSession(HttpSession session) {
 		if(session.getAttribute("facultyUser") == null) return null;
 		FacultyUser facultyUser = dbService.findFacultyUserById(Integer.parseInt(session.getAttribute("facultyUser").toString()));
+		addGreeting(facultyUser);
 		return facultyUser;
+	}
+
+	private void addGreeting(FacultyUser facultyUser) {
+		if(facultyUser != null) navbar.addItem("Hello, " + facultyUser.getFullname(), "#");
 	}
 
 	@GetMapping("/Schedule")
@@ -71,7 +72,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Hello, " + facultyUser.getUsername(), "/Faculty/");
 		navbar.addItem("Logout", "/Faculty/Logout/");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollments();
 		model.addAttribute("sidebar", sidebar);
@@ -86,7 +86,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Hello, " + facultyUser.getUsername(), "/Faculty/");
 		navbar.addItem("Logout", "/Faculty/Logout/");
 		ArrayList<Course> courses = dbService.findCoursesByFacultyUser(facultyUser);
 		model.addAttribute("sidebar", sidebar);
@@ -100,7 +99,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Hello, " + facultyUser.getUsername(), "/Faculty/");
 		navbar.addItem("Logout", "/Faculty/Logout/");
 		Course course = dbService.findCourseById(id);
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Pending", "Approved", "Started", "Finished", "Graded"));
@@ -118,7 +116,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Hello, " + facultyUser.getUsername(), "/Faculty/");
 		navbar.addItem("Logout", "/Faculty/Logout/");
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Finished", "Graded"));
 		ArrayList<Course> courses = dbService.findCoursesByFacultyUserAndStatusIn(facultyUser, statuses);
@@ -134,7 +131,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Hello, " + facultyUser.getUsername(), "/Faculty/");
 		navbar.addItem("Logout", "/Faculty/Logout/");
 		Course course = dbService.findCourseById(id);
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Finished", "Graded"));
@@ -151,7 +147,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Hello, " + facultyUser.getUsername(), "/Faculty/");
 		navbar.addItem("Logout", "/Faculty/Logout/");
 		int id = facultyUser.getId();
 		ArrayList<FacultyLeave> facultyLeaves = dbService.findByFacultyUser(facultyUser);

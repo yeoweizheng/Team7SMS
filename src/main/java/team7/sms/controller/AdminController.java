@@ -43,8 +43,6 @@ public class AdminController {
 		sidebar.addItem("Subjects", "/Admin/Subjects/");
 		sidebar.addItem("Courses", "/Admin/Courses/");
 		navbar = new Navbar();
-
-		
 	}
 
 	@GetMapping("/")
@@ -61,7 +59,12 @@ public class AdminController {
 	private AdminUser getAdminUserFromSession(HttpSession session) {
 		if(session.getAttribute("adminUser") == null) return null;
 		AdminUser adminUser = dbService.findAdminUserById(Integer.parseInt(session.getAttribute("adminUser").toString()));
+		addGreeting(adminUser);
 		return adminUser;
+	}
+	
+	private void addGreeting(AdminUser adminUser) {
+		if(adminUser != null) navbar.addItem("Hello, " + adminUser.getFullname(), "#");
 	}
 
 	@GetMapping("/PendingApplications")
@@ -70,7 +73,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStatus("Pending");
 		model.addAttribute("sidebar", sidebar);
@@ -86,7 +88,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		ArrayList<StudentUser> studentUsers = dbService.findStudentUsers();
 		model.addAttribute("sidebar", sidebar);
@@ -101,7 +102,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		StudentUser studentUser = new StudentUser();
 		model.addAttribute("sidebar", sidebar);
@@ -124,7 +124,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		StudentUser studentUser = dbService.findStudentUserById(id);
 		model.addAttribute("sidebar", sidebar);
@@ -150,7 +149,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		StudentUser studentUser = dbService.findStudentUserById(id);
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
@@ -169,7 +167,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
 		model.addAttribute("sidebar", sidebar);
@@ -185,7 +182,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		FacultyUser facultyUser = new FacultyUser();
 		model.addAttribute("sidebar", sidebar);
@@ -208,7 +204,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		FacultyUser facultyUser = dbService.findFacultyUserById(id);
 		model.addAttribute("sidebar", sidebar);
@@ -234,7 +229,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		dbService.deleteFacultyUserById(id);
 		return "redirect:/Admin/FacultyUsers";
@@ -245,7 +239,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		ArrayList<Subject> subjects = dbService.findSubjects();
 		model.addAttribute("sidebar", sidebar);
@@ -260,7 +253,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		ArrayList<Course> courses = dbService.findCourses();
 		model.addAttribute("sidebar", sidebar);
@@ -275,7 +267,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		Course course = new Course();
 		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
@@ -307,7 +298,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
 		ArrayList<Subject> subjects = dbService.findSubjects();
@@ -349,7 +339,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		Course course = dbService.findCourseById(id);
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(course);
@@ -367,7 +356,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		Subject subject = new Subject();
 		model.addAttribute("sidebar", sidebar);
@@ -390,7 +378,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		Subject subject = dbService.findSubjectById(id);
 		model.addAttribute("sidebar", sidebar);
@@ -414,7 +401,6 @@ public class AdminController {
 		if(adminUser == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		dbService.deleteSubjectById(id);
 		return "redirect:/Admin/Subjects";
@@ -425,7 +411,6 @@ public class AdminController {
 		AdminUser adminUser = getAdminUserFromSession(session);
 		if(adminUser == null)
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Hello, " + adminUser.getUsername(), "/Admin/");
 		navbar.addItem("Logout", "/Admin/Logout/");
 		int id = adminUser.getId();
 		ArrayList<AdminLeave> adminLeaves = dbService.findByAdminUser(adminUser);
