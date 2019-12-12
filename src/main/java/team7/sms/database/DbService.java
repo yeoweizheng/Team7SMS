@@ -54,6 +54,16 @@ public class DbService implements DbServiceInterface {
 		this.enrollmentRepo = enrollmentRepo;
 	}
 
+	@Autowired
+	public void setAdminLeaveRepo(AdminLeaveRepository adminLeaveRepo) {
+		this.adminLeaveRepo = adminLeaveRepo;
+	}
+
+	@Autowired
+	public void setFacultyLeaveRepo(FacultyLeaveRepository facultyLeaveRepo) {
+		this.facultyLeaveRepo = facultyLeaveRepo;
+	}
+
 	@Override
 	@Transactional
 	public AdminUser findAdminUserById(int id) {
@@ -272,26 +282,17 @@ public class DbService implements DbServiceInterface {
 	@Override
 	@Transactional
 	public AdminLeave findAdminLeaveById(int id) {
-		AdminLeave adminLeave = adminLeaveRepo.findOneById(id);
-		return adminLeave;
+		return adminLeaveRepo.findOneById(id);
 	}
 	@Override
 	@Transactional
-	public ArrayList<AdminLeave> findAdminLeaves() {
-		ArrayList<AdminLeave> adminLeaves = adminLeaveRepo.findAll();
-		return adminLeaves;
+	public ArrayList<AdminLeave> findAdminLeavesByStatus(String status) {
+		return adminLeaveRepo.findByStatus(status);
 	}
 	@Override
 	@Transactional
-	public ArrayList<AdminLeave> findByAdminUser(AdminUser adminUser) {
-		ArrayList<AdminLeave> adminLeaves = adminLeaveRepo.findByAdminUser(adminUser);
-		return adminLeaves;
-	}
-	@Override
-	@Transactional
-	public ArrayList<AdminLeave> findAdminLeaveByStatus(String status) {
-		ArrayList<AdminLeave> adminLeaves = adminLeaveRepo.findByStatus(status);
-		return adminLeaves;
+	public ArrayList<AdminLeave> findAdminLeavesByAdminUser(AdminUser adminUser) {
+		return adminLeaveRepo.findByAdminUser(adminUser);
 	}
 	@Override
 	@Transactional
@@ -312,19 +313,12 @@ public class DbService implements DbServiceInterface {
 	}
 	@Override
 	@Transactional
-	public ArrayList<FacultyLeave> findfacultyLeaves() {
-		ArrayList<FacultyLeave> facultyLeaves = facultyLeaveRepo.findAll();
-		return facultyLeaves;
+	public ArrayList<FacultyLeave> findFacultyLeavesByFacultyUser(FacultyUser facultyUser) {
+		return facultyLeaveRepo.findByFacultyUser(facultyUser);
 	}
 	@Override
 	@Transactional
-	public ArrayList<FacultyLeave> findByFacultyUser(FacultyUser facultyUser) {
-		ArrayList<FacultyLeave> facultyLeaves = facultyLeaveRepo.findByFacultyUser(facultyUser);
-		return facultyLeaves;
-	}
-	@Override
-	@Transactional
-	public ArrayList<FacultyLeave> findFacultyLeaveByStatus(String status) {
+	public ArrayList<FacultyLeave> findFacultyLeavesByStatus(String status) {
 		ArrayList<FacultyLeave> facultyLeaves = facultyLeaveRepo.findByStatus(status);
 		return facultyLeaves;
 	}
@@ -338,6 +332,5 @@ public class DbService implements DbServiceInterface {
 	public void deleteFacultyLeave(FacultyLeave facultyLeave) {
 		facultyLeaveRepo.delete(facultyLeave);
 	}
-	
 	
 }

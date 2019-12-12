@@ -1,0 +1,24 @@
+<th:block th:fragment="leaves">
+	<div>
+		<h4 style="display: inline-block;">Faculty Leave&nbsp;
+			<a class="btn btn-sm btn-outline-secondary" href="/Faculty/ApplyLeave">Apply</a>
+		</h4>
+	</div>
+	
+	<table class="table table-hover">
+		<thead>
+			<th>Id</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Status</th>
+		</thead>
+		<tbody>
+			<tr th:each="facultyLeave: ${facultyLeaves}" th:onclick="|goto('/Faculty/EditFacultyLeave/${facultyLeave.id}')|" style="cursor: pointer;">
+				<td th:text="${facultyLeave.id}"></td>
+				<td th:text="${facultyLeave.startDate}"></td>
+				<td th:text="${facultyLeave.endDate}"></td>
+				<td th:text="${facultyLeave.status}"></td>
+			</tr>
+		</tbody>
+	</table>	
+</th:block>

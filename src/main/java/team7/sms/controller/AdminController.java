@@ -455,7 +455,7 @@ public class AdminController {
 		if(adminUser == null)
 			return "redirect:/Home/FacultyLogin/";
 		int id = adminUser.getId();
-		ArrayList<AdminLeave> adminLeaves = dbService.findByAdminUser(adminUser);
+		ArrayList<AdminLeave> adminLeaves = dbService.findAdminLeavesByAdminUser(adminUser);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/leave");
