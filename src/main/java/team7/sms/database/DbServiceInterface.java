@@ -12,9 +12,9 @@ public interface DbServiceInterface {
 	
 	public StudentUser findStudentUserByUsername(String username);
 	public StudentUser findStudentUserById(int id);
-	public void deleteStudentUserById(int id);
 	public ArrayList<StudentUser> findStudentUsers();
 	public void addStudentUser(StudentUser studentUser);
+	public void deleteStudentUser(StudentUser studentUser);
 	
 	public FacultyUser findFacultyUserByUsername(String username);
 	public FacultyUser findFacultyUserById(int id);
@@ -23,7 +23,7 @@ public interface DbServiceInterface {
 	public void addFacultyUser(FacultyUser facultyUser);
 	
 	public Course findCourseById(int id);
-	public void deleteCourseById(int id);
+	public void deleteCourse(Course course);
 	public ArrayList<Course> findCourses();
 	public void addCourse(Course course);
 	public ArrayList<Course> findCoursesByFacultyUser(FacultyUser facultyUser);
@@ -37,7 +37,7 @@ public interface DbServiceInterface {
 	public ArrayList<Enrollment> findEnrollments();
 	
 	public Enrollment findEnrollmentById(int id);
-	public void deleteEnrollmentById(int id);
+	public void deleteEnrollment(Enrollment enrollment);
 	public void addEnrollment(Enrollment enrollment);
 	public ArrayList<Enrollment> findEnrollmentsByCourse(Course course);
 	public ArrayList<Enrollment> findEnrollmentsByStudentUser(StudentUser studentUser);

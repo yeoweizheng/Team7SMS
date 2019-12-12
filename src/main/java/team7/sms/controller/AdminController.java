@@ -136,7 +136,14 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		dbService.deleteStudentUserById(id);
+		StudentUser studentUser = dbService.findStudentUserById(id);
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
+		if(enrollments != null) {
+			for(Enrollment enrollment : enrollments) {
+				dbService.deleteEnrollment(enrollment);
+			}
+		}
+		dbService.deleteStudentUser(studentUser);
 		return "redirect:/Admin/StudentUsers";
 	}
 	
@@ -265,6 +272,13 @@ public class AdminController {
 		ArrayList<FacultyUser> facultyUsers = dbService.findFacultyUsers();
 		ArrayList<Subject> subjects = dbService.findSubjects();
 		Course course = dbService.findCourseById(id);
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(course);
+		boolean allowDelete = true;
+		if(enrollments != null) {
+			for(Enrollment enrollment : enrollments) {
+				if(!enrollment.getStatus().equals("Rejected")) allowDelete = false;
+			}
+		}
 		CourseForm courseForm = new CourseForm();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
@@ -273,6 +287,7 @@ public class AdminController {
 		model.addAttribute("facultyUsers", facultyUsers);
 		model.addAttribute("subjects", subjects);
 		model.addAttribute("courseForm", courseForm);
+		model.addAttribute("allowDelete", allowDelete);
 		return "index";
 	}
 	@PostMapping("/EditCourse/{id}")
@@ -293,7 +308,14 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		dbService.deleteCourseById(id);
+		Course course = dbService.findCourseById(id);
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(course);
+		if(enrollments != null) {
+			for(Enrollment enrollment : enrollments) {
+				dbService.deleteEnrollment(enrollment);
+			}
+		}
+		dbService.deleteCourse(course);
 		return "redirect:/Admin/Courses";
 	}
 	@GetMapping("/AddSubject")

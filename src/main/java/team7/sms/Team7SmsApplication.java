@@ -47,7 +47,6 @@ public class Team7SmsApplication {
 			dbService.addAdminUser(new AdminUser("admin", "admin"));
 			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
 			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
-			
 			dbService.addFacultyUser(new FacultyUser("weizheng", "weizheng123", "Wei Zheng", 'M', "789 Kent Ridge Dr", "98127634"));
 			dbService.addFacultyUser(new FacultyUser("ziling", "ziling123", "Zi Ling", 'M', "567 Kent Ridge Dr", "98127123"));
 			dbService.addSubject(new Subject("Java", "Java programming fundamentals"));

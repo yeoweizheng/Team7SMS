@@ -15,10 +15,11 @@
 			<th>Status</th>
 			<th>Action</th>
 		</thead>
-		<tbody> <!--th:attr="onclick=|goto('/Admin/EditCourse/${course.id}')|" -->
+		<tbody>
 			<tr th:each="course: ${courses}">
 				<td>
-					<a th:href="|/Admin/EditCourse/${course.id}|" style="color: black">
+					<a th:if="${course.status == 'Created'}" th:href="|/Admin/EditCourse/${course.id}|" 
+						style="color: black">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

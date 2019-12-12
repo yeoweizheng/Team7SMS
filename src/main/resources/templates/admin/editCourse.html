@@ -41,7 +41,8 @@
 				<button class="btn btn-success btn-block" type="submit">Update</button>
 			</div>
 			<div class="col-md-4">
-				<a class="btn btn-danger btn-block" th:href="|/Admin/DeleteCourse/${id}|">Delete</a>
+				<a th:if="${allowDelete}" class="btn btn-danger btn-block" th:href="|/Admin/DeleteCourse/${id}|">Delete</a>
+				<a th:unless="${allowDelete}" class="btn btn-secondary btn-block" href="#" disabled>Delete</a>
 			</div>
 		</div>
 	</form>
