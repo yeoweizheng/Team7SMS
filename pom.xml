@@ -15,11 +15,10 @@
 	<packaging>jar</packaging>
 	<name>Team7SMS</name>
 	<description>Team 7 Student Management System</description>
-
 	<properties>
 		<java.version>1.8</java.version>
+		<skipTests>true</skipTests>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
