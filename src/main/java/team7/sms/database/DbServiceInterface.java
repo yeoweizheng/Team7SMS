@@ -29,6 +29,7 @@ public interface DbServiceInterface {
 	public ArrayList<Course> findCoursesByFacultyUser(FacultyUser facultyUser);
 	public ArrayList<Course> findCoursesByStatus(String status);
 	public ArrayList<Course> findCoursesByFacultyUserAndStatusIn(FacultyUser facultyUser, Collection<String> status);
+	public ArrayList<Course> findCoursesBySubject(Subject subject);
 	
 	public void addSubject(Subject subject);
 	public Subject findSubjectById(int id);

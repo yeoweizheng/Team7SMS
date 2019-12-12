@@ -14,7 +14,7 @@ public class Course {
 	private String endDate;
 	@ManyToOne (fetch = FetchType.LAZY)
 	private Subject subject;
-	@OneToOne (fetch = FetchType.LAZY)
+	@ManyToOne (fetch = FetchType.LAZY)
 	private FacultyUser facultyUser;
 	@OneToMany (mappedBy = "course", fetch = FetchType.LAZY)
 	private List<Enrollment> enrollments;
@@ -65,5 +65,25 @@ public class Course {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }

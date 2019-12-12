@@ -91,8 +91,8 @@ public class HomeController {
 	
 	@GetMapping("/AdminLogin")
 	public String adminLogin(Model model, HttpSession session) {
-		if(session.getAttribute("username") != null) {
-			AdminUser adminUser = dbService.findAdminUserByUsername(session.getAttribute("username").toString());
+		if(session.getAttribute("adminUser") != null) {
+			AdminUser adminUser = dbService.findAdminUserById(Integer.parseInt(session.getAttribute("adminUser").toString()));
 			if(adminUser != null) return "redirect:/Admin/";
 		}
 		model.addAttribute("sidebar", sidebar);
@@ -116,8 +116,8 @@ public class HomeController {
 	
 	@GetMapping("/StudentLogin")
 	public String studentLogin(Model model, HttpSession session) {
-		if(session.getAttribute("username") != null) {
-			StudentUser studentUser = dbService.findStudentUserByUsername(session.getAttribute("username").toString());
+		if(session.getAttribute("studentUser") != null) {
+			StudentUser studentUser = dbService.findStudentUserById(Integer.parseInt(session.getAttribute("studentUser").toString()));
 			if(studentUser != null) return "redirect:/Student/";
 		}
 		model.addAttribute("sidebar", sidebar);
@@ -141,8 +141,8 @@ public class HomeController {
 
 	@GetMapping("/FacultyLogin")
 	public String facultyLogin(Model model, HttpSession session) {
-		if(session.getAttribute("username") != null) {
-			FacultyUser facultyUser = dbService.findFacultyUserByUsername(session.getAttribute("username").toString());
+		if(session.getAttribute("facultyUser") != null) {
+			FacultyUser facultyUser = dbService.findFacultyUserById(Integer.parseInt(session.getAttribute("facultyUser").toString()));
 			if(facultyUser != null) return "redirect:/Faculty/";
 		}
 		model.addAttribute("sidebar", sidebar);

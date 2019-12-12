@@ -1,6 +1,7 @@
 package team7.sms.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,9 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.expression.Dates;
 
+import antlr.collections.List;
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
+import team7.sms.database.DateService;
 import team7.sms.database.DbService;
 import team7.sms.model.*;
 
@@ -30,9 +34,14 @@ public class AdminController {
 	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
 
 	private DbService dbService;
+	private DateService dateService;
 	@Autowired
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
+	}
+	@Autowired
+	public void setDateService(DateService dateService) {
+		this.dateService = dateService;
 	}
 
 	public static void init() {
@@ -63,6 +72,17 @@ public class AdminController {
 		return adminUser;
 	}
 
+	@GetMapping("/Error")
+	public String error(HttpSession session, Model model) {
+		if(session.getAttribute("error") == null) return "redirect:/Admin/";
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "error");
+		model.addAttribute("errorMsg", session.getAttribute("error"));
+		session.setAttribute("error", null);
+		return "index";
+	}
+		
 	@GetMapping("/PendingApplications")
 	public String pendingApplications(HttpSession session, Model model) {
 		if(getAdminUserFromSession(session) == null) {
@@ -186,10 +206,14 @@ public class AdminController {
 			return "redirect:/Home/AdminLogin";
 		}
 		FacultyUser facultyUser = dbService.findFacultyUserById(id);
+		ArrayList<Course> courses = dbService.findCoursesByFacultyUser(facultyUser);
+		boolean allowDelete = true;
+		if(courses.size() > 0) allowDelete = false;
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/editFacultyUser");
 		model.addAttribute("facultyUser", facultyUser);
+		model.addAttribute("allowDelete", allowDelete);
 		return "index";
 	}
 	@PostMapping("/EditFacultyUser/{id}")
@@ -258,9 +282,24 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		Course course = new Course(courseForm.getStartDate(), courseForm.getEndDate(), 
-			dbService.findSubjectById(courseForm.getSubjectId()),
-			dbService.findFacultyUserById(courseForm.getFacultyUserId()));
+		String startDate = courseForm.getStartDate();
+		String endDate = courseForm.getEndDate();
+		FacultyUser facultyUser = dbService.findFacultyUserById(courseForm.getFacultyUserId());
+		if(!dateService.checkStartEndValidity(startDate, endDate)) {
+			session.setAttribute("error", new ErrorMsg("Start date after end date.", "/Admin/AddCourse"));
+			return "redirect:/Admin/Error";
+		}
+		ArrayList<Course> existingCourses = dbService.findCoursesByFacultyUser(facultyUser);
+		boolean overlap = false;
+		for(Course existingCourse : existingCourses) {
+			if(dateService.checkOverlap(existingCourse.getStartDate(),
+				existingCourse.getEndDate(), startDate, endDate)) overlap = true;
+		}
+		if(overlap) {
+			session.setAttribute("error", new ErrorMsg("Schedule clash for faculty user " + facultyUser.getFullname(), "/Admin/AddCourse"));
+			return "redirect:/Admin/Error";
+		}
+		Course course = new Course(startDate, endDate, dbService.findSubjectById(courseForm.getSubjectId()),facultyUser);
 		dbService.addCourse(course);
 		return "redirect:/Admin/Courses";
 	}
@@ -274,7 +313,7 @@ public class AdminController {
 		Course course = dbService.findCourseById(id);
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(course);
 		boolean allowDelete = true;
-		if(enrollments != null) {
+		if(enrollments.size() > 0) {
 			for(Enrollment enrollment : enrollments) {
 				if(!enrollment.getStatus().equals("Rejected")) allowDelete = false;
 			}
@@ -295,11 +334,49 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		String startDate = courseForm.getStartDate();
+		String endDate = courseForm.getEndDate();
+		FacultyUser facultyUser = dbService.findFacultyUserById(courseForm.getFacultyUserId());
 		Course course = dbService.findCourseById(id);
+		if(!dateService.checkStartEndValidity(startDate, endDate)) {
+			session.setAttribute("error", new ErrorMsg("Start date after end date", "/Admin/EditCourse/" + id));
+			return "redirect:/Admin/Error";
+		}
+
+		ArrayList<Course> existingCourses = dbService.findCoursesByFacultyUser(facultyUser);
+		boolean overlap = false;
+		for(Course existingCourse : existingCourses) {
+			if(dateService.checkOverlap(existingCourse.getStartDate(),
+				existingCourse.getEndDate(), startDate, endDate) && existingCourse.getId() != id) overlap = true;
+		}
+		if(overlap) {
+			session.setAttribute("error", new ErrorMsg("Schedule clash for faculty user " + facultyUser.getFullname(), "/Admin/EditCourse/" + id));
+			return "redirect:/Admin/Error";
+		}
+
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Pending", "Approved"));
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourseAndStatusIn(course, statuses);
+		statuses = new ArrayList<String>(Arrays.asList("Pending", "Approved", "Started"));
+		for(Enrollment enrollment : enrollments) {
+			StudentUser studentUser = enrollment.getStudentUser();
+			ArrayList<Enrollment> otherEnrollments = dbService.findEnrollmentsByStudentUserAndStatusIn(studentUser, statuses);
+			for(Enrollment otherEnrollment : otherEnrollments) {
+				if(dateService.checkOverlap(startDate, endDate, 
+					otherEnrollment.getCourse().getStartDate(), otherEnrollment.getCourse().getEndDate())
+					&& otherEnrollment.getCourse().getId() != id) {
+					overlap = true;
+				}
+			}
+		}
+		if(overlap) {
+			session.setAttribute("error", new ErrorMsg("Schedule clash for student user(s)", "/Admin/EditCourse/" + id));
+			return "redirect:/Admin/Error";
+		}
+
 		course.setSubject(dbService.findSubjectById(courseForm.getSubjectId()));
-		course.setFacultyUser(dbService.findFacultyUserById(courseForm.getFacultyUserId()));
-		course.setStartDate(courseForm.getStartDate());
-		course.setEndDate(courseForm.getEndDate());
+		course.setFacultyUser(facultyUser);
+		course.setStartDate(startDate);
+		course.setEndDate(endDate);
 		dbService.addCourse(course);
 		return "redirect:/Admin/Courses";
 	}
@@ -344,10 +421,14 @@ public class AdminController {
 			return "redirect:/Home/AdminLogin";
 		}
 		Subject subject = dbService.findSubjectById(id);
+		ArrayList<Course> courses = dbService.findCoursesBySubject(subject);
+		boolean allowDelete = true;
+		if(courses.size() > 0) allowDelete = false;
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/editSubject");
 		model.addAttribute("subject", subject);
+		model.addAttribute("allowDelete", allowDelete);
 		return "index";
 	}
 	@PostMapping("/EditSubject/{id}")

@@ -18,8 +18,8 @@ public class FacultyUser {
 
 	@OneToMany(mappedBy = "facultyUser", fetch = FetchType.LAZY)
 	private List<FacultyLeave> facultyLeave;
-	@OneToOne(mappedBy = "facultyUser", fetch = FetchType.LAZY)
-	private Course course;
+	@OneToMany(mappedBy = "facultyUser", fetch = FetchType.LAZY)
+	private List<Course> courses;
 	public FacultyUser() {}
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
@@ -72,17 +72,17 @@ public class FacultyUser {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	public Course getCourse() {
-		return course;
-	}
-	public void setCourse(Course course) {
-		this.course = course;
-	}
 	public List<FacultyLeave> getFacultyLeave() {
 		return facultyLeave;
 	}
 	public void setFacultyLeave(List<FacultyLeave> facultyLeave) {
 		this.facultyLeave = facultyLeave;
+	}
+	public List<Course> getCourses() {
+		return courses;
+	}
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
 	}
 	@Override
 	public int hashCode() {

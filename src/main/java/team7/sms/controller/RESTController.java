@@ -60,6 +60,12 @@ public class RESTController {
 				dbService.findCourseById(courseId)));
 		return new ResponseEntity(HttpStatus.OK);
 	}
+	@PostMapping("/withdrawEnrollment")
+	public ResponseEntity withdrawEnrollment(HttpSession session, @RequestParam int enrollmentId) {
+		if(getStudentUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
+		dbService.deleteEnrollment(dbService.findEnrollmentById(enrollmentId));
+		return new ResponseEntity(HttpStatus.OK);
+	}
 	@PostMapping("/approveEnrollment")
 	public ResponseEntity approveEnrollment(HttpSession session, @RequestParam int enrollmentId) {
 		if(getAdminUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);

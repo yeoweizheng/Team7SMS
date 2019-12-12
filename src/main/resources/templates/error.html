@@ -1,0 +1,5 @@
+<th:block th:fragment="error">
+	<h4>Error</h4>
+	<h5 th:text="|Reason: ${errorMsg.message}|"></h5>
+	<a class="btn btn-secondary" th:href="${errorMsg.returnLink}">Back</a>
+</th:block>

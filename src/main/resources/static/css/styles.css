@@ -3,12 +3,20 @@
 	height:90px;
 }
 
-.container {
-	/* width:100%; */
+html {
+	height: 100% !important;
+	min-height: 100% !important;
 }
 
-.row {
-	/* width:100%; */
+body {
+	height: 100% !important;
+	min-height: 100% !important;
+	display: flex !important;
+	flex-direction: column;
+}
+
+.main-div {
+	flex-grow: 1;
 }
 
 .navbar {

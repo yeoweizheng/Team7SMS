@@ -141,8 +141,13 @@ public class DbService implements DbServiceInterface {
 	@Override
 	@Transactional
 	public Course findCourseById(int id) {
-		Course course = courseRepo.findOneById(id);
-		return course;
+		return courseRepo.findOneById(id);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Course> findCoursesBySubject(Subject subject) {
+		return courseRepo.findBySubject(subject);
 	}
 
 	@Override

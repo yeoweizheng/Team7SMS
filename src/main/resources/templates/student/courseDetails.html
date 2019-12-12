@@ -20,11 +20,19 @@
 		<h5 class="col-md-3">Lecturer: </h5>
 		<h5 class="col-md-9" th:text="${course.facultyUser.fullname}"></h5>
 	</div>
-	<div class="row">
+	<div th:unless="${enrollment}" class="row">
 		<div class="col-md-4"></div>
 		<div class="col-md-4">
-			<button th:if="${enrollment}" class="btn btn-secondary btn-block" disabled>Already enrolled</button>
-			<button th:unless="${enrollment}" class="btn btn-success btn-block" onclick="enroll()">Enroll</button>
+			<button th:if="${clash}" class="btn btn-secondary btn-block" disabled>Enroll</button>
+			<button th:unless="${clash}" class="btn btn-success btn-block" onclick="enroll()">Enroll</button>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+	<div th:if="${enrollment}" class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<button th:if="${enrollment.status == 'Pending'}" class="btn btn-danger btn-block" onclick="withdraw()">Withdraw</button>
+			<button th:unless="${enrollment.status == 'Pending'}" class="btn btn-secondary btn-block" disabled>Withdraw</button>
 		</div>
 		<div class="col-md-4"></div>
 	</div>
@@ -36,6 +44,20 @@
 				data: {
 					studentUserId: [[${studentUser.id}]],
 					courseId: [[${course.id}]]
+				},
+				success: function(){
+					goto('/Student/CourseDetails/[[${course.id}]]');
+				}
+			});
+		}
+	</script>
+	<script th:if="${enrollment}" th:inline="javascript">
+		function withdraw(){
+			$.ajax({
+				url: "/api/withdrawEnrollment",
+				method: "POST",
+				data: {
+					enrollmentId: [[${enrollment.id}]]
 				},
 				success: function(){
 					goto('/Student/CourseDetails/[[${course.id}]]');

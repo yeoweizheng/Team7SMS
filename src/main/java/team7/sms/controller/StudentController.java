@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import team7.sms.Team7SmsApplication;
+import team7.sms.database.DateService;
 import team7.sms.database.DbService;
 import team7.sms.database.StudentUserRepository;
 import team7.sms.model.*;
@@ -29,9 +30,14 @@ public class StudentController {
 	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
 	
 	private DbService dbService;
+	private DateService dateService;
 	@Autowired
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
+	}
+	@Autowired
+	public void setDateService(DateService dateService) {
+		this.dateService = dateService;
 	}
 
 	public static void init() {
@@ -120,12 +126,22 @@ public class StudentController {
 		}
 		Course course = dbService.findCourseById(id);
 		Enrollment enrollment = dbService.findEnrollmentByStudentUserAndCourse(studentUser, course);
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Pending", "Approved", "Started"));
+		boolean clash = false;
+		ArrayList<Enrollment> otherEnrollments = dbService.findEnrollmentsByStudentUserAndStatusIn(studentUser, statuses);
+		for(Enrollment e : otherEnrollments) {
+			if(dateService.checkOverlap(course.getStartDate(), course.getEndDate(), 
+				e.getCourse().getStartDate(), e.getCourse().getEndDate()) && course.getId() != e.getCourse().getId()) {
+				clash = true;
+			}
+		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "student/courseDetails");
 		model.addAttribute("course", course);
 		model.addAttribute("enrollment", enrollment);
 		model.addAttribute("studentUser", studentUser);
+		model.addAttribute("clash", clash);
 		return "index";
 	}
 }
