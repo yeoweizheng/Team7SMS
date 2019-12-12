@@ -40,7 +40,7 @@ public class StudentController {
 		sidebar.addItem("Enrolled Courses", "/Student/EnrolledCourses/");
 		sidebar.addItem("Exam Grades", "/Student/ExamGrades/");
 		navbar = new Navbar();
-		navbar.addItem("Logout", "/Student/Logout/");
+
 	}
 	
 	@GetMapping("/")
@@ -66,6 +66,8 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
+		navbar.addItem("Hello, " + studentUser.getUsername(), "/Student/");
+		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Graded"));
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUserAndStatusIn(studentUser, statuses);
 		model.addAttribute("sidebar", sidebar);
@@ -81,6 +83,8 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
+		navbar.addItem("Hello, " + studentUser.getUsername(), "/Student/");
+		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<Course> courses = dbService.findCoursesByStatus("Created");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
 		ArrayList<Course> filteredCourses = new ArrayList<Course>();
@@ -105,6 +109,8 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
+		navbar.addItem("Hello, " + studentUser.getUsername(), "/Student/");
+		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
@@ -118,6 +124,8 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
+		navbar.addItem("Hello, " + studentUser.getUsername(), "/Student/");
+		navbar.addItem("Logout", "/Student/Logout/");
 		Course course = dbService.findCourseById(id);
 		Enrollment enrollment = dbService.findEnrollmentByStudentUserAndCourse(studentUser, course);
 		model.addAttribute("sidebar", sidebar);
