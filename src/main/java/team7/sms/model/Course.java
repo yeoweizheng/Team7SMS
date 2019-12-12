@@ -12,11 +12,11 @@ public class Course {
 	private int id;
 	private String startDate;
 	private String endDate;
-	@ManyToOne (fetch = FetchType.EAGER)
+	@ManyToOne (fetch = FetchType.LAZY)
 	private Subject subject;
-	@OneToOne (fetch = FetchType.EAGER)
+	@OneToOne (fetch = FetchType.LAZY)
 	private FacultyUser facultyUser;
-	@OneToMany (mappedBy = "course", fetch = FetchType.EAGER)
+	@OneToMany (mappedBy = "course", fetch = FetchType.LAZY)
 	private List<Enrollment> enrollments;
 	private String status;
 	public Course() {

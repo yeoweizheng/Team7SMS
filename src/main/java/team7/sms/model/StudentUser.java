@@ -18,7 +18,7 @@ public class StudentUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
-	@OneToMany(mappedBy = "studentUser", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "studentUser", fetch = FetchType.LAZY)
 	private List<Enrollment> enrollments;
 	
 	public StudentUser() {

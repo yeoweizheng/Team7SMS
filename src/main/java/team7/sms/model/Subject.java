@@ -12,7 +12,7 @@ public class Subject {
 	private int id;
 	private String name;
 	private String description;
-	@OneToMany(mappedBy = "subject", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
 	private List<Course> courses;
 	public Subject() {
 		this.courses = new ArrayList<Course>();

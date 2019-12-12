@@ -13,7 +13,7 @@ public class FacultyUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
-	@OneToOne(mappedBy = "facultyUser", fetch = FetchType.EAGER)
+	@OneToOne(mappedBy = "facultyUser", fetch = FetchType.LAZY)
 	private Course course;
 	public FacultyUser() {}
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
