@@ -47,16 +47,14 @@ public interface DbServiceInterface {
 	public ArrayList<Enrollment> findEnrollmentsByStudentUserAndStatusIn(StudentUser studentUser, Collection<String> statuses);
 	
 	public AdminLeave findAdminLeaveById(int id);
-	public ArrayList<AdminLeave> findAdminLeaves();
-	public ArrayList<AdminLeave> findByAdminUser(AdminUser adminUser);
-	public ArrayList<AdminLeave> findAdminLeaveByStatus(String status);
+	public ArrayList<AdminLeave> findAdminLeavesByAdminUser(AdminUser adminUser);
+	public ArrayList<AdminLeave> findAdminLeavesByStatus(String status);
 	public void addAdminLeave(AdminLeave adminLeave);
 	public void deleteAdminLeave(AdminLeave adminLeave);
 	
 	public FacultyLeave findFacultyLeaveById(int id);
-	public ArrayList<FacultyLeave> findFacultyLeaves();
-	public ArrayList<FacultyLeave> findByFacultyUser(FacultyUser facultyUser);
-	public ArrayList<FacultyLeave> findFacultyLeaveByStatus(String status);
+	public ArrayList<FacultyLeave> findFacultyLeavesByFacultyUser(FacultyUser facultyUser);
+	public ArrayList<FacultyLeave> findFacultyLeavesByStatus(String status);
 	public void addFacultyLeave(FacultyLeave facultyLeave);
 	public void deleteFacultyLeave(FacultyLeave facultyLeave);
 	

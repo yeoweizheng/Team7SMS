@@ -41,7 +41,7 @@ public class FacultyController {
 		sidebar.addItem("Schedule", "/Faculty/Schedule/");
 		sidebar.addItem("List of Courses", "/Faculty/CourseList/");
 		sidebar.addItem("Score Cards", "/Faculty/ScoreCards/");
-		sidebar.addItem("Leave", "/Faculty/Leave/");
+		sidebar.addItem("Leaves", "/Faculty/Leaves/");
 
 		navbar = new Navbar();
 		navbar.addItem("Logout", "/Faculty/Logout/");
@@ -131,15 +131,16 @@ public class FacultyController {
 		model.addAttribute("enrollments", enrollments);
 		return "index";
 	}
-	@GetMapping("/Leave")
+	@GetMapping("/Leaves")
 	public String leave(HttpSession session, Model model) {
-		if(getFacultyUserFromSession(session) == null) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
 			return "redirect:/Home/FacultyLogin/";
 		}
-		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeaves();
+		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeavesByFacultyUser(facultyUser);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "faculty/leave");
+		model.addAttribute("content", "faculty/leaves");
 		model.addAttribute("facultyLeaves", facultyLeaves);
 		return "index"; 
 	}
