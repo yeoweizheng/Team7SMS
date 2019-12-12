@@ -133,11 +133,10 @@ public class FacultyController {
 	}
 	@GetMapping("/Leave")
 	public String leave(HttpSession session, Model model) {
-		FacultyUser facultyUser = getFacultyUserFromSession(session);
-		if(facultyUser == null)
+		if(getFacultyUserFromSession(session) == null) {
 			return "redirect:/Home/FacultyLogin/";
-		int id = facultyUser.getId();
-		ArrayList<FacultyLeave> facultyLeaves = dbService.findByFacultyUser(facultyUser);
+		}
+		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeaves();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/leave");

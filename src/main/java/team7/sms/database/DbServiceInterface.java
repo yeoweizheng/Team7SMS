@@ -54,7 +54,7 @@ public interface DbServiceInterface {
 	public void deleteAdminLeave(AdminLeave adminLeave);
 	
 	public FacultyLeave findFacultyLeaveById(int id);
-	public ArrayList<FacultyLeave> findfacultyLeaves();
+	public ArrayList<FacultyLeave> findFacultyLeaves();
 	public ArrayList<FacultyLeave> findByFacultyUser(FacultyUser facultyUser);
 	public ArrayList<FacultyLeave> findFacultyLeaveByStatus(String status);
 	public void addFacultyLeave(FacultyLeave facultyLeave);
