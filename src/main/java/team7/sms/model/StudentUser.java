@@ -20,7 +20,8 @@ public class StudentUser {
 	private String mobileNo;
 	@OneToMany(mappedBy = "studentUser", fetch = FetchType.LAZY)
 	private List<Enrollment> enrollments;
-	
+	@ManyToOne (fetch = FetchType.LAZY)
+	private Notification notification;
 	public StudentUser() {
 		this.enrollments = new ArrayList<Enrollment>();
 	}

@@ -206,4 +206,38 @@ public class FacultyController {
 		dbService.deleteFacultyLeave(facultyleave);
 		return "redirect:/Faculty/Leave";
 	}
+	@GetMapping("/Notification")
+	public String notification(HttpSession session, Model model) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
+			return "redirect:/Home/FacultyLogin/";
+		}
+		ArrayList<Notification> notifications = dbService.findNotifications();
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/notification");
+		model.addAttribute("notifications", notifications);
+		return "index";
+	}
+	@GetMapping("/SendNotification")
+	public String sendNotification(HttpSession session, Model model) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
+			return "redirect:/Home/FacultyLogin/";
+		}
+		Notification notification = new Notification();
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/sendNotification");
+		model.addAttribute("notification", notification);
+		return "index";
+	}
+	@PostMapping("/SendNotification")
+	public String sendNotification(HttpSession session, @ModelAttribute Notification notification) {
+		if(getFacultyUserFromSession(session) == null) {
+			return "redirect:/Home/FacultyLogin";
+		}
+		dbService.addNotification(notification);
+		return "redirect:/Faculty/CourseList";
+	}
 }
