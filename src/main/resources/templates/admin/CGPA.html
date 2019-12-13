@@ -1,0 +1,18 @@
+<th:block th:fragment="CGPA">
+	<div>
+		<h4 style="display: inline-block;">Student CGPA</h4>
+	</div>
+	<table class="table table-hover">
+		<thead>
+			<th>Name</th>
+			<th>CGPA</th>
+		</thead>
+		<tbody>
+			<tr th:each="studentUser : ${studentUsers}">
+				<td th:text="${studentUser.fullname}"></td>
+				<td th:if="${studentUser.cgpa >= 0}" th:text="${studentUser.cgpa}"></td>
+				<td th:unless="${studentUser.cgpa >= 0}" th:text="NA"></td>
+			</tr>
+		</tbody>
+	</table>
+</th:block>
