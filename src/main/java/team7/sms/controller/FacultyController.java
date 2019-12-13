@@ -88,8 +88,10 @@ public class FacultyController {
 	}
 
 	private void addGreeting(FacultyUser facultyUser) {
-		if(facultyUser != null) navbar.addItem("Hello, " + facultyUser.getFullname(), "#");
-		navbar.addItem("Logout", "/Faculty/Logout/");
+		if(facultyUser != null) {
+			navbar.addItem("Hello, " + facultyUser.getFullname(), "#");
+			navbar.addItem("Logout", "/Faculty/Logout/");
+		}
 	}
 
 	@GetMapping("/Schedule")

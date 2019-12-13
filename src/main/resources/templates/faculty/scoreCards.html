@@ -6,13 +6,18 @@
 			<th>End Date</th>
 			<th>Subject</th>
 			<th>Status</th>
+			<th>Action</th>
 		</thead>
 		<tbody>
-			<tr th:each="course: ${courses}" th:onclick="|goto('/Faculty/ScoreForm/${course.id}');|" style="cursor: pointer;">
+			<tr th:each="course: ${courses}">
 				<td th:text="*{course.startDate}">startDate</td>
 				<td th:text="*{course.endDate}">endDate</td>
 				<td th:text="*{course.subject.name}">Subject</td>
 				<td th:text="*{course.status}">Status</td>
+				<td>
+					<a th:if="${course.status == 'Finished'}" class="btn btn-outline-success btn-sm btn-block" th:href="|/Faculty/ScoreForm/${course.id}|">Score</a>
+					<a th:if="${course.status == 'Graded'}" class="btn btn-outline-success btn-sm btn-block" th:href="|/Faculty/ScoreForm/${course.id}|">View</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>
