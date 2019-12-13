@@ -52,7 +52,15 @@ public class FacultyLeave {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+		
+	public FacultyUser getFacultyUser() {
+		return facultyUser;
+	}
+
+	public void setFacultyUser(FacultyUser facultyUser) {
+		this.facultyUser = facultyUser;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

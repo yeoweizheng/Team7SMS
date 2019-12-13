@@ -1,5 +1,6 @@
 package team7.sms.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -15,12 +16,16 @@ public class FacultyUser {
 	private char gender;
 	private String address;
 	private String mobileNo;
-
-	@OneToMany(mappedBy = "facultyUser", fetch = FetchType.LAZY)
-	private List<FacultyLeave> facultyLeave;
+	
 	@OneToMany(mappedBy = "facultyUser", fetch = FetchType.LAZY)
 	private List<Course> courses;
-	public FacultyUser() {}
+
+	@OneToMany(mappedBy = "facultyUser", fetch = FetchType.LAZY)
+	private List<FacultyLeave> facultyLeaves;
+	public FacultyUser() {
+		this.facultyLeaves = new ArrayList<FacultyLeave>();
+	}
+	
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
 		this.username = username;
@@ -29,6 +34,8 @@ public class FacultyUser {
 		this.gender = gender;
 		this.address = address;
 		this.mobileNo = mobileNo;
+		this.facultyLeaves = new ArrayList<FacultyLeave>();
+		
 	}
 	public int getId() {
 		return id;
@@ -72,11 +79,11 @@ public class FacultyUser {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	public List<FacultyLeave> getFacultyLeave() {
-		return facultyLeave;
+	public List<FacultyLeave> getFacultyLeaves() {
+		return facultyLeaves;
 	}
-	public void setFacultyLeave(List<FacultyLeave> facultyLeave) {
-		this.facultyLeave = facultyLeave;
+	public void setFacultyLeaves(List<FacultyLeave> facultyLeaves) {
+		this.facultyLeaves = facultyLeaves;
 	}
 	public List<Course> getCourses() {
 		return courses;

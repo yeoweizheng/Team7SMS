@@ -56,6 +56,9 @@ public class Team7SmsApplication {
 					dbService.findCourseById(1)));
 			dbService.addEnrollment(new Enrollment(dbService.findStudentUserById(2), 
 					dbService.findCourseById(1)));
+			
+			dbService.addFacultyLeave(new FacultyLeave("05-May-19", "07-May-19", dbService.findFacultyUserById(1))); 
+			dbService.addFacultyLeave(new FacultyLeave("09-Jun-19", "10-Jun-19", dbService.findFacultyUserById(2))); 
 		};
 	}
 	

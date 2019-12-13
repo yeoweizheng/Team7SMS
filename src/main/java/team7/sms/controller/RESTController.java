@@ -143,4 +143,21 @@ public class RESTController {
 		if(score >= 10) return "D";
 		return "F";
 	}
+	
+	@PostMapping("/approveFacultyLeave")
+	public ResponseEntity approveFacultyLeave(HttpSession session, @RequestParam int facultyLeaveId) {
+		if(getAdminUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
+		FacultyLeave facultyLeave = dbService.findFacultyLeaveById(facultyLeaveId);
+		facultyLeave.setStatus("Approved");
+		dbService.addFacultyLeave(facultyLeave);
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	@PostMapping("/rejectFacultyLeave")
+	public ResponseEntity rejectFacultyLeave(HttpSession session, @RequestParam int facultyLeaveId) {
+		if(getAdminUserFromSession(session) == null) return new ResponseEntity(HttpStatus.FORBIDDEN);
+		FacultyLeave facultyLeave = dbService.findFacultyLeaveById(facultyLeaveId);
+		facultyLeave.setStatus("Rejected");
+		dbService.addFacultyLeave(facultyLeave);
+		return new ResponseEntity(HttpStatus.OK);
+	}
 }

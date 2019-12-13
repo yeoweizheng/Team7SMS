@@ -1,0 +1,63 @@
+<th:block th:fragment="pendingFacultyLeaves">
+	<h4>Pending Faculty Leaves</h4>
+	<table class="table table-hover">
+		<thead>
+			<th>Id</th>
+			<th>Username</th>
+			<th>Lecturer</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Status</th>
+			<th>Action</th>
+		</thead>
+		<tbody>
+			<tr th:each="facultyLeave: ${facultyLeaves}">
+				<td th:text="${facultyLeave.id}"></td>
+				<td th:text="${facultyLeave.facultyUser.username}"></td>
+				<td th:text="${facultyLeave.facultyUser.fullname}"></td>
+				<td th:text="${facultyLeave.startDate}"></td>
+				<td th:text="${facultyLeave.endDate}"></td>
+				<td th:text="${facultyLeave.status}"></td>
+				<td>
+					<div class="row">
+						<div class="col-lg-6 p-1" style="white-space: nowrap">
+							<button class="btn btn-outline-success btn-sm btn-block"
+								th:onclick="|approve(${facultyLeave.id})|">Approve</button>
+						</div>
+						<div class="col-lg-6 p-1" style="white-space: nowrap">
+							<button class="btn btn-outline-danger btn-sm btn-block"
+								th:onclick="|reject(${facultyLeave.id})|">Reject</button>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<script>
+		function approve(id){
+			$.ajax({
+				url: "/api/approveFacultyLeave",
+				method: "POST",
+				data: {
+					facultyLeaveId: id
+				},
+				success: function(){
+					goto('/Admin/PendingFacultyLeaves');
+				}
+			})
+		}
+		function reject(id){
+			$.ajax({
+				url: "/api/rejectFacultyLeave",
+				method: "POST",
+				data: {
+					facultyLeaveId: id
+				},
+				success: function(){
+					goto('/Admin/PendingFacultyLeaves');
+				}
+			})
+		}
+	</script>
+	
+</th:block>
