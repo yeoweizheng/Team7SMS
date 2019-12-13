@@ -1,7 +1,8 @@
-package team7.sms.database;
+package team7.sms;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,14 @@ public class DateService implements DateServiceInterface {
 	public DateService() {
 		formatter = DateTimeFormatter.ofPattern("dd-MMM-yy");
 	}
+	public LocalDate parseLocalDate(String inputString) {
+		return LocalDate.parse(inputString, formatter);
+	}
 	public boolean checkOverlap(String startDateStr1, String endDateStr1, String startDateStr2, String endDateStr2) {
-		LocalDate startDate1 = LocalDate.parse(startDateStr1, formatter);
-		LocalDate endDate1 = LocalDate.parse(endDateStr1, formatter);
-		LocalDate startDate2 = LocalDate.parse(startDateStr2, formatter);
-		LocalDate endDate2 = LocalDate.parse(endDateStr2, formatter);
+		LocalDate startDate1 = parseLocalDate(startDateStr1);
+		LocalDate endDate1 = parseLocalDate(endDateStr1);
+		LocalDate startDate2 = parseLocalDate(startDateStr2);
+		LocalDate endDate2 = parseLocalDate(endDateStr2);
 		if(startDate1.isEqual(startDate2)) return true;
 		if(startDate1.isEqual(endDate2)) return true;
 		if(endDate1.isEqual(startDate2)) return true;
@@ -25,12 +29,21 @@ public class DateService implements DateServiceInterface {
 		return false;
 	}
 	public boolean checkStartEndValidity(String startDateStr, String endDateStr) {
-		LocalDate startDate = LocalDate.parse(startDateStr, formatter);
-		LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+		LocalDate startDate = parseLocalDate(startDateStr);
+		LocalDate endDate = parseLocalDate(endDateStr);
 		if(endDate.isAfter(startDate) || endDate.isEqual(startDate)) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	public ArrayList<String> getDateList(String startDateStr, String endDateStr){
+		ArrayList<String> dateList = new ArrayList<String>();
+		LocalDate startDate = parseLocalDate(startDateStr);
+		LocalDate endDate = parseLocalDate(endDateStr);
+		for(;!startDate.isAfter(endDate);startDate = startDate.plusDays(1)) {
+			dateList.add(startDate.format(formatter));
+		}
+		return dateList;
 	}
 }

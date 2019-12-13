@@ -1,46 +1,20 @@
-<style>
-	<!-- If there is time: style the annoying buttons... -->
-
-</style>
-
-
-
 <th:block th:fragment="schedule">
 	<h4 style="display: inline-block;">Schedule</h4>
-	<!-- View own schedule -->
-	
-	<div>
-		<div class="dropdown show">
-		  <a class="btn btn-sm btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    <b>View</b>
-		  </a>
-		
-		  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-		    <a class="dropdown-item" href="#">Day</a>
-		    <a class="dropdown-item" href="#">Week</a>
-		    <a class="dropdown-item" href="#">Month</a>
-		  </div>
-		</div>
-	</div>
-	
 	<table class="table table-hover">
 		<thead>
 			<th>Date</th>
-			<th>startTime</th>
-			<th>endTime</th>
 			<th>Subject</th>
-			<th>EnrollmentId</th>
+			<th>Start Time</th>
+			<th>End Time</th>
 		</thead>
 		<tbody>
-			<!-- Not done yet -->
-			<tr th:each="enrollment: ${enrollments}" th:attr="onclick=|goto('/Faculty/EnrollmentList/${enrollment.id}')|" style="cursor: pointer;">
-				<!-- <td th:text="${enrollment.date}"></td> -->
-				<td th:text="0900hrs"></td>
-				<td th:text="1700hrs"></td>
-				<td th:text="${enrollment.course.subject.name}"></td>
-				<td th:text="${enrollment.id}"></td>
+			<tr th:each="scheduledClass: ${scheduledClasses}">
+				<td th:text="${scheduledClass.date}"></td>
+				<td th:text="${scheduledClass.subjectName}"></td>
+				<td>09:00h</td>
+				<td>17:00h</td>
 			</tr>
 		</tbody>
 	</table>
-	
+
 </th:block>

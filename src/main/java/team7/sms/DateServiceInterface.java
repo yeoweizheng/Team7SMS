@@ -1,4 +1,4 @@
-package team7.sms.database;
+package team7.sms;
 
 public interface DateServiceInterface {
 	public boolean checkOverlap(String startDateStr1, String endDateStr1, String startDateStr2, String endDateStr2);

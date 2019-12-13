@@ -5,8 +5,12 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import team7.sms.DateService;
+
 @Entity
-public class Course {
+public class Course implements Comparable<Course>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -85,5 +89,10 @@ public class Course {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	@Override
+	public int compareTo(Course o) {
+		// Empty method, controller will use compare method in CourseComparator
+		return 0;
 	}
 }

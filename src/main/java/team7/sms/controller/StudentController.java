@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import team7.sms.DateService;
 import team7.sms.Team7SmsApplication;
-import team7.sms.database.DateService;
 import team7.sms.database.DbService;
 import team7.sms.database.StudentUserRepository;
 import team7.sms.model.*;
@@ -69,6 +69,7 @@ public class StudentController {
 
 	private void addGreeting(StudentUser studentUser) {
 		if(studentUser != null) navbar.addItem("Hello, " + studentUser.getFullname(), "#");
+		navbar.addItem("Logout", "/Student/Logout/");
 	}
 
 	@GetMapping("/ExamGrades")
@@ -77,7 +78,6 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Graded"));
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUserAndStatusIn(studentUser, statuses);
 		model.addAttribute("sidebar", sidebar);
@@ -93,7 +93,6 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<Course> courses = dbService.findCoursesByStatus("Created");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
 		ArrayList<Course> filteredCourses = new ArrayList<Course>();
@@ -118,7 +117,6 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		navbar.addItem("Logout", "/Student/Logout/");
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
@@ -132,7 +130,6 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		navbar.addItem("Logout", "/Student/Logout/");
 		Course course = dbService.findCourseById(id);
 		Enrollment enrollment = dbService.findEnrollmentByStudentUserAndCourse(studentUser, course);
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Pending", "Approved", "Started"));

@@ -3,6 +3,7 @@ package team7.sms.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
+import team7.sms.CourseComparator;
+import team7.sms.DateService;
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.*;
 import team7.sms.database.FacultyLeaveRepository;
@@ -31,13 +36,21 @@ public class FacultyController {
 	private static Sidebar sidebar;
 	private static Navbar navbar;
 	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
-	
 	private DbService dbService;
+	private CourseComparator courseComparator;
+	private DateService dateService;
 	@Autowired
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
 	}
-
+	@Autowired
+	public void setCourseComparator(CourseComparator couseComparator){
+		this.courseComparator = courseComparator;
+	}
+	@Autowired
+	public void setDateService(DateService dateService) {
+		this.dateService = dateService;
+	}
 	public static void init() {
 		sidebar = new Sidebar();
 		sidebar.addItem("Schedule", "/Faculty/Schedule/");
@@ -67,6 +80,7 @@ public class FacultyController {
 
 	private void addGreeting(FacultyUser facultyUser) {
 		if(facultyUser != null) navbar.addItem("Hello, " + facultyUser.getFullname(), "#");
+		navbar.addItem("Logout", "/Faculty/Logout/");
 	}
 
 	@GetMapping("/Schedule")
@@ -74,12 +88,20 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Logout", "/Faculty/Logout/");
-		ArrayList<Enrollment> enrollments = dbService.findEnrollments();
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Started"));
+		ArrayList<Course> courses = dbService.findCoursesByFacultyUserAndStatusIn(facultyUser, statuses);
+		Collections.sort(courses, courseComparator);
+		ArrayList<ScheduledClass> scheduledClasses = new ArrayList<ScheduledClass>();
+		for(Course course : courses) {
+			ArrayList<String> dates = dateService.getDateList(course.getStartDate(), course.getEndDate());
+			for(String date : dates) {
+				scheduledClasses.add(new ScheduledClass(date, course.getSubject().getName()));
+			}
+		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "faculty/schedule");
-		model.addAttribute("enrollments", enrollments);
+		model.addAttribute("scheduledClasses", scheduledClasses);
 		return "index"; 
 	}
 	
@@ -88,7 +110,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Logout", "/Faculty/Logout/");
 		ArrayList<Course> courses = dbService.findCoursesByFacultyUser(facultyUser);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
@@ -101,7 +122,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Logout", "/Faculty/Logout/");
 		Course course = dbService.findCourseById(id);
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Pending", "Approved", "Started", "Finished", "Graded"));
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourseAndStatusIn(course, statuses);
@@ -118,7 +138,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Logout", "/Faculty/Logout/");
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Finished", "Graded"));
 		ArrayList<Course> courses = dbService.findCoursesByFacultyUserAndStatusIn(facultyUser, statuses);
 		model.addAttribute("sidebar", sidebar);
@@ -133,7 +152,6 @@ public class FacultyController {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
-		navbar.addItem("Logout", "/Faculty/Logout/");
 		Course course = dbService.findCourseById(id);
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Finished", "Graded"));
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourseAndStatusIn(course, statuses);
