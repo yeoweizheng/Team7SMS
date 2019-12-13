@@ -1,6 +1,7 @@
 package team7.sms.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpSession;
 
@@ -42,6 +43,7 @@ public class AdminController {
 		sidebar.addItem("Faculty Users", "/Admin/FacultyUsers/");
 		sidebar.addItem("Subjects", "/Admin/Subjects/");
 		sidebar.addItem("Courses", "/Admin/Courses/");
+		sidebar.addItem("CGPA", "/Admin/CGPA/");
 		navbar = new Navbar();
 		navbar.addItem("Logout", "/Admin/Logout/");
 	}
@@ -383,44 +385,17 @@ public class AdminController {
 	}
 	
 	private double getGPAFromGrade(String grade){
-		if(grade == "A+") {
-			return 5.5;
-		}
-		if(grade == "A") {
-			return 5.0;
-		}
-		if(grade == "A-") {
-			return 4.5;
-		}
-		if(grade == "B+") {
-			return 4.0;
-		}
-		if(grade == "B") {
-			return 3.5;
-		}
-		if(grade == "B-") {
-			return 3.0;
-		}
-		if(grade == "C+") {
-			return 2.5;
-		}
-		if(grade == "C") {
-			return  2.0;
-		}
-		if(grade == "C-") {
-			return 1.5;
-		}
-		if(grade == "D+") {
-			return 1.0;
-		}
-		if(grade == "D") {
-			return 0.5;
-		}
-		if(grade == "F") {
-			return 0.0;
-		}
-		else {
-			return 0.0;
+		switch(grade) {
+			case "A+": return 5.0;
+			case "A": return 5.0;
+			case "B+": return 4.0;
+			case "B": return 3.5;
+			case "B-": return 3.0;
+			case "C+": return 2.5;
+			case "C": return 2.0;
+			case "D+": return 1.5;
+			case "D": return 1.0;
+			default: return 0;
 		}
 	}
 	
@@ -429,22 +404,21 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		StudentUser students;
-		Arraylist<StudentUser> students = dbService.findStudentUsers 
-				for(StudentUser student : students){
-					double cgpa = 0;
-					Enrollment enrollments;
-					Arraylist<Enrollment> enrollments = DbService.findenrollmentsbystudentuserandstatus(StudentUser, status="graded")
-					for(Enrollment enrollment :enrollments){
-						cgpa = cgpa + getGPAFromGrade(enrollment.getGrade());
-					}
-					cgpa = cgpa / enrollments.size();
-					StudentUser.setCgpa(cgpa);
-				}
+		ArrayList<StudentUser> studentUsers = dbService.findStudentUsers();
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Graded"));
+		for(StudentUser studentUser : studentUsers){
+			double cgpa = -1;
+			ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUserAndStatusIn(studentUser, statuses);
+			for(Enrollment enrollment :enrollments){
+				cgpa = cgpa + getGPAFromGrade(enrollment.getGrade());
+			}
+			if(enrollments.size() > 0) cgpa = cgpa / enrollments.size();
+			studentUser.setCgpa(cgpa);
+		}
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/CGPA");
-		model.addAttribute("students", students);
+		model.addAttribute("studentUsers", studentUsers);
 		return "index";
 	}
 	
