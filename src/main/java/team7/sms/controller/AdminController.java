@@ -382,4 +382,70 @@ public class AdminController {
 		return "index"; 
 	}
 	
+	private double getGPAFromGrade(String grade){
+		if(grade == "A+") {
+			return 5.5;
+		}
+		if(grade == "A") {
+			return 5.0;
+		}
+		if(grade == "A-") {
+			return 4.5;
+		}
+		if(grade == "B+") {
+			return 4.0;
+		}
+		if(grade == "B") {
+			return 3.5;
+		}
+		if(grade == "B-") {
+			return 3.0;
+		}
+		if(grade == "C+") {
+			return 2.5;
+		}
+		if(grade == "C") {
+			return  2.0;
+		}
+		if(grade == "C-") {
+			return 1.5;
+		}
+		if(grade == "D+") {
+			return 1.0;
+		}
+		if(grade == "D") {
+			return 0.5;
+		}
+		if(grade == "F") {
+			return 0.0;
+		}
+		else {
+			return 0.0;
+		}
+	}
+	
+	@GetMapping("/CGPA")
+	public String CGPA(HttpSession session, Model model) {
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		StudentUser students;
+		Arraylist<StudentUser> students = dbService.findStudentUsers 
+				for(StudentUser student : students){
+					double cgpa = 0;
+					Enrollment enrollments;
+					Arraylist<Enrollment> enrollments = DbService.findenrollmentsbystudentuserandstatus(StudentUser, status="graded")
+					for(Enrollment enrollment :enrollments){
+						cgpa = cgpa + getGPAFromGrade(enrollment.getGrade());
+					}
+					cgpa = cgpa / enrollments.size();
+					StudentUser.setCgpa(cgpa);
+				}
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/CGPA");
+		model.addAttribute("students", students);
+		return "index";
+	}
+	
 }

@@ -20,6 +20,9 @@ public class StudentUser {
 	private String mobileNo;
 	@OneToMany(mappedBy = "studentUser", fetch = FetchType.LAZY)
 	private List<Enrollment> enrollments;
+	private double cgpa;
+	
+	
 	
 	public StudentUser() {
 		this.enrollments = new ArrayList<Enrollment>();
@@ -33,6 +36,12 @@ public class StudentUser {
 		this.address = address;
 		this.mobileNo = mobileNo;
 		this.enrollments = new ArrayList<Enrollment>();
+	}
+	public double getCgpa() {
+		return cgpa;
+	}
+	public void setCgpa(double cgpa) {
+		this.cgpa = cgpa;
 	}
 	public int getId() {
 		return id;

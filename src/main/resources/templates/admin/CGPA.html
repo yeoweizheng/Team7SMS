@@ -1,0 +1,16 @@
+<th:block th:fragment="CGPA">
+<div>
+		<h4 style="display: inline-block;">Students</h4>
+	</div>
+	<table class="table table-hover">
+		<thead>
+			<th>Name</th>
+			<th>CGPA</th>
+		</thead>
+		<tbody>
+				<td th:text="${studentUser.fullname}"></td>
+				<td th:text="${studentUser.cgpa}"></td>
+			</tr>
+		</tbody>
+	</table>
+</th:block>
