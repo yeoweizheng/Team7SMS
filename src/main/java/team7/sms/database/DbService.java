@@ -332,5 +332,7 @@ public class DbService implements DbServiceInterface {
 	public void deleteFacultyLeave(FacultyLeave facultyLeave) {
 		facultyLeaveRepo.delete(facultyLeave);
 	}
+
+	
 	
 }

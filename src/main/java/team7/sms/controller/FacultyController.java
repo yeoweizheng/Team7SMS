@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.*;
-import team7.sms.database.FacultyLeaveRepository;
-import team7.sms.database.FacultyUserRepository;
 import team7.sms.model.*;
 
 @Controller
@@ -33,9 +31,14 @@ public class FacultyController {
 	private static final Logger log = LoggerFactory.getLogger(Team7SmsApplication.class);
 	
 	private DbService dbService;
+	private DateService dateService;
 	@Autowired
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
+	}
+	@Autowired
+	public void setDateService(DateService dateService) {
+		this.dateService = dateService;
 	}
 
 	public static void init() {
@@ -187,5 +190,36 @@ public class FacultyController {
 		FacultyLeave facultyleave = dbService.findFacultyLeaveById(id);
 		dbService.deleteFacultyLeave(facultyleave);
 		return "redirect:/Faculty/Leave";
+	}
+	@GetMapping("/ApplyLeave")
+	public String applyLeave(HttpSession session, Model model) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		FacultyLeaveForm facultyLeaveForm = new FacultyLeaveForm();
+		navbar.addItem("Logout", "/Admin/Logout/");
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/applyLeave");
+		model.addAttribute("facultyUser", facultyUser);
+		model.addAttribute("facultyLeaveForm", facultyLeaveForm);
+		return "index";
+	}
+	@PostMapping("/ApplyLeave")
+	public String applyLeave(HttpSession session, @ModelAttribute FacultyLeaveForm facultyLeaveForm) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		String startDate = facultyLeaveForm.getStartDate();
+		String endDate = facultyLeaveForm.getEndDate();
+		/*if(!dateService.checkStartEndValidity(startDate, endDate)) {
+			session.setAttribute("error", new ErrorMsg("Start date after end date.", "/Faculty/ApplyLeave"));
+			return "redirect:/Admin/Error";
+		}*/
+		FacultyLeave facultyLeave = new FacultyLeave(startDate, endDate, facultyUser);
+		dbService.addFacultyLeave(facultyLeave);
+		return "redirect:/Faculty/Leaves";
 	}
 }
