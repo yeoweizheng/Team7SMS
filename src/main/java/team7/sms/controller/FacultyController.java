@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.*;
+import team7.sms.database.FacultyLeaveRepository;
+import team7.sms.database.FacultyUserRepository;
 import team7.sms.model.*;
 
 @Controller
@@ -156,4 +158,34 @@ public class FacultyController {
 		return "index"; 
 	}
 	
+
+	@GetMapping("/EditFacultyLeave/{id}")
+	public String editFacultyLeave(HttpSession session, Model model, @PathVariable int id) {
+		if(getFacultyUserFromSession(session) == null) {
+			return "redirect:/Home/FacultyLogin";
+		}
+		FacultyLeave facultyLeave = dbService.findFacultyLeaveById(id);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/editFacultyLeave");
+		model.addAttribute("facultyLeave", facultyLeave);
+		return "index";
+	}
+	@PostMapping("/EditFacultyLeave/{id}")
+	public String editFacultyLeave(HttpSession session, @PathVariable int id, @ModelAttribute FacultyLeave facultyLeave) {
+		if(getFacultyUserFromSession(session) == null) {
+			return "redirect:/Home/FacultyLogin";
+		}
+		dbService.addFacultyLeave(facultyLeave);
+		return "redirect:/Faculty/Leave";
+	}
+	@GetMapping("/DeleteFacultyLeave/{id}")
+	public String deleteFacultyLeave(HttpSession session, @PathVariable int id) {
+		if(getFacultyUserFromSession(session) == null) {
+			return "redirect:/Home/FacultyLogin";
+		}
+		FacultyLeave facultyleave = dbService.findFacultyLeaveById(id);
+		dbService.deleteFacultyLeave(facultyleave);
+		return "redirect:/Faculty/Leave";
+	}
 }

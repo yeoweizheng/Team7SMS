@@ -1,0 +1,54 @@
+<th:block th:fragment="editFacultyLeave">
+	<h4>Edit Course</h4>
+	<form id="form" th:action="|/Faculty/EditFacultuLeave/${facultyLeave.id}|" method="post">
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Start Date: </label>
+			<div class="col-md-9">
+				<input readonly class="form-control datetimepicker-input" data-target="#startDate" data-toggle="datetimepicker"
+					type="text" id="startDate" th:field="*{facultyLeave.startDate}" style="background: white;">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">End Date: </label>
+			<div class="col-md-9">
+				<input readonly class="form-control datetimepicker-input" data-target="#endDate" data-toggle="datetimepicker"
+					type="text" id="endDate" th:field="*{facultyLeave.endDate}" style="background: white;">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Faculty User </label>
+			<div class="col-md-9">
+				<input class="form-control" type="text" th:value="${facultyUser}" th:field="*{facultyUser}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-md-4">
+				<a class="btn btn-secondary btn-block" href="/Faculty/Leave">Cancel</a>
+			</div>
+			<div class="col-md-4">
+				<button class="btn btn-success btn-block" type="submit">Update</button>
+			</div>
+			<div class="col-md-4">
+				<a th:if="${allowDelete}" class="btn btn-danger btn-block" th:href="|/Admin/DeleteFacultyLeave/${id}|">Delete</a>
+				<a th:unless="${allowDelete}" class="btn btn-secondary btn-block" href="#" disabled>Delete</a>
+			</div>
+		</div>
+	</form>
+	<script th:inline="javascript">
+		function del(id){
+			goto("/Faculty/DeleteFacultyLeave/" + id);
+		}
+		$(function(){
+			$("#startDate").datetimepicker({
+				format: "DD-MMM-YY",
+				ignoreReadonly: true,
+				defaultDate: moment([[${facultyLeave.startDate}]], "DD-MMM-YY")
+			});
+			$("#endDate").datetimepicker({
+				format: "DD-MMM-YY",
+				ignoreReadonly: true,
+				defaultDate: moment([[${facultyLeave.endDate}]], "DD-MMM-YY")
+			});
+		});
+	</script>
+</th:block>
