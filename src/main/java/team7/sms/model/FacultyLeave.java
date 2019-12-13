@@ -19,15 +19,13 @@ public class FacultyLeave {
 	private FacultyUser facultyUser;
 	private String status;
 	
-	public FacultyLeave() 	{
-		super();
-	}
+	public FacultyLeave() { }
 	
 	public FacultyLeave(String startDate, String endDate, FacultyUser facultyUser, String status) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.facultyUser = facultyUser;
-		this.status = "pending";
+		this.status = "Pending";
 	}
 	
 	public int getId() {

@@ -79,10 +79,10 @@ public class FacultyUser {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	public List<FacultyLeave> getFacultyLeave() {
+	public List<FacultyLeave> getFacultyLeaves() {
 		return facultyLeaves;
 	}
-	public void setFacultyLeave(List<FacultyLeave> facultyLeaves) {
+	public void setFacultyLeaves(List<FacultyLeave> facultyLeaves) {
 		this.facultyLeaves = facultyLeaves;
 	}
 	public List<Course> getCourses() {
