@@ -4,8 +4,13 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Entity
 public class FacultyUser {
+
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -20,6 +25,9 @@ public class FacultyUser {
 	private List<FacultyLeave> facultyLeave;
 	@OneToMany(mappedBy = "facultyUser", fetch = FetchType.LAZY)
 	private List<Course> courses;
+	
+	
+	
 	public FacultyUser() {}
 	public FacultyUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
