@@ -19,14 +19,14 @@ public class FacultyLeave {
 	private FacultyUser facultyUser;
 	private String status;
 	
-	public FacultyLeave(int id, String startDate, String endDate, FacultyUser facultyUser, String status) {
-		this.id = id;
+	public FacultyLeave() {}
+	public FacultyLeave(String startDate, String endDate, FacultyUser facultyUser) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.facultyUser = facultyUser;
-		this.status = status;
+		this.status = "Pending";
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -73,13 +73,6 @@ public class FacultyLeave {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "FacultyLeave [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", facultyUser.FullName="
-				+ facultyUser.getFullname() + ", status=" + status + "]";
-	}
-
 
 	
 }

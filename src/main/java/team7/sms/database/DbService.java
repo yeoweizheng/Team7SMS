@@ -308,8 +308,7 @@ public class DbService implements DbServiceInterface {
 	@Override
 	@Transactional
 	public FacultyLeave findFacultyLeaveById(int id) {
-		FacultyLeave facultyLeave = facultyLeaveRepo.findOneById(id);
-		return facultyLeave;
+		return facultyLeaveRepo.findOneById(id);
 	}
 	@Override
 	@Transactional
@@ -332,5 +331,7 @@ public class DbService implements DbServiceInterface {
 	public void deleteFacultyLeave(FacultyLeave facultyLeave) {
 		facultyLeaveRepo.delete(facultyLeave);
 	}
+
+	
 	
 }

@@ -1,0 +1,41 @@
+<th:block th:fragment="applyLeave">
+	<h4>Apply Leave</h4>
+	<form id="form" action="/Faculty/ApplyLeave" method="post">
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">Start Date: </label>
+			<div class="col-md-9">
+				<input readonly class="form-control datetimepicker-input" data-target="#startDate" data-toggle="datetimepicker"
+					type="text" id="startDate" th:field="*{facultyLeaveForm.startDate}" style="background: white;">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-md-3 col-form-label">End Date: </label>
+			<div class="col-md-9">
+				<input readonly class="form-control datetimepicker-input" data-target="#endDate" data-toggle="datetimepicker"
+					type="text" id="endDate" th:field="*{facultyLeaveForm.endDate}" style="background: white;">
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-md-2"></div>
+			<div class="col-md-4">
+				<a class="btn btn-secondary btn-block" href="/Faculty/Leaves">Cancel</a>
+			</div>
+			<div class="col-md-4">
+				<button class="btn btn-success btn-block" type="submit">Apply</button>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+	</form>
+	<script>
+		$(function(){
+			$("#startDate").datetimepicker({
+				format: "DD-MMM-YY",
+				ignoreReadonly: true
+			});
+			$("#endDate").datetimepicker({
+				format: "DD-MMM-YY",
+				ignoreReadonly: true
+			});
+		});
+	</script>
+</th:block>

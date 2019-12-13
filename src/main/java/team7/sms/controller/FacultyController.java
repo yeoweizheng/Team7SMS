@@ -26,8 +26,6 @@ import team7.sms.CourseComparator;
 import team7.sms.DateService;
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.*;
-import team7.sms.database.FacultyLeaveRepository;
-import team7.sms.database.FacultyUserRepository;
 import team7.sms.model.*;
 
 @Controller
@@ -69,6 +67,17 @@ public class FacultyController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/Home/";
+	}
+
+	@GetMapping("/Error")
+	public String error(HttpSession session, Model model) {
+		if(session.getAttribute("error") == null) return "redirect:/Faculty/";
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "errorPage");
+		model.addAttribute("errorMsg", session.getAttribute("error"));
+		session.setAttribute("error", null);
+		return "index";
 	}
 
 	private FacultyUser getFacultyUserFromSession(HttpSession session) {
@@ -177,27 +186,57 @@ public class FacultyController {
 	}
 	
 
-	@GetMapping("/EditFacultyLeave/{id}")
+	@GetMapping("/EditLeave/{id}")
 	public String editFacultyLeave(HttpSession session, Model model, @PathVariable int id) {
 		if(getFacultyUserFromSession(session) == null) {
 			return "redirect:/Home/FacultyLogin";
 		}
 		FacultyLeave facultyLeave = dbService.findFacultyLeaveById(id);
+		FacultyLeaveForm facultyLeaveForm = new FacultyLeaveForm();
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "faculty/editFacultyLeave");
+		model.addAttribute("content", "faculty/editLeave");
 		model.addAttribute("facultyLeave", facultyLeave);
+		model.addAttribute("facultyLeaveForm", facultyLeaveForm);
 		return "index";
 	}
-	@PostMapping("/EditFacultyLeave/{id}")
-	public String editFacultyLeave(HttpSession session, @PathVariable int id, @ModelAttribute FacultyLeave facultyLeave) {
-		if(getFacultyUserFromSession(session) == null) {
-			return "redirect:/Home/FacultyLogin";
+	@PostMapping("/EditLeave/{id}")
+	public String editFacultyLeave(HttpSession session, @PathVariable int id, @ModelAttribute FacultyLeaveForm facultyLeaveForm) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
+			return "redirect:/Home/AdminLogin";
 		}
-		dbService.addFacultyLeave(facultyLeave);
+		String startDate = facultyLeaveForm.getStartDate();
+		String endDate = facultyLeaveForm.getEndDate();
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Created", "Started"));
+		ArrayList<Course> courses = dbService.findCoursesByFacultyUserAndStatusIn(facultyUser, statuses);
+		if(!dateService.checkStartEndValidity(startDate, endDate)) {
+			session.setAttribute("error", new ErrorMsg("Start date after end date", "/Faculty/EditLeave/" + id));
+			return "redirect:/Faculty/Error";
+		}
+		boolean clash = false;
+		for(Course course : courses) {
+			if(dateService.checkOverlap(startDate, endDate, course.getStartDate(), course.getEndDate())) clash = true;
+		}
+		if(clash) {
+			session.setAttribute("error", new ErrorMsg("Cannot change leave dates due to courses pending / started.", "/Faculty/EditLeave/" + id));
+			return "redirect:/Faculty/Error";
+		}
+		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeavesByFacultyUser(facultyUser);
+		for(FacultyLeave f : facultyLeaves) {
+			if(dateService.checkOverlap(startDate, endDate, f.getStartDate(), f.getEndDate())
+				&& f.getId() != id) clash = true;
+		}
+		if(clash) {
+			session.setAttribute("error", new ErrorMsg("Cannot change leave dates due to clash with existing leave.", "/Faculty/EditLeave/" + id));
+			return "redirect:/Faculty/Error";
+		}
+		FacultyLeave facultyLeave = dbService.findFacultyLeaveById(id);
+		facultyLeave.setStartDate(startDate);
+		facultyLeave.setEndDate(endDate);
 		return "redirect:/Faculty/Leave";
 	}
-	@GetMapping("/DeleteFacultyLeave/{id}")
+	@GetMapping("/DeleteLeave/{id}")
 	public String deleteFacultyLeave(HttpSession session, @PathVariable int id) {
 		if(getFacultyUserFromSession(session) == null) {
 			return "redirect:/Home/FacultyLogin";
@@ -205,5 +244,54 @@ public class FacultyController {
 		FacultyLeave facultyleave = dbService.findFacultyLeaveById(id);
 		dbService.deleteFacultyLeave(facultyleave);
 		return "redirect:/Faculty/Leave";
+	}
+	@GetMapping("/ApplyLeave")
+	public String applyLeave(HttpSession session, Model model) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		FacultyLeaveForm facultyLeaveForm = new FacultyLeaveForm();
+		navbar.addItem("Logout", "/Admin/Logout/");
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/applyLeave");
+		model.addAttribute("facultyUser", facultyUser);
+		model.addAttribute("facultyLeaveForm", facultyLeaveForm);
+		return "index";
+	}
+	@PostMapping("/ApplyLeave")
+	public String applyLeave(HttpSession session, @ModelAttribute FacultyLeaveForm facultyLeaveForm) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		String startDate = facultyLeaveForm.getStartDate();
+		String endDate = facultyLeaveForm.getEndDate();
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Created", "Started"));
+		ArrayList<Course> courses = dbService.findCoursesByFacultyUserAndStatusIn(facultyUser, statuses);
+		if(!dateService.checkStartEndValidity(startDate, endDate)) {
+			session.setAttribute("error", new ErrorMsg("Start date after end date", "/Faculty/ApplyLeave"));
+			return "redirect:/Faculty/Error";
+		}
+		boolean clash = false;
+		for(Course course : courses) {
+			if(dateService.checkOverlap(startDate, endDate, course.getStartDate(), course.getEndDate())) clash = true;
+		}
+		if(clash) {
+			session.setAttribute("error", new ErrorMsg("Cannot apply leave due to courses pending / started.", "/Faculty/ApplyLeave"));
+			return "redirect:/Faculty/Error";
+		}
+		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeavesByFacultyUser(facultyUser);
+		for(FacultyLeave f : facultyLeaves) {
+			if(dateService.checkOverlap(startDate, endDate, f.getStartDate(), f.getEndDate())) clash = true;
+		}
+		if(clash) {
+			session.setAttribute("error", new ErrorMsg("Cannot apply leave due to clash with existing leave.", "/Faculty/ApplyLeave"));
+			return "redirect:/Faculty/Error";
+		}
+		FacultyLeave facultyLeave = new FacultyLeave(startDate, endDate, facultyUser);
+		dbService.addFacultyLeave(facultyLeave);
+		return "redirect:/Faculty/Leaves";
 	}
 }
