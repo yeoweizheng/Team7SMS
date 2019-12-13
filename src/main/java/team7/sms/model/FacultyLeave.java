@@ -19,12 +19,15 @@ public class FacultyLeave {
 	private FacultyUser facultyUser;
 	private String status;
 	
-	public FacultyLeave(int id, String startDate, String endDate, FacultyUser facultyUser, String status) {
-		this.id = id;
+	public FacultyLeave() 	{
+		super();
+	}
+	
+	public FacultyLeave(String startDate, String endDate, FacultyUser facultyUser, String status) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.facultyUser = facultyUser;
-		this.status = status;
+		this.status = "pending";
 	}
 	
 	public int getId() {
@@ -52,7 +55,15 @@ public class FacultyLeave {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+		
+	public FacultyUser getFacultyUser() {
+		return facultyUser;
+	}
+
+	public void setFacultyUser(FacultyUser facultyUser) {
+		this.facultyUser = facultyUser;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
