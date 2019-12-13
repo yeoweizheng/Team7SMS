@@ -2,19 +2,21 @@
 	<h4>Available Courses</h4>
 	<table class="table table-hover">
 		<thead>
-			<th>Id</th>
-			<th>Name</th>
-			<th>Lecturer</th>
 			<th>Start date</th>
 			<th>End Date</th>
+			<th>Name</th>
+			<th>Lecturer</th>
+			<th>Action</th>
 		</thead>
 		<tbody>
-			<tr th:each="course: ${courses}" th:attr="onclick=|goto('/Student/CourseDetails/${course.id}')|" style="cursor: pointer;">
-				<td th:text="${course.id}"></td>
-				<td th:text="${course.subject.name}"></td>
-				<td th:text="${course.facultyUser.fullname}"></td>
+			<tr th:each="course: ${courses}">
 				<td th:text="${course.startDate}"></td>
 				<td th:text="${course.endDate}"></td>
+				<td th:text="${course.subject.name}"></td>
+				<td th:text="${course.facultyUser.fullname}"></td>
+				<td>
+					<a class="btn btn-outline-success btn-sm btn-block" th:href="|/Student/CourseDetails/${course.id}|">View</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>

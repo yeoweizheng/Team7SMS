@@ -7,7 +7,6 @@
 	<table class="table table-hover">
 		<thead>
 			<th></th>
-			<th>Id</th>
 			<th>Subject</th>
 			<th>Lecturer</th>
 			<th>Start Date</th>
@@ -23,7 +22,6 @@
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>
-				<td th:text="${course.id}"></td>
 				<td th:text="${course.subject.name}"></td>
 				<td th:text="${course.facultyUser.fullname}"></td>
 				<td th:text="${course.startDate}"></td>

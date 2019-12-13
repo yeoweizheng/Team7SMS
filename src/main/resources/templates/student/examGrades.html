@@ -2,20 +2,18 @@
 	<h4>Exam Grades</h4>
 	<table class="table table-hover">
 		<thead>
-			<th>Id</th>
-			<th>Subject</th>
-			<th>Lecturer</th>
 			<th>Start Date</th>
 			<th>End Date</th>
+			<th>Subject</th>
+			<th>Lecturer</th>
 			<th>Grade</th>
 		</thead>
 		<tbody>
 			<tr th:each="enrollment: ${enrollments}">
-				<td th:text="${enrollment.id}"></td>
-				<td th:text="${enrollment.course.subject.name}"></td>
-				<td th:text="${enrollment.course.facultyUser.fullname}"></td>
 				<td th:text="${enrollment.course.startDate}"></td>
 				<td th:text="${enrollment.course.endDate}"></td>
+				<td th:text="${enrollment.course.subject.name}"></td>
+				<td th:text="${enrollment.course.facultyUser.fullname}"></td>
 				<td th:text="${enrollment.grade}"></td>
 			</tr>
 		</tbody>
