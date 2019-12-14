@@ -46,7 +46,7 @@ public class StudentController {
 		sidebar.addItem("Available Courses", "/Student/AvailableCourses/");
 		sidebar.addItem("Enrolled Courses", "/Student/EnrolledCourses/");
 		sidebar.addItem("Exam Grades", "/Student/ExamGrades/");
-		sidebar.addItem("Notification", "/Student/Notification/");
+		sidebar.addItem("Notifications", "/Student/Notifications/");
 		navbar = new Navbar();
 
 	}
@@ -153,8 +153,8 @@ public class StudentController {
 		
 		return "index";
 	}
-	@GetMapping("/Notification")
-	public String notification(HttpSession session, Model model) {
+	@GetMapping("/Notifications")
+	public String notifications(HttpSession session, Model model) {
 		StudentUser studentUser = getStudentUserFromSession(session);
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
