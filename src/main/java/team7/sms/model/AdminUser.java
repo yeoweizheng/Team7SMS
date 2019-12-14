@@ -4,8 +4,15 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+
+
 @Entity
 public class AdminUser {
+
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -14,6 +21,9 @@ public class AdminUser {
 	private String fullname;
 	@OneToMany(mappedBy="adminUser", fetch = FetchType.LAZY)
 	private List<AdminLeave> adminLeave;
+	
+	
+	
 	public AdminUser() {}
 	public AdminUser(String username, String password, String fullname) {
 		this.username = username;

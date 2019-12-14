@@ -7,8 +7,14 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+
+
 @Entity
 public class StudentUser {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -21,6 +27,8 @@ public class StudentUser {
 	@OneToMany(mappedBy = "studentUser", fetch = FetchType.LAZY)
 	private List<Enrollment> enrollments;
 	private double cgpa;
+	
+	
 	
 	
 	

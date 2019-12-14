@@ -19,8 +19,7 @@ public class AdminLeave {
 	private AdminUser adminUser;
 	private String status;
 	
-	public AdminLeave(int id, String startDate, String endDate, AdminUser adminUser, String status) {
-		this.id = id;
+	public AdminLeave(String startDate, String endDate, AdminUser adminUser, String status) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.adminUser = adminUser;
@@ -29,9 +28,6 @@ public class AdminLeave {
 	
 	public int getId() {
 		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	public String getStartDate() {
 		return startDate;

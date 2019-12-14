@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import team7.sms.controller.*;
 import team7.sms.model.*;
@@ -22,6 +23,11 @@ public class Team7SmsApplication {
 	@Autowired
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
+	}
+	private PasswordService passwordService;
+	@Autowired
+	private void setPasswordService(PasswordService passwordService) {
+		this.passwordService = passwordService;
 	}
 
 	public static void main(String[] args) {
@@ -41,11 +47,11 @@ public class Team7SmsApplication {
 	@Bean
 	public CommandLineRunner initializeDb() {
 		return (args) -> {
-			dbService.addAdminUser(new AdminUser("admin", "admin", "Administrator"));
-			dbService.addStudentUser(new StudentUser("mark", "mark123", "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
-			dbService.addStudentUser(new StudentUser("gaoge", "gaoge123", "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
-			dbService.addFacultyUser(new FacultyUser("weizheng", "weizheng123", "Wei Zheng", 'M', "789 Kent Ridge Dr", "98127634"));
-			dbService.addFacultyUser(new FacultyUser("ziling", "ziling123", "Zi Ling", 'M', "567 Kent Ridge Dr", "98127123"));
+			dbService.addAdminUser(new AdminUser("admin", passwordService.getPasswordEncoder().encode("admin"), "Administrator"));
+			dbService.addStudentUser(new StudentUser("mark", passwordService.getPasswordEncoder().encode("mark123"), "Mark Goh", 'M', "123 Kent Ridge Dr", "91234567"));
+			dbService.addStudentUser(new StudentUser("gaoge", passwordService.getPasswordEncoder().encode("gaoge123"), "Gao Ge", 'F', "456 Kent Ridge Dr", "98765432"));
+			dbService.addFacultyUser(new FacultyUser("weizheng", passwordService.getPasswordEncoder().encode("weizheng123"), "Wei Zheng", 'M', "789 Kent Ridge Dr", "98127634"));
+			dbService.addFacultyUser(new FacultyUser("ziling", passwordService.getPasswordEncoder().encode("ziling123"), "Zi Ling", 'M', "567 Kent Ridge Dr", "98127123"));
 			dbService.addSubject(new Subject("Java", "Java programming fundamentals"));
 			dbService.addSubject(new Subject("C#", "C# object oriented programming"));
 			dbService.addCourse(new Course("02-Mar-19", "03-Mar-19",

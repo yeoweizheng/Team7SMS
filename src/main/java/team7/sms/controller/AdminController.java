@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.expression.Dates;
 
 import antlr.collections.List;
 import team7.sms.DateService;
+import team7.sms.PasswordService;
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
 import team7.sms.database.DbService;
@@ -42,6 +45,11 @@ public class AdminController {
 	@Autowired
 	public void setDateService(DateService dateService) {
 		this.dateService = dateService;
+	}
+	private PasswordService passwordService;
+	@Autowired
+	private void setPasswordService(PasswordService passwordService) {
+		this.passwordService = passwordService;
 	}
 
 	public static void init() {
@@ -137,6 +145,7 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		studentUser.setPassword(passwordService.getPasswordEncoder().encode(studentUser.getPassword()));
 		dbService.addStudentUser(studentUser);
 		return "redirect:/Admin/StudentUsers";
 	}
@@ -160,6 +169,9 @@ public class AdminController {
 		}
 		if(studentUser.getPassword().equals("")) {
 			studentUser.setPassword(dbService.findStudentUserById(studentUser.getId()).getPassword());
+		}
+		else {
+			studentUser.setPassword(passwordService.getPasswordEncoder().encode(studentUser.getPassword()));
 		}
 		dbService.addStudentUser(studentUser);
 		return "redirect:/Admin/StudentUsers";
@@ -213,6 +225,7 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		facultyUser.setPassword(passwordService.getPasswordEncoder().encode(facultyUser.getPassword()));
 		dbService.addFacultyUser(facultyUser);
 		return "redirect:/Admin/FacultyUsers";
 	}
@@ -240,6 +253,10 @@ public class AdminController {
 		}
 		if(facultyUser.getPassword().equals("")) {
 			facultyUser.setPassword(dbService.findFacultyUserById(facultyUser.getId()).getPassword());
+		}
+		else {
+
+			facultyUser.setPassword(passwordService.getPasswordEncoder().encode(facultyUser.getPassword()));
 		}
 		dbService.addFacultyUser(facultyUser);
 		return "redirect:/Admin/FacultyUsers";
@@ -299,10 +316,13 @@ public class AdminController {
 		return "index";
 	}
 	@PostMapping("/AddCourse")
-	public String addCourse(HttpSession session, @ModelAttribute CourseForm courseForm) {
+	public String addCourse(HttpSession session, @ModelAttribute CourseForm courseForm, BindingResult bindingResult) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+//		if (bindingResult.hasErrors()) {
+//			return "/AddCourse";
+//		}
 		String startDate = courseForm.getStartDate();
 		String endDate = courseForm.getEndDate();
 		FacultyUser facultyUser = dbService.findFacultyUserById(courseForm.getFacultyUserId());

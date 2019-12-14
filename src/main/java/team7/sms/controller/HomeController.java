@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import team7.sms.PasswordService;
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
 import team7.sms.database.DbService;
@@ -35,6 +37,11 @@ public class HomeController {
 	@Autowired
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
+	}
+	private PasswordService passwordService;
+	@Autowired
+	private void setPasswordService(PasswordService passwordService) {
+		this.passwordService = passwordService;
 	}
 
 	public static void init() {
@@ -106,7 +113,7 @@ public class HomeController {
 	public String adminLogin(Model model, HttpSession session, @ModelAttribute AdminUser adminUserInput) {
 		AdminUser adminUser = dbService.findAdminUserByUsername(adminUserInput.getUsername());
 		if(adminUser != null) {
-			if(adminUser.getPassword().equals(adminUserInput.getPassword())) {
+			if(passwordService.getPasswordEncoder().matches(adminUserInput.getPassword(), adminUser.getPassword())) {
 				session.setAttribute("adminUser", adminUser.getId());
 				return "redirect:/Admin/";
 			}
@@ -131,7 +138,7 @@ public class HomeController {
 	public String studentLogin(Model model, HttpSession session, @ModelAttribute StudentUser studentUserInput) {
 		StudentUser studentUser = dbService.findStudentUserByUsername(studentUserInput.getUsername());
 		if(studentUser != null) {
-			if(studentUser.getPassword().equals(studentUserInput.getPassword())) {
+			if(passwordService.getPasswordEncoder().matches(studentUserInput.getPassword(), studentUser.getPassword())) {
 				session.setAttribute("studentUser",studentUser.getId());
 				return "redirect:/Student/";
 			}
@@ -156,7 +163,7 @@ public class HomeController {
 	public String facultyLogin(Model model, HttpSession session, @ModelAttribute FacultyUser facultyUserInput) {
 		FacultyUser facultyUser = dbService.findFacultyUserByUsername(facultyUserInput.getUsername());
 		if(facultyUser != null) {
-			if(facultyUser.getPassword().equals(facultyUserInput.getPassword())) {
+			if(passwordService.getPasswordEncoder().matches(facultyUserInput.getPassword(), facultyUser.getPassword())) {
 				session.setAttribute("facultyUser",facultyUser.getId());
 				return "redirect:/Faculty/";
 			}
