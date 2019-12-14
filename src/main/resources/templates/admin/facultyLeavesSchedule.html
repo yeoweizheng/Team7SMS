@@ -2,8 +2,6 @@
 	<h4>Faculty Leaves Schedule</h4>
 	<table class="table table-hover">
 		<thead>
-			<th>Id</th>
-			<th>Username</th>
 			<th>Lecturer</th>
 			<th>Start Date</th>
 			<th>End Date</th>
@@ -11,8 +9,6 @@
 		</thead>
 		<tbody>
 			<tr th:each="facultyLeave: ${facultyLeaves}">
-				<td th:text="${facultyLeave.id}"></td>
-				<td th:text="${facultyLeave.facultyUser.username}"></td>
 				<td th:text="${facultyLeave.facultyUser.fullname}"></td>
 				<td th:text="${facultyLeave.startDate}"></td>
 				<td th:text="${facultyLeave.endDate}"></td>
