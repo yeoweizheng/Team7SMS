@@ -56,6 +56,7 @@ public class AdminController {
 		sidebar = new Sidebar();
 		sidebar.addItem("Pending Applications", "/Admin/PendingApplications/");
 		sidebar.addItem("Pending Faculty Leaves", "/Admin/PendingFacultyLeaves/");
+		sidebar.addItem("Faculty Leaves Schedule", "/Admin/FacultyLeavesSchedule/");
 		sidebar.addItem("Student Users", "/Admin/StudentUsers/");
 		sidebar.addItem("Faculty Users", "/Admin/FacultyUsers/");
 		sidebar.addItem("Subjects", "/Admin/Subjects/");
@@ -546,6 +547,7 @@ public class AdminController {
 		model.addAttribute("studentUsers", studentUsers);
 		return "index";
 	}
+	
 	@GetMapping("/PendingFacultyLeaves")
 	public String pendingFacultyLeaves(HttpSession session, Model model) {
 		AdminUser adminUser = getAdminUserFromSession(session);
@@ -557,6 +559,21 @@ public class AdminController {
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/pendingFacultyLeaves");
+		model.addAttribute("facultyLeaves", facultyLeaves);
+		return "index";
+	}
+	
+	@GetMapping("/FacultyLeavesSchedule")
+	public String FacultyLeavesSchedule(HttpSession session, Model model) {
+		AdminUser adminUser = getAdminUserFromSession(session);
+		if(adminUser == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		navbar.addItem("Logout", "/Admin/Logout/");
+		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeavesByStatus("Approved");
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/facultyLeavesSchedule");
 		model.addAttribute("facultyLeaves", facultyLeaves);
 		return "index";
 	}
