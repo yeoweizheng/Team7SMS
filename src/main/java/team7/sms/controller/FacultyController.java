@@ -165,6 +165,7 @@ public class FacultyController {
 		if(facultyUser == null) 
 			return "redirect:/Home/FacultyLogin/";
 		Course course = dbService.findCourseById(id);
+		
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Finished", "Graded"));
 		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourseAndStatusIn(course, statuses);
 		model.addAttribute("sidebar", sidebar);
@@ -268,10 +269,18 @@ public class FacultyController {
 	public String applyLeave(HttpSession session, @ModelAttribute FacultyLeaveForm facultyLeaveForm) {
 		FacultyUser facultyUser = getFacultyUserFromSession(session);
 		if(facultyUser == null) {
-			return "redirect:/Home/AdminLogin";
+			return "redirect:/Home/FacultyLogin";
 		}
 		String startDate = facultyLeaveForm.getStartDate();
+		if( startDate.isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Leave Start Date cannot be blank.", "/Faculty/ApplyLeave"));
+			return "redirect:/Faculty/Error";
+		}
 		String endDate = facultyLeaveForm.getEndDate();
+		if( endDate.isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Leave End Date cannot be blank.", "/Faculty/ApplyLeave"));
+			return "redirect:/Faculty/Error";
+		}
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Created", "Started"));
 		ArrayList<Course> courses = dbService.findCoursesByFacultyUserAndStatusIn(facultyUser, statuses);
 		if(!dateService.checkStartEndValidity(startDate, endDate)) {
