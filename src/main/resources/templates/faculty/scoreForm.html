@@ -41,9 +41,14 @@
 	<script>
 		var scoreForms = [];
 		function submit(courseId){
+			var error = false;
 			$(".score").each(function(){
+				if($(this).val() < 0 || $(this).val() > 100 || $(this).val() == "") error = true;
 				scoreForms.push({"id": this.id, "score": $(this).val()})
 			});
+			if(error){
+				return alert("Invalid score input.");
+			}
 			$.ajax({
 				url: "/api/submitScores",
 				method: "POST",
