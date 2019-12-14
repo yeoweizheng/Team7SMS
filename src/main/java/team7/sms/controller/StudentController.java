@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.management.Notification;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -45,6 +46,7 @@ public class StudentController {
 		sidebar.addItem("Available Courses", "/Student/AvailableCourses/");
 		sidebar.addItem("Enrolled Courses", "/Student/EnrolledCourses/");
 		sidebar.addItem("Exam Grades", "/Student/ExamGrades/");
+		sidebar.addItem("Notifications", "/Student/Notifications/");
 		navbar = new Navbar();
 
 	}
@@ -151,6 +153,20 @@ public class StudentController {
 		model.addAttribute("enrollment", enrollment);
 		model.addAttribute("studentUser", studentUser);
 		model.addAttribute("clash", clash);
+		
+		return "index";
+	}
+	@GetMapping("/Notifications")
+	public String notifications(HttpSession session, Model model) {
+		StudentUser studentUser = getStudentUserFromSession(session);
+		if(studentUser == null) {
+			return "redirect:/Home/StudentLogin";
+		}
+		ArrayList<Notification> notifications = dbService.findNotifications();
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "student/notification");
+		model.addAttribute("notifications", notifications);
 		return "index";
 	}
 }
