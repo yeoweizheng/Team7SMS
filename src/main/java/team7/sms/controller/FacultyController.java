@@ -237,7 +237,7 @@ public class FacultyController {
 		FacultyLeave facultyLeave = dbService.findFacultyLeaveById(id);
 		facultyLeave.setStartDate(startDate);
 		facultyLeave.setEndDate(endDate);
-		return "redirect:/Faculty/Leave";
+		return "redirect:/Faculty/Leaves";
 	}
 	@GetMapping("/DeleteLeave/{id}")
 	public String deleteFacultyLeave(HttpSession session, @PathVariable int id) {
@@ -246,7 +246,7 @@ public class FacultyController {
 		}
 		FacultyLeave facultyleave = dbService.findFacultyLeaveById(id);
 		dbService.deleteFacultyLeave(facultyleave);
-		return "redirect:/Faculty/Leave";
+		return "redirect:/Faculty/Leaves";
 	}
 	@GetMapping("/ApplyLeave")
 	public String applyLeave(HttpSession session, Model model) {

@@ -185,9 +185,14 @@ public class AdminController {
 			return "redirect:/Home/AdminLogin";
 		}
 		StudentUser studentUser = dbService.findStudentUserById(id);
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
+		ArrayList<Notification> notifiations = dbService.findNotificationsByStudentUser(studentUser);
+		boolean allowDelete = true;
+		if(enrollments.size() != 0 || notifiations.size() != 0) allowDelete = false;
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/editStudentUser");
+		model.addAttribute("allowDelete", allowDelete);
 		model.addAttribute("studentUser", studentUser);
 		return "index";
 	}
@@ -236,12 +241,6 @@ public class AdminController {
 			return "redirect:/Home/AdminLogin";
 		}
 		StudentUser studentUser = dbService.findStudentUserById(id);
-		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUser(studentUser);
-		if(enrollments != null) {
-			for(Enrollment enrollment : enrollments) {
-				dbService.deleteEnrollment(enrollment);
-			}
-		}
 		dbService.deleteStudentUser(studentUser);
 		return "redirect:/Admin/StudentUsers";
 	}
@@ -315,8 +314,9 @@ public class AdminController {
 		}
 		FacultyUser facultyUser = dbService.findFacultyUserById(id);
 		ArrayList<Course> courses = dbService.findCoursesByFacultyUser(facultyUser);
+		ArrayList<FacultyLeave> leaves = dbService.findFacultyLeavesByFacultyUser(facultyUser);
 		boolean allowDelete = true;
-		if(courses.size() > 0) allowDelete = false;
+		if(courses.size() != 0 || leaves.size() != 0) allowDelete = false;
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/editFacultyUser");
