@@ -237,6 +237,7 @@ public class FacultyController {
 		FacultyLeave facultyLeave = dbService.findFacultyLeaveById(id);
 		facultyLeave.setStartDate(startDate);
 		facultyLeave.setEndDate(endDate);
+		dbService.addFacultyLeave(facultyLeave);
 		return "redirect:/Faculty/Leaves";
 	}
 	@GetMapping("/DeleteLeave/{id}")

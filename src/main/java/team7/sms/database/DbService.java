@@ -22,7 +22,6 @@ public class DbService implements DbServiceInterface {
 	private CourseRepository courseRepo;
 	private SubjectRepository subjectRepo;
 	private EnrollmentRepository enrollmentRepo;
-	private AdminLeaveRepository adminLeaveRepo;
 	private FacultyLeaveRepository facultyLeaveRepo;
 	private NotificationRepository notificationRepo;
 
@@ -54,11 +53,6 @@ public class DbService implements DbServiceInterface {
 	@Autowired
 	public void setEnrollmentRepo(EnrollmentRepository enrollmentRepo) {
 		this.enrollmentRepo = enrollmentRepo;
-	}
-
-	@Autowired
-	public void setAdminLeaveRepo(AdminLeaveRepository adminLeaveRepo) {
-		this.adminLeaveRepo = adminLeaveRepo;
 	}
 
 	@Autowired
@@ -285,33 +279,6 @@ public class DbService implements DbServiceInterface {
 	public ArrayList<Enrollment> findEnrollmentsByStudentUserAndStatusIn(StudentUser studentUser, Collection<String> statuses){
 		return enrollmentRepo.findByStudentUserAndStatusIn(studentUser, statuses);
 	}
-	
-	@Override
-	@Transactional
-	public AdminLeave findAdminLeaveById(int id) {
-		return adminLeaveRepo.findOneById(id);
-	}
-	@Override
-	@Transactional
-	public ArrayList<AdminLeave> findAdminLeavesByStatus(String status) {
-		return adminLeaveRepo.findByStatus(status);
-	}
-	@Override
-	@Transactional
-	public ArrayList<AdminLeave> findAdminLeavesByAdminUser(AdminUser adminUser) {
-		return adminLeaveRepo.findByAdminUser(adminUser);
-	}
-	@Override
-	@Transactional
-	public void addAdminLeave(AdminLeave adminLeave) {
-		adminLeaveRepo.save(adminLeave);
-	}
-	@Override
-	@Transactional
-	public void deleteAdminLeave(AdminLeave adminLeave) {
-		adminLeaveRepo.delete(adminLeave);
-	}
-	
 	@Override
 	@Transactional
 	public FacultyLeave findFacultyLeaveById(int id) {

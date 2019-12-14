@@ -19,10 +19,6 @@ public class AdminUser {
 	private String username;
 	private String password;
 	private String fullname;
-	@OneToMany(mappedBy="adminUser", fetch = FetchType.LAZY)
-	private List<AdminLeave> adminLeave;
-	
-	
 	
 	public AdminUser() {}
 	public AdminUser(String username, String password, String fullname) {
@@ -54,11 +50,4 @@ public class AdminUser {
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
-	public List<AdminLeave> getAdminLeave() {
-		return adminLeave;
-	}
-	public void setAdminLeave(List<AdminLeave> adminLeave) {
-		this.adminLeave = adminLeave;
-	}
-
 }

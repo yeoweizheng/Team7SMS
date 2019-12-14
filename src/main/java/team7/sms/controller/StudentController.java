@@ -176,7 +176,7 @@ public class StudentController {
 		Notification notification = dbService.findNotificationById(id);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "/student/viewNotification");
+		model.addAttribute("content", "student/viewNotification");
 		model.addAttribute("notification", notification);
 		return "index";
 	}
