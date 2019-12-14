@@ -149,6 +149,31 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		if( studentUser.getFullname().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Full name cannot be blank.", "/Admin/AddStudentUser"));
+			return "redirect:/Admin/Error";
+		}
+		String genderString = Character.toString(studentUser.getGender());
+		if( (genderString.isEmpty())) {
+			session.setAttribute("error", new ErrorMsg("Gender cannot be blank.", "/Admin/AddStudentUser"));
+			return "redirect:/Admin/Error";
+		}
+		if( studentUser.getMobileNo().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Mobile No. cannot be blank.", "/Admin/AddStudentUser"));
+			return "redirect:/Admin/Error";
+		}
+		if( studentUser.getAddress().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Address cannot be blank.", "/Admin/AddStudentUser"));
+			return "redirect:/Admin/Error";
+		}
+		if( studentUser.getUsername().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Admin/AddStudentUser"));
+			return "redirect:/Admin/Error";
+		}
+		if( studentUser.getPassword().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Password cannot be blank.", "/Admin/AddStudentUser"));
+			return "redirect:/Admin/Error";
+		}
 		studentUser.setPassword(passwordService.getPasswordEncoder().encode(studentUser.getPassword()));
 		dbService.addStudentUser(studentUser);
 		return "redirect:/Admin/StudentUsers";
@@ -170,6 +195,30 @@ public class AdminController {
 	public String editStudentUser(HttpSession session, @PathVariable int id, @ModelAttribute StudentUser studentUser) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
+		}
+		if(getAdminUserFromSession(session) == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		if( studentUser.getFullname().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Full name cannot be blank.", "/Admin/EditStudentUser/" + id));
+			return "redirect:/Admin/Error";
+		}
+		String genderString = Character.toString(studentUser.getGender());
+		if( (genderString.isEmpty())) {
+			session.setAttribute("error", new ErrorMsg("Gender cannot be blank.", "/Admin/EditStudentUser/" + id));
+			return "redirect:/Admin/Error";
+		}
+		if( studentUser.getMobileNo().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Mobile No. cannot be blank.", "/Admin/EditStudentUser/" + id));
+			return "redirect:/Admin/Error";
+		}
+		if( studentUser.getAddress().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Address cannot be blank.", "/Admin/EditStudentUser/" + id));
+			return "redirect:/Admin/Error";
+		}
+		if( studentUser.getUsername().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Admin/EditStudentUser/" + id));
+			return "redirect:/Admin/Error";
 		}
 		if(studentUser.getPassword().equals("")) {
 			studentUser.setPassword(dbService.findStudentUserById(studentUser.getId()).getPassword());
@@ -229,6 +278,31 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		if( facultyUser.getFullname().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Full name cannot be blank.", "/Admin/AddFacultyUser"));
+			return "redirect:/Admin/Error";
+		}
+		String genderString = Character.toString(facultyUser.getGender());
+		if( (genderString.isEmpty())) {
+			session.setAttribute("error", new ErrorMsg("Gender cannot be blank.", "/Admin/AddFacultyUser"));
+			return "redirect:/Admin/Error";
+		}
+		if( facultyUser.getMobileNo().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Mobile No. cannot be blank.", "/Admin/AddFacultyUser"));
+			return "redirect:/Admin/Error";
+		}
+		if( facultyUser.getAddress().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Address cannot be blank.", "/Admin/AddFacultyUser"));
+			return "redirect:/Admin/Error";
+		}
+		if( facultyUser.getUsername().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Admin/AddFacultyUser"));
+			return "redirect:/Admin/Error";
+		}
+		if( facultyUser.getPassword().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Password cannot be blank.", "/Admin/AddFacultyUser"));
+			return "redirect:/Admin/Error";
+		}
 		facultyUser.setPassword(passwordService.getPasswordEncoder().encode(facultyUser.getPassword()));
 		dbService.addFacultyUser(facultyUser);
 		return "redirect:/Admin/FacultyUsers";
@@ -254,6 +328,27 @@ public class AdminController {
 	public String editFacultyUser(HttpSession session, @PathVariable int id, @ModelAttribute FacultyUser facultyUser) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
+		}
+		if( facultyUser.getFullname().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Full name cannot be blank.", "/Admin/EditFacultyUser/" + id));
+			return "redirect:/Admin/Error";
+		}
+		String genderString = Character.toString(facultyUser.getGender());
+		if( (genderString.isEmpty())) {
+			session.setAttribute("error", new ErrorMsg("Gender cannot be blank.", "/Admin/EditFacultyUser/" + id));
+			return "redirect:/Admin/Error";
+		}
+		if( facultyUser.getMobileNo().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Mobile No. cannot be blank.", "/Admin/EditFacultyUser/" + id));
+			return "redirect:/Admin/Error";
+		}
+		if( facultyUser.getAddress().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Address cannot be blank.", "/Admin/EditFacultyUser/" + id));
+			return "redirect:/Admin/Error";
+		}
+		if( facultyUser.getUsername().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Admin/EditFacultyUser/" + id));
+			return "redirect:/Admin/Error";
 		}
 		if(facultyUser.getPassword().equals("")) {
 			facultyUser.setPassword(dbService.findFacultyUserById(facultyUser.getId()).getPassword());
@@ -320,16 +415,21 @@ public class AdminController {
 		return "index";
 	}
 	@PostMapping("/AddCourse")
-	public String addCourse(HttpSession session, @ModelAttribute CourseForm courseForm, BindingResult bindingResult) {
+	public String addCourse(HttpSession session, @ModelAttribute CourseForm courseForm) {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-//		if (bindingResult.hasErrors()) {
-//			return "/AddCourse";
-//		}
 		String startDate = courseForm.getStartDate();
 		String endDate = courseForm.getEndDate();
 		FacultyUser facultyUser = dbService.findFacultyUserById(courseForm.getFacultyUserId());
+		if( startDate.isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Start date cannot be blank.", "/Admin/AddCourse"));
+			return "redirect:/Admin/Error";
+		}
+		if( endDate.isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("End date cannot be blank.", "/Admin/AddCourse"));
+			return "redirect:/Admin/Error";
+		}
 		if(!dateService.checkStartEndValidity(startDate, endDate)) {
 			session.setAttribute("error", new ErrorMsg("Start date after end date.", "/Admin/AddCourse"));
 			return "redirect:/Admin/Error";
@@ -460,6 +560,14 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
+		if( subject.getName().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Subject name cannot be blank.", "/Admin/AddSubject/"));
+			return "redirect:/Admin/Error";
+		}
+		if( subject.getDescription().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Subject description cannot be blank.", "/Admin/AddSubject/"));
+			return "redirect:/Admin/Error";
+		}
 		dbService.addSubject(subject);
 		return "redirect:/Admin/Subjects";
 	}
@@ -485,7 +593,14 @@ public class AdminController {
 		if(getAdminUserFromSession(session) == null) {
 			return "redirect:/Home/AdminLogin";
 		}
-		
+		if( subject.getName().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Subject name cannot be blank.", "/Admin/EditSubject/" + id));
+			return "redirect:/Admin/Error";
+		}
+		if( subject.getDescription().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Subject description cannot be blank.", "/Admin/EditSubject/" + id));
+			return "redirect:/Admin/Error";
+		}
 		dbService.addSubject(subject);
 		return "redirect:/Admin/Subjects";
 	}
