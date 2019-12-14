@@ -4,15 +4,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class CourseForm {
-	@NotNull(message = "Subject cannot be blank.")
 	private int subjectId;
-	@NotNull(message = "Lecturer cannot be blank.")
 	private int facultyUserId;
-	@NotNull(message = "Start Date required.")
-//	@Min(x no. of days in advance...?)
 	private String startDate;
-	@NotNull(message = "End Date required.")
-//	@Min(startDate + 1)
 	private String endDate;
 	
 	public int getSubjectId() {

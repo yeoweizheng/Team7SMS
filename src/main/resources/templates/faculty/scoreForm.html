@@ -14,8 +14,7 @@
 				<td th:text="${enrollment.studentUser.fullname}">Student</td>
 				<td th:text="${enrollment.status}">Status</td>
 				<td th:if="${course.status == 'Finished'}">
-					<input class="form-control score" th:id="${enrollment.id}" type="number" min="-1" max="100" step="1" style="width: 6em">
-					<!-- <td th:if="${#fields.hasErrors('score')}" th:errors="*{score}">Score Error</td> -->
+					<input class="form-control score" th:id="${enrollment.id}" type="number" min="0" max="100" step="1" style="width: 6em">
 				</td>
 				<td th:if="${course.status == 'Graded'}" th:text="${enrollment.score}"></td>
 				<td th:if="${course.status == 'Graded'}" th:text="${enrollment.grade}"></td>

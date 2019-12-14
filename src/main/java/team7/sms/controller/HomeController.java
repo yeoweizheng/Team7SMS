@@ -21,6 +21,7 @@ import team7.sms.database.DbServiceInterface;
 import team7.sms.database.FacultyUserRepository;
 import team7.sms.database.StudentUserRepository;
 import team7.sms.model.AdminUser;
+import team7.sms.model.ErrorMsg;
 import team7.sms.model.FacultyUser;
 import team7.sms.model.Navbar;
 import team7.sms.model.Sidebar;
@@ -111,6 +112,14 @@ public class HomeController {
 	
 	@PostMapping("/AdminLogin")
 	public String adminLogin(Model model, HttpSession session, @ModelAttribute AdminUser adminUserInput) {
+		if( adminUserInput.getUsername().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Home/AdminLogin"));
+			return "redirect:/Admin/Error";
+		}
+		if( adminUserInput.getPassword().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Password cannot be blank.", "/Home/AdminLogin"));
+			return "redirect:/Admin/Error";
+		}
 		AdminUser adminUser = dbService.findAdminUserByUsername(adminUserInput.getUsername());
 		if(adminUser != null) {
 			if(passwordService.getPasswordEncoder().matches(adminUserInput.getPassword(), adminUser.getPassword())) {
@@ -136,6 +145,14 @@ public class HomeController {
 	
 	@PostMapping("/StudentLogin")
 	public String studentLogin(Model model, HttpSession session, @ModelAttribute StudentUser studentUserInput) {
+		if( studentUserInput.getUsername().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Home/StudentLogin"));
+			return "redirect:/Admin/Error";
+		}
+		if( studentUserInput.getPassword().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Password cannot be blank.", "/Home/StudentLogin"));
+			return "redirect:/Admin/Error";
+		}
 		StudentUser studentUser = dbService.findStudentUserByUsername(studentUserInput.getUsername());
 		if(studentUser != null) {
 			if(passwordService.getPasswordEncoder().matches(studentUserInput.getPassword(), studentUser.getPassword())) {
@@ -161,6 +178,14 @@ public class HomeController {
 	
 	@PostMapping("/FacultyLogin")
 	public String facultyLogin(Model model, HttpSession session, @ModelAttribute FacultyUser facultyUserInput) {
+		if( facultyUserInput.getUsername().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Home/FacultyLogin"));
+			return "redirect:/Admin/Error";
+		}
+		if( facultyUserInput.getPassword().isEmpty()) {
+			session.setAttribute("error", new ErrorMsg("Password cannot be blank.", "/Home/FacultyLogin"));
+			return "redirect:/Admin/Error";
+		}
 		FacultyUser facultyUser = dbService.findFacultyUserByUsername(facultyUserInput.getUsername());
 		if(facultyUser != null) {
 			if(passwordService.getPasswordEncoder().matches(facultyUserInput.getPassword(), facultyUser.getPassword())) {
