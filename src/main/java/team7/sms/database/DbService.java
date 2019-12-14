@@ -360,4 +360,10 @@ public class DbService implements DbServiceInterface {
 	public void deleteNotificationById(int id) {
 		notificationRepo.delete(notificationRepo.findOneById(id));
 	}
+	
+	@Override
+	@Transactional
+	public ArrayList<Notification> findNotificationsByStudentUser(StudentUser studentUser) {
+		return notificationRepo.findByStudentUsers(studentUser);
+	}
 }

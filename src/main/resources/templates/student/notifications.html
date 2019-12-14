@@ -1,0 +1,25 @@
+<th:block th:fragment="notifications">
+	<h4>Notifications</h4>
+	<table class="table table-hover">
+		<thead>
+			<th>Title</th>
+			<th>Course Name</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Lecturer</th>
+			<th>Action</th>
+		</thead>
+		<tbody>
+			<tr th:each="notification: ${notifications}">
+				<td th:text="${notification.title}"></td>
+				<td th:text="${notification.course.subject.name}"></td>
+				<td th:text="${notification.course.startDate}"></td>
+				<td th:text="${notification.course.endDate}"></td>
+				<td th:text="${notification.course.facultyUser.fullname}"></td>
+				<td>
+					<a class="btn btn-outline-success btn-sm btn-block" th:href="|/Student/ViewNotification/${notification.id}|">View</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</th:block>

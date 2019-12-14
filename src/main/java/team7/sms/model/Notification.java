@@ -14,13 +14,16 @@ public class Notification {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<StudentUser> studentUsers;
 	private String message;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Course course;
 
 	public Notification() {
 		this.studentUsers = new ArrayList<StudentUser>();
 	}
-	public Notification(String title, String message) {
+	public Notification(String title, String message, Course course) {
 		this.title = title;
 		this.message = message;
+		this.course = course;
 		this.studentUsers = new ArrayList<StudentUser>();
 	}
 	
@@ -48,6 +51,12 @@ public class Notification {
 	}
 	public void setStudentUsers(List<StudentUser> studentUsers) {
 		this.studentUsers = studentUsers;
+	}
+	public Course getCourse() {
+		return course;
+	}
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 	@Override
 	public int hashCode() {

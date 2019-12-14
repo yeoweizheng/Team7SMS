@@ -18,9 +18,12 @@ public class Course {
 	private FacultyUser facultyUser;
 	@OneToMany (mappedBy = "course", fetch = FetchType.LAZY)
 	private List<Enrollment> enrollments;
+	@OneToMany (mappedBy = "course", fetch = FetchType.LAZY)
+	private List<Notification> notifications;
 	private String status;
 	public Course() {
 		this.enrollments = new ArrayList<Enrollment>();
+		this.notifications = new ArrayList<Notification>();
 	}
 	public Course(String startDate, String endDate, Subject subject, FacultyUser facultyUser) {
 		this.startDate = startDate;
@@ -28,6 +31,7 @@ public class Course {
 		this.subject = subject;
 		this.facultyUser = facultyUser;
 		this.enrollments = new ArrayList<Enrollment>();
+		this.notifications = new ArrayList<Notification>();
 		this.status = "Created";
 	}
 	public int getId() {
@@ -65,6 +69,18 @@ public class Course {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public List<Enrollment> getEnrollments() {
+		return enrollments;
+	}
+	public void setEnrollments(List<Enrollment> enrollments) {
+		this.enrollments = enrollments;
+	}
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
 	}
 	@Override
 	public int hashCode() {

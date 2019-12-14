@@ -63,4 +63,5 @@ public interface DbServiceInterface {
 	public Notification findNotificationById(int id);
 	public ArrayList<Notification> findNotifications();
 	public void deleteNotificationById(int id);
+	public ArrayList<Notification> findNotificationsByStudentUser(StudentUser studentUser);
 }

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.management.Notification;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -162,11 +161,24 @@ public class StudentController {
 		if(studentUser == null) {
 			return "redirect:/Home/StudentLogin";
 		}
-		ArrayList<Notification> notifications = dbService.findNotifications();
+		ArrayList<Notification> notifications = dbService.findNotificationsByStudentUser(studentUser);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "student/notification");
+		model.addAttribute("content", "student/notifications");
 		model.addAttribute("notifications", notifications);
+		return "index";
+	}
+	@GetMapping("/ViewNotification/{id}")
+	public String viewNotification(HttpSession session, Model model, @PathVariable int id){
+		StudentUser studentUser = getStudentUserFromSession(session);
+		if(studentUser == null) {
+			return "redirect:/Home/StudentLogin";
+		}
+		Notification notification = dbService.findNotificationById(id);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "/student/viewNotification");
+		model.addAttribute("notification", notification);
 		return "index";
 	}
 }

@@ -318,10 +318,12 @@ public class FacultyController {
 			return "redirect:/Home/FacultyLogin";
 		}
 		Course course = dbService.findCourseById(id);
-		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(course);
+		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Pending", "Approved", "Started", "Finished", "Graded"));
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourseAndStatusIn(course, statuses);
 		for(Enrollment enrollment : enrollments) {
 			notification.getStudentUsers().add(enrollment.getStudentUser());
 		}
+		notification.setCourse(course);
 		dbService.addNotification(notification);;
 		return "redirect:/Faculty/CourseList";
 	}
