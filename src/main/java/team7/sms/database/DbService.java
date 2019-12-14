@@ -24,6 +24,7 @@ public class DbService implements DbServiceInterface {
 	private EnrollmentRepository enrollmentRepo;
 	private AdminLeaveRepository adminLeaveRepo;
 	private FacultyLeaveRepository facultyLeaveRepo;
+	private NotificationRepository NotificationRepo;
 
 	@Autowired
 	public void setAdminRepo(AdminUserRepository adminRepo) {
@@ -63,6 +64,11 @@ public class DbService implements DbServiceInterface {
 	@Autowired
 	public void setFacultyLeaveRepo(FacultyLeaveRepository facultyLeaveRepo) {
 		this.facultyLeaveRepo = facultyLeaveRepo;
+	}
+	
+	@Autowired
+	public void setEmailRepo(NotificationRepository emailRepo) {
+		this.NotificationRepo = emailRepo;
 	}
 
 	@Override
@@ -332,7 +338,26 @@ public class DbService implements DbServiceInterface {
 	public void deleteFacultyLeave(FacultyLeave facultyLeave) {
 		facultyLeaveRepo.delete(facultyLeave);
 	}
+	@Override
+	@Transactional
+	public ArrayList<Notification> findNotifications() {
+		return NotificationRepo.findAll();
+	}
+	@Override
+	@Transactional
+	public void addNotification(Notification notification){
+		NotificationRepo.save(notification);
+	}
 
-	
-	
+	@Override
+	@Transactional
+	public Notification findNotificationById(int id) {
+		return NotificationRepo.findOneById(id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteNotificationById(int id) {
+		NotificationRepo.delete(NotificationRepo.findOneById(id));
+	}
 }

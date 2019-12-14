@@ -27,13 +27,11 @@ public class StudentUser {
 	@OneToMany(mappedBy = "studentUser", fetch = FetchType.LAZY)
 	private List<Enrollment> enrollments;
 	private double cgpa;
-	
-	
-	
-	
-	
+	@ManyToMany (mappedBy = "studentUsers", fetch = FetchType.LAZY)
+	private List<Notification> notifications;
 	public StudentUser() {
 		this.enrollments = new ArrayList<Enrollment>();
+		this.notifications = new ArrayList<Notification>();
 	}
 	public StudentUser(String username, String password, String fullname, char gender, String address,
 			String mobileNo) {
@@ -44,6 +42,7 @@ public class StudentUser {
 		this.address = address;
 		this.mobileNo = mobileNo;
 		this.enrollments = new ArrayList<Enrollment>();
+		this.notifications = new ArrayList<Notification>();
 	}
 	public double getCgpa() {
 		return cgpa;
@@ -92,6 +91,18 @@ public class StudentUser {
 	}
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
+	}
+	public List<Enrollment> getEnrollments() {
+		return enrollments;
+	}
+	public void setEnrollments(List<Enrollment> enrollments) {
+		this.enrollments = enrollments;
+	}
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
 	}
 	@Override
 	public int hashCode() {

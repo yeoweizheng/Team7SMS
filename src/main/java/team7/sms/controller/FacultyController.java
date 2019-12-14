@@ -297,4 +297,32 @@ public class FacultyController {
 		dbService.addFacultyLeave(facultyLeave);
 		return "redirect:/Faculty/Leaves";
 	}
+	@GetMapping("/SendNotification/{id}")
+	public String sendNotification(HttpSession session, Model model, @PathVariable int id) {
+		FacultyUser facultyUser = getFacultyUserFromSession(session);
+		if(facultyUser == null) {
+			return "redirect:/Home/FacultyLogin/";
+		}
+		Notification notification = new Notification();
+		Course course = dbService.findCourseById(id);
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "faculty/sendNotification");
+		model.addAttribute("notification", notification);
+		model.addAttribute("course", course);
+		return "index";
+	}
+	@PostMapping("/SendNotification/{id}")
+	public String sendNotification(HttpSession session, @PathVariable int id, @ModelAttribute Notification notification) {
+		if(getFacultyUserFromSession(session) == null) {
+			return "redirect:/Home/FacultyLogin";
+		}
+		Course course = dbService.findCourseById(id);
+		ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByCourse(course);
+		for(Enrollment enrollment : enrollments) {
+			notification.getStudentUsers().add(enrollment.getStudentUser());
+		}
+		dbService.addNotification(notification);;
+		return "redirect:/Faculty/CourseList";
+	}
 }

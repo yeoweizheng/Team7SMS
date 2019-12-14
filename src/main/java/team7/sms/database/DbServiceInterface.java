@@ -59,4 +59,8 @@ public interface DbServiceInterface {
 	public void addFacultyLeave(FacultyLeave facultyLeave);
 	public void deleteFacultyLeave(FacultyLeave facultyLeave);
 	
+	public void addNotification(Notification notification);
+	public Notification findNotificationById(int id);
+	public ArrayList<Notification> findNotifications();
+	public void deleteNotificationById(int id);
 }
