@@ -16,4 +16,8 @@ public class Navbar {
 	public LinkedHashMap<String, String> getItems() {
 		return items;
 	}
+	
+	public void clearItems() {
+		items.clear();
+	}
 }

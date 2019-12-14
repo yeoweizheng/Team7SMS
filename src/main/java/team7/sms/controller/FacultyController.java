@@ -89,6 +89,7 @@ public class FacultyController {
 
 	private void addGreeting(FacultyUser facultyUser) {
 		if(facultyUser != null) {
+			navbar.clearItems();
 			navbar.addItem("Hello, " + facultyUser.getFullname(), "#");
 			navbar.addItem("Logout", "/Faculty/Logout/");
 		}

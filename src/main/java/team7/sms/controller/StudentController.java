@@ -68,8 +68,11 @@ public class StudentController {
 	}
 
 	private void addGreeting(StudentUser studentUser) {
-		if(studentUser != null) navbar.addItem("Hello, " + studentUser.getFullname(), "#");
-		navbar.addItem("Logout", "/Student/Logout/");
+		if(studentUser != null) {
+			navbar.clearItems();
+			navbar.addItem("Hello, " + studentUser.getFullname(), "#");
+			navbar.addItem("Logout", "/Student/Logout/");
+		}
 	}
 
 	@GetMapping("/ExamGrades")

@@ -85,8 +85,11 @@ public class AdminController {
 	}
 	
 	private void addGreeting(AdminUser adminUser) {
-		if(adminUser != null) navbar.addItem("Hello, " + adminUser.getFullname(), "#");
-		navbar.addItem("Logout", "/Admin/Logout/");
+		if(adminUser != null) {
+			navbar.clearItems();
+			navbar.addItem("Hello, " + adminUser.getFullname(), "#");
+			navbar.addItem("Logout", "/Admin/Logout/");
+		}
 	}
 
 	@GetMapping("/Error")
