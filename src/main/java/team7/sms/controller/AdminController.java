@@ -651,12 +651,13 @@ public class AdminController {
 		ArrayList<StudentUser> studentUsers = dbService.findStudentUsers();
 		ArrayList<String> statuses = new ArrayList<String>(Arrays.asList("Graded"));
 		for(StudentUser studentUser : studentUsers){
-			double cgpa = -1;
+			double cgpa = 0;
 			ArrayList<Enrollment> enrollments = dbService.findEnrollmentsByStudentUserAndStatusIn(studentUser, statuses);
 			for(Enrollment enrollment :enrollments){
 				cgpa = cgpa + getGPAFromGrade(enrollment.getGrade());
 			}
 			if(enrollments.size() > 0) cgpa = cgpa / enrollments.size();
+			else cgpa = -1;
 			studentUser.setCgpa(cgpa);
 		}
 		model.addAttribute("sidebar", sidebar);
