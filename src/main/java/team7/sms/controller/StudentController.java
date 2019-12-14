@@ -60,6 +60,17 @@ public class StudentController {
 		session.invalidate();
 		return "redirect:/Home/";
 	}
+	
+	@GetMapping("/Error")
+	public String error(HttpSession session, Model model) {
+		if(session.getAttribute("error") == null) return "redirect:/Student/";
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "errorPage");
+		model.addAttribute("errorMsg", session.getAttribute("error"));
+		session.setAttribute("error", null);
+		return "index";
+	}
 
 	private StudentUser getStudentUserFromSession(HttpSession session) {
 		if(session.getAttribute("studentUser") == null) return null;

@@ -98,6 +98,17 @@ public class HomeController {
 		return "index";
 	}
 	
+	@GetMapping("/Error")
+	public String error(HttpSession session, Model model) {
+		if(session.getAttribute("error") == null) return "redirect:/Home/";
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "errorPage");
+		model.addAttribute("errorMsg", session.getAttribute("error"));
+		session.setAttribute("error", null);
+		return "index";
+	}
+	
 	@GetMapping("/AdminLogin")
 	public String adminLogin(Model model, HttpSession session) {
 		if(session.getAttribute("adminUser") != null) {
@@ -115,11 +126,11 @@ public class HomeController {
 	public String adminLogin(Model model, HttpSession session, @ModelAttribute AdminUser adminUserInput) {
 		if( adminUserInput.getUsername().isEmpty()) {
 			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Home/AdminLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 		}
 		if( adminUserInput.getPassword().isEmpty()) {
 			session.setAttribute("error", new ErrorMsg("Password cannot be blank.", "/Home/AdminLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 		}
 		AdminUser adminUser = dbService.findAdminUserByUsername(adminUserInput.getUsername());
 		if(adminUser != null) {
@@ -128,12 +139,12 @@ public class HomeController {
 				return "redirect:/Admin/";
 			}
 			session.setAttribute("error", new ErrorMsg("Username does not match Password.", "/Home/AdminLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 			
 		}
 		
 		session.setAttribute("error", new ErrorMsg("Username not found.", "/Home/AdminLogin"));
-		return "redirect:/Admin/Error";		
+		return "redirect:/Home/Error";		
 		
 	}
 	
@@ -154,11 +165,11 @@ public class HomeController {
 	public String studentLogin(Model model, HttpSession session, @ModelAttribute StudentUser studentUserInput) {
 		if( studentUserInput.getUsername().isEmpty()) {
 			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Home/StudentLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 		}
 		if( studentUserInput.getPassword().isEmpty()) {
 			session.setAttribute("error", new ErrorMsg("Password cannot be blank.", "/Home/StudentLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 		}
 		StudentUser studentUser = dbService.findStudentUserByUsername(studentUserInput.getUsername());
 		if(studentUser != null) {
@@ -167,10 +178,10 @@ public class HomeController {
 				return "redirect:/Student/";
 			}
 			session.setAttribute("error", new ErrorMsg("Username does not match Password.", "/Home/StudentLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 		}
 		session.setAttribute("error", new ErrorMsg("Username not found.", "/Home/StudentLogin"));
-		return "redirect:/Admin/Error";	
+		return "redirect:/Home/Error";	
 	}
 
 	@GetMapping("/FacultyLogin")
@@ -190,11 +201,11 @@ public class HomeController {
 	public String facultyLogin(Model model, HttpSession session, @ModelAttribute FacultyUser facultyUserInput) {
 		if( facultyUserInput.getUsername().isEmpty()) {
 			session.setAttribute("error", new ErrorMsg("Username cannot be blank.", "/Home/FacultyLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 		}
 		if( facultyUserInput.getPassword().isEmpty()) {
 			session.setAttribute("error", new ErrorMsg("Password cannot be blank.", "/Home/FacultyLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 		}
 		FacultyUser facultyUser = dbService.findFacultyUserByUsername(facultyUserInput.getUsername());
 		if(facultyUser != null) {
@@ -203,10 +214,10 @@ public class HomeController {
 				return "redirect:/Faculty/";
 			}
 			session.setAttribute("error", new ErrorMsg("Username does not match Password.", "/Home/FacultyLogin"));
-			return "redirect:/Admin/Error";
+			return "redirect:/Home/Error";
 		}
 		session.setAttribute("error", new ErrorMsg("Username not found.", "/Home/FacultyLogin"));
-		return "redirect:/Admin/Error";	
+		return "redirect:/Home/Error";	
 	}
 	
 }
