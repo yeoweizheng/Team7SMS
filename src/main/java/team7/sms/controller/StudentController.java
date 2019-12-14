@@ -152,7 +152,6 @@ public class StudentController {
 		model.addAttribute("enrollment", enrollment);
 		model.addAttribute("studentUser", studentUser);
 		model.addAttribute("clash", clash);
-		
 		return "index";
 	}
 	@GetMapping("/Notifications")
