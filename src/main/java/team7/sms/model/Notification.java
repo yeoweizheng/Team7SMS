@@ -11,16 +11,16 @@ public class Notification {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String title;
-	@OneToMany(mappedBy = "notification", fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<StudentUser> studentUsers;
-	private String notification;
+	private String message;
 
 	public Notification() {
 		this.studentUsers = new ArrayList<StudentUser>();
 	}
-	public Notification(String title, String notification) {
+	public Notification(String title, String message) {
 		this.title = title;
-		this.notification = notification;
+		this.message = message;
 		this.studentUsers = new ArrayList<StudentUser>();
 	}
 	
@@ -36,16 +36,18 @@ public class Notification {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getNotification() {
-		return notification;
+	public String getMessage() {
+		return message;
 	}
-	public void setNotification(String notification) {
-		this.notification = notification;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
-	@Override
-	public String toString() {
-		return "Email [id=" + id + ", title=" + title + ", notification=" + notification + "]";
+	public List<StudentUser> getStudentUsers() {
+		return studentUsers;
+	}
+	public void setStudentUsers(List<StudentUser> studentUsers) {
+		this.studentUsers = studentUsers;
 	}
 	@Override
 	public int hashCode() {

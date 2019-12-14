@@ -1,7 +1,8 @@
 <th:block th:fragment="enrollmentList">
-	<h4 th:text="|Enrollment List (${course.subject.name}: ${course.startDate} to ${course.endDate}) |">
-			</h4>
-			<a class="btn btn-sm btn-outline-secondary" href="/Faculty/SendNotification">Send Notification</a>
+	<h4 th:inline="text">
+		Enrollment List ([[${course.subject.name}]]: [[${course.startDate}]] to [[${course.endDate}]])
+		<a class="btn btn-sm btn-outline-secondary" th:href="|/Faculty/SendNotification/${course.id}|">Send Notification</a>
+	</h4>
 	<table class="table table-hover">
 		<thead>
 			<th>Id</th>
