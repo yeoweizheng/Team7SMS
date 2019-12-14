@@ -2,6 +2,7 @@ package team7.sms.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.annotations.NotFound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,8 +127,14 @@ public class HomeController {
 				session.setAttribute("adminUser", adminUser.getId());
 				return "redirect:/Admin/";
 			}
+			session.setAttribute("error", new ErrorMsg("Username does not match Password.", "/Home/AdminLogin"));
+			return "redirect:/Admin/Error";
+			
 		}
-		return "redirect:/Home/AdminLogin/";
+		
+		session.setAttribute("error", new ErrorMsg("Username not found.", "/Home/AdminLogin"));
+		return "redirect:/Admin/Error";		
+		
 	}
 	
 	@GetMapping("/StudentLogin")
@@ -159,8 +166,11 @@ public class HomeController {
 				session.setAttribute("studentUser",studentUser.getId());
 				return "redirect:/Student/";
 			}
+			session.setAttribute("error", new ErrorMsg("Username does not match Password.", "/Home/StudentLogin"));
+			return "redirect:/Admin/Error";
 		}
-		return "redirect:/Home/StudentLogin/";
+		session.setAttribute("error", new ErrorMsg("Username not found.", "/Home/StudentLogin"));
+		return "redirect:/Admin/Error";	
 	}
 
 	@GetMapping("/FacultyLogin")
@@ -192,8 +202,11 @@ public class HomeController {
 				session.setAttribute("facultyUser",facultyUser.getId());
 				return "redirect:/Faculty/";
 			}
+			session.setAttribute("error", new ErrorMsg("Username does not match Password.", "/Home/FacultyLogin"));
+			return "redirect:/Admin/Error";
 		}
-		return "redirect:/Home/FacultyLogin/";
+		session.setAttribute("error", new ErrorMsg("Username not found.", "/Home/FacultyLogin"));
+		return "redirect:/Admin/Error";	
 	}
 	
 }
