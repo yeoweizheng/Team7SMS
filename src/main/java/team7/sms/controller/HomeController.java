@@ -51,7 +51,6 @@ public class HomeController {
 		sidebar.addItem("News", "/Home/News/");
 		sidebar.addItem("Calendar", "/Home/Calendar/");
 		sidebar.addItem("Events", "/Home/Events/");
-		sidebar.addItem("Blog", "/Home/Blog/");
 		navbar = new Navbar();
 		navbar.addItem("Admin Login", "/Home/AdminLogin/");
 		navbar.addItem("Student Login", "/Home/StudentLogin/");
@@ -90,14 +89,6 @@ public class HomeController {
 		return "index";
 	}
 
-	@GetMapping("/Blog")
-	public String blog(Model model) {
-		model.addAttribute("sidebar", sidebar);
-		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "home/blog");
-		return "index";
-	}
-	
 	@GetMapping("/Error")
 	public String error(HttpSession session, Model model) {
 		if(session.getAttribute("error") == null) return "redirect:/Home/";
