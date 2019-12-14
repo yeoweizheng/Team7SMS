@@ -65,7 +65,7 @@ public class FacultyController {
 	
 	@GetMapping("/Logout")
 	public String logout(HttpSession session) {
-		session.invalidate();
+		session.setAttribute("facultyUser", null);
 		return "redirect:/Home/";
 	}
 

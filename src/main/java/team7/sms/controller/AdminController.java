@@ -73,7 +73,7 @@ public class AdminController {
 	
 	@GetMapping("/Logout")
 	public String logout(HttpSession session) {
-		session.invalidate();
+		session.setAttribute("adminUser", null);
 		return "redirect:/Home/";
 	}
 	
