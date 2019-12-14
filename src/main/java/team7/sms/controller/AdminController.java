@@ -55,8 +55,8 @@ public class AdminController {
 	public static void init() {
 		sidebar = new Sidebar();
 		sidebar.addItem("Pending Applications", "/Admin/PendingApplications/");
-		sidebar.addItem("Pending Faculty Leaves", "/Admin/PendingFacultyLeaves/");
-		sidebar.addItem("Faculty Leaves Schedule", "/Admin/FacultyLeavesSchedule/");
+		sidebar.addItem("Pending Faculty Leave Applications", "/Admin/PendingFacultyLeaves/");
+		sidebar.addItem("Faculty Leave Schedule", "/Admin/FacultyLeavesSchedule/");
 		sidebar.addItem("Student Users", "/Admin/StudentUsers/");
 		sidebar.addItem("Faculty Users", "/Admin/FacultyUsers/");
 		sidebar.addItem("Subjects", "/Admin/Subjects/");
