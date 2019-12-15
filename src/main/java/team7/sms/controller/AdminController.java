@@ -626,6 +626,7 @@ public class AdminController {
 		switch(grade) {
 			case "A+": return 5.0;
 			case "A": return 5.0;
+			case "A-": return 4.5;
 			case "B+": return 4.0;
 			case "B": return 3.5;
 			case "B-": return 3.0;
