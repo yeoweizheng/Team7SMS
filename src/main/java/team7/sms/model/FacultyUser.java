@@ -114,4 +114,15 @@ public class FacultyUser {
 			return false;
 		return true;
 	}
+	
+	private ScheduledFacultyLeave scheduledFacultyLeave;
+	public ScheduledFacultyLeave getScheduledFacultyLeave() {
+		return scheduledFacultyLeave;
+	}
+
+	public void setScheduledFacultyLeave(ScheduledFacultyLeave scheduledFacultyLeave) {
+		this.scheduledFacultyLeave = scheduledFacultyLeave;
+	}
+
+
 }

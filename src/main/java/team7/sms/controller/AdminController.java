@@ -2,6 +2,8 @@ package team7.sms.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.servlet.http.HttpSession;
 
@@ -681,6 +683,7 @@ public class AdminController {
 		return "index";
 	}
 	
+	/*
 	@GetMapping("/FacultyLeavesSchedule")
 	public String FacultyLeavesSchedule(HttpSession session, Model model) {
 		AdminUser adminUser = getAdminUserFromSession(session);
@@ -695,5 +698,30 @@ public class AdminController {
 		model.addAttribute("facultyLeaves", facultyLeaves);
 		return "index";
 	}
+	*/
+	@GetMapping("/FacultyLeavesSchedule")
+	public String FacultyLeavesSchedule(HttpSession session, Model model, Comparator FacultyLeaveComparator) {
+		AdminUser adminUser = getAdminUserFromSession(session);
+		if(adminUser == null) {
+			return "redirect:/Home/AdminLogin";
+		}
+		navbar.addItem("Logout", "/Admin/Logout/");
+		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeavesByStatus("Approved");
+		Collections.sort(facultyLeaves, FacultyLeaveComparator);
+		ArrayList<ScheduledFacultyLeave> scheduledFacultyLeaves = new ArrayList<ScheduledFacultyLeave>();
+		for(FacultyLeave facultyLeave : facultyLeaves) {
+			ArrayList<String> dates = dateService.getDateList(facultyLeave.getStartDate(), facultyLeave.getEndDate());
+			for(String date : dates) {
+				scheduledFacultyLeaves.add(new ScheduledFacultyLeave(date,facultyLeave.getFacultyUser().getFullname()));
+			}
+		}
+				
+		model.addAttribute("sidebar", sidebar);
+		model.addAttribute("navbar", navbar);
+		model.addAttribute("content", "admin/facultyLeavesSchedule");
+		model.addAttribute("facultyLeaves", facultyLeaves);
+		return "index";
+	}
+	
 	
 }
