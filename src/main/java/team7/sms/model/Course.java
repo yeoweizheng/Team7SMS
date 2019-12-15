@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class Course {
+public class Course implements Comparable<Course> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -101,5 +101,10 @@ public class Course {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	@Override
+	public int compareTo(Course o) {
+		// Ignore, comparison will be done by CourseComparator
+		return 0;
 	}
 }
