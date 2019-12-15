@@ -1,5 +1,7 @@
 package team7.sms.model;
 
+import java.util.Comparator;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class FacultyLeave {
+public class FacultyLeave implements Comparator<FacultyLeave>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +20,6 @@ public class FacultyLeave {
 	@ManyToOne (fetch = FetchType.LAZY)
 	private FacultyUser facultyUser;
 	private String status;
-	
 	public FacultyLeave() {}
 	public FacultyLeave(String startDate, String endDate, FacultyUser facultyUser) {
 		this.startDate = startDate;
@@ -82,5 +83,9 @@ public class FacultyLeave {
 		return true;
 	}
 
-	
+	@Override
+		public int compare(FacultyLeave o1, FacultyLeave o2) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 }
