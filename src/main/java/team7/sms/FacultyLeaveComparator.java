@@ -16,7 +16,6 @@ public class FacultyLeaveComparator implements Comparator<FacultyLeave>{
 	}
 	@Override
 	public int compare(FacultyLeave o1, FacultyLeave o2) {
-		// TODO Auto-generated method stub
 		if(dateService.parseLocalDate(o1.getStartDate()).isBefore(dateService.parseLocalDate(o2.getStartDate()))) {
 			return -1;
 		} else {

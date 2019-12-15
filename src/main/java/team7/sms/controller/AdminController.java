@@ -25,6 +25,7 @@ import org.thymeleaf.expression.Dates;
 
 import antlr.collections.List;
 import team7.sms.DateService;
+import team7.sms.FacultyLeaveComparator;
 import team7.sms.PasswordService;
 import team7.sms.Team7SmsApplication;
 import team7.sms.database.AdminUserRepository;
@@ -40,6 +41,7 @@ public class AdminController {
 
 	private DbService dbService;
 	private DateService dateService;
+	private FacultyLeaveComparator facultyLeaveComparator;
 	@Autowired
 	public void setDbService(DbService dbService) {
 		this.dbService = dbService;
@@ -52,6 +54,10 @@ public class AdminController {
 	@Autowired
 	private void setPasswordService(PasswordService passwordService) {
 		this.passwordService = passwordService;
+	}
+	@Autowired
+	private void setFacultyLeaveComparator(FacultyLeaveComparator facultyLeaveComparator) {
+		this.facultyLeaveComparator = facultyLeaveComparator;
 	}
 
 	public static void init() {
@@ -683,7 +689,6 @@ public class AdminController {
 		return "index";
 	}
 	
-	/*
 	@GetMapping("/FacultyLeavesSchedule")
 	public String FacultyLeavesSchedule(HttpSession session, Model model) {
 		AdminUser adminUser = getAdminUserFromSession(session);
@@ -692,30 +697,7 @@ public class AdminController {
 		}
 		navbar.addItem("Logout", "/Admin/Logout/");
 		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeavesByStatus("Approved");
-		model.addAttribute("sidebar", sidebar);
-		model.addAttribute("navbar", navbar);
-		model.addAttribute("content", "admin/facultyLeavesSchedule");
-		model.addAttribute("facultyLeaves", facultyLeaves);
-		return "index";
-	}
-	*/
-	@GetMapping("/FacultyLeavesSchedule")
-	public String FacultyLeavesSchedule(HttpSession session, Model model, Comparator FacultyLeaveComparator) {
-		AdminUser adminUser = getAdminUserFromSession(session);
-		if(adminUser == null) {
-			return "redirect:/Home/AdminLogin";
-		}
-		navbar.addItem("Logout", "/Admin/Logout/");
-		ArrayList<FacultyLeave> facultyLeaves = dbService.findFacultyLeavesByStatus("Approved");
-		Collections.sort(facultyLeaves, FacultyLeaveComparator);
-		ArrayList<ScheduledFacultyLeave> scheduledFacultyLeaves = new ArrayList<ScheduledFacultyLeave>();
-		for(FacultyLeave facultyLeave : facultyLeaves) {
-			ArrayList<String> dates = dateService.getDateList(facultyLeave.getStartDate(), facultyLeave.getEndDate());
-			for(String date : dates) {
-				scheduledFacultyLeaves.add(new ScheduledFacultyLeave(date,facultyLeave.getFacultyUser().getFullname()));
-			}
-		}
-				
+		Collections.sort(facultyLeaves, facultyLeaveComparator);
 		model.addAttribute("sidebar", sidebar);
 		model.addAttribute("navbar", navbar);
 		model.addAttribute("content", "admin/facultyLeavesSchedule");

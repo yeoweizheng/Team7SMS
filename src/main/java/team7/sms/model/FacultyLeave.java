@@ -20,9 +20,6 @@ public class FacultyLeave implements Comparator<FacultyLeave>{
 	@ManyToOne (fetch = FetchType.LAZY)
 	private FacultyUser facultyUser;
 	private String status;
-	private ScheduledFacultyLeave scheduledFacultyLeave;
-
-	
 	public FacultyLeave() {}
 	public FacultyLeave(String startDate, String endDate, FacultyUser facultyUser) {
 		this.startDate = startDate;
@@ -65,14 +62,6 @@ public class FacultyLeave implements Comparator<FacultyLeave>{
 		this.facultyUser = facultyUser;
 	}
 
-	public ScheduledFacultyLeave getScheduledFacultyLeave() {
-		return scheduledFacultyLeave;
-	}
-	public void setScheduledFacultyLeave(ScheduledFacultyLeave scheduledFacultyLeave) {
-		this.scheduledFacultyLeave = scheduledFacultyLeave;
-	}
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -94,12 +83,9 @@ public class FacultyLeave implements Comparator<FacultyLeave>{
 		return true;
 	}
 
-		
 	@Override
 		public int compare(FacultyLeave o1, FacultyLeave o2) {
 			// TODO Auto-generated method stub
 			return 0;
 		}
-
-	
 }
